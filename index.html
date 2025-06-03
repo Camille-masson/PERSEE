@@ -1,33 +1,72 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PERSEE – Projet</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERSEE – Accueil</title>
+  <!-- Lien vers la feuille de style externe -->
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+
+  <!-- ========== HEADER / NAVBAR ========== -->
   <header>
-    <h1>PERSEE</h1>
-    <p>Projet de recherche et développement</p>
+    <div class="navbar">
+      <!-- Si vous avez un logo, remplacez le texte PERSEE par une <img> -->
+      <a href="index.html" class="logo">PERSEE</a>
+      <ul>
+        <li><a href="index.html" class="active">Accueil</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
   </header>
 
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="apropos.html">À propos</a>
-    <a href="equipe.html">Équipe</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+  <!-- ========== HERO BANNER ========== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>PERSEE</h1>
+      <p>Comprendre le changement climatique en alpage</p>
+    </div>
+  </section>
 
-  <main>
-    <section>
-      <h2>Bienvenue sur le site du projet PERSEE</h2>
-      <p>Le projet PERSEE a pour objectif de … (décrivez ici l’essentiel du projet).</p>
-    </section>
-  </main>
+  <!-- ========== SECTION 1 : IMAGE + TEXTE ========== -->
+  <section class="section">
+    <div class="image">
+      <img src="images/section1.jpg" alt="Illustration Section 1" />
+    </div>
+    <div class="text">
+      <h2>Titre de la section 1</h2>
+      <p>
+        Ici vous pouvez décrire le premier point clé de votre projet PERSEE.
+        Par exemple :
+        “Le projet PERSEE vise à …” ou “Les objectifs principaux sont …” ou tout
+        autre contenu que vous souhaitez mettre en avant.
+      </p>
+    </div>
+  </section>
 
+  <!-- ========== SECTION 2 : IMAGE + TEXTE (inversé) ========== -->
+  <section class="section">
+    <div class="image">
+      <img src="images/section2.jpg" alt="Illustration Section 2" />
+    </div>
+    <div class="text">
+      <h2>Titre de la section 2</h2>
+      <p>
+        Deuxième bloc d’information. Par exemple, vous pouvez expliquer la
+        méthodologie, montrer des chiffres, ou un exemple concret de terrain,
+        etc. Le rendu visuel s’alterne à chaque section grâce à :
+        <code>.section:nth-of-type(even)</code> en CSS.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
   <footer>
-    &copy; 2025 PERSEE – Tous droits réservés.
+    <p>&copy; 2025 PERSEE – Tous droits réservés.</p>
   </footer>
+
 </body>
 </html>
