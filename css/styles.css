@@ -222,6 +222,8 @@ footer p {
   gap: 40px;
 }
 
+/* Encarts 1 à 4 comme déjà définis... */
+
 /* === 1ᵉʳ ENCADRE “Collier GPS” : on limite la HAUTEUR de l’image === */
 .suivi .section-full:nth-of-type(1) .section-content {
   flex-direction: row;      /* image à gauche, texte à droite */
@@ -290,7 +292,7 @@ footer p {
   height: auto;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;       /* <— coins arrondis ajoutés ici */
+  border-radius: 8px;       /* coins arrondis pour toutes les behavior-img */
   display: block;
 }
 
@@ -345,7 +347,7 @@ footer p {
   height: auto;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;       /* <— coins arrondis ici aussi */
+  border-radius: 8px;       /* coins arrondis pour les behavior-img */
   display: block;
 }
 
@@ -356,6 +358,50 @@ footer p {
 /* Texte de la 4ᵉ section (à gauche) – centré verticalement */
 .suivi .section-full:nth-of-type(4) .section-content .text {
   flex: 1 1 35%;
+  padding-right: 20px;
+}
+
+/* === 5ᵉ SECTION “Carte d’identité – Alpage de Rouanette” === */
+/* C’est la troisième section-full au sens visuel, mais pour la logique, on la 
+   traite comme “nth-of-type(5)” si elle suit directement la 4ᵉ. */
+/* Ici on cible l’ID pour plus de précision : #wrapper-rouanette */
+.suivi .section-full:nth-of-type(5) .section-content {
+  flex-direction: row;      /* texte à gauche, wrapper à droite */
+}
+
+/* (5.1) Conteneur sticky pour les 5 images de Rouanette */
+.fixed-image-wrapper#wrapper-rouanette {
+  position: sticky;
+  top: 60px;               /* juste sous la navbar */
+  width: 100%;
+  height: 80vh;            /* reste fixe sur 80 % du viewport */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* (5.2) Empilement des 5 images */
+.fixed-image-wrapper#wrapper-rouanette .behavior-img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;             /* 80 % de la largeur pour chaque image */
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 8px;     /* coins arrondis pour cohérence */
+  display: block;
+}
+
+/* L’image active (celle à afficher) */
+.fixed-image-wrapper#wrapper-rouanette .behavior-img.active {
+  opacity: 1;
+}
+
+/* Texte de la 5ᵉ section (à gauche) – centré verticalement */
+.suivi .section-full:nth-of-type(5) .section-content .text {
+  flex: 1 1 35%;          /* 35 % du conteneur */
   padding-right: 20px;
 }
 
@@ -381,7 +427,7 @@ footer p {
     max-width: none;
   }
 
-  /* Pour les sections-full “suivi” aussi en colonne */
+  /* Pour les sections-full “suivi” en colonne également */
   .suivi .section-full .section-content {
     flex-direction: column !important;
     padding: 40px 10px;
@@ -392,7 +438,7 @@ footer p {
     max-width: none;
   }
 
-  /* Le conteneur sticky (3ᵉ et 4ᵉ sections) devient relatif en mobile */
+  /* Sticky wrappers deviennent relatifs en mobile (3ᵉ, 4ᵉ, 5ᵉ sections) */
   .fixed-image-wrapper {
     position: relative;
     top: auto;
@@ -452,3 +498,156 @@ footer p {
   user-select: none;
 }
 
+
+
+
+.caption {
+  max-width: 800px;        /* ou la largeur qui vous convient */
+  margin: 20px auto;       /* 20px d’espace au-dessus, centré horizontalement */
+  padding: 0 20px;         /* un peu de marge horizontale pour le texte */
+  font-size: 1rem;
+  color: #444444;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =============================================================================
+   Ajouts finaux pour les sections "Reconstitution du taux de chargement"
+   et "Analyse des déplacements"
+   ============================================================================= */
+
+
+
+/* ---------------------------------------------
+   2ᵉ SECTION – “Analyse des déplacements”
+   --------------------------------------------- */
+.analysis-section .section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 60px; /* Espace vertical entre chaque bloc */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Structure d’un bloc “analysis-block” – desktop */
+.analysis-section .analysis-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Image à gauche, texte à droite */
+.analysis-section .analysis-block .analysis-image {
+  flex: 0 0 45%;
+}
+.analysis-section .analysis-block .analysis-text {
+  flex: 0 0 50%;
+}
+
+/* Inversement (texte à gauche, image à droite) */
+.analysis-section .analysis-block.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Style des images dans “Analyse” */
+.analysis-section .analysis-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Style des titres/paragraphe dans “Analyse” */
+.analysis-section .analysis-text h3 {
+  font-size: 1.5rem;
+  color: #005f99;
+  margin-bottom: 0.5rem;
+}
+.analysis-section .analysis-text p {
+  font-size: 1rem;
+  color: #444444;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* ---------------------------------------------
+   3) ADAPTATION MOBILE (ÉCRANS ≤ 768px)
+   --------------------------------------------- */
+@media (max-width: 768px) {
+  /* Toutes les .section-content passent en colonne */
+  .section-content {
+    flex-direction: column !important;
+    padding: 40px 10px;
+  }
+
+  /* Légende taux de chargement (1ᵉ bis) en mobile */
+  .alpage-caption {
+    margin: 0 auto 40px;
+    max-width: 100%;
+  }
+
+  /* Analyse des déplacements : passer chaque bloc en colonne */
+  .analysis-section .analysis-block {
+    flex-direction: column !important;
+    gap: 20px;
+  }
+  .analysis-section .analysis-block.reverse {
+    flex-direction: column !important;
+  }
+  .analysis-section .analysis-image,
+  .analysis-section .analysis-text {
+    flex: 1 1 100%;
+  }
+
+  /* Navbar en mobile */
+  header {
+    height: 55px;
+  }
+  .navbar .logo {
+    font-size: 1.3rem;
+  }
+  .navbar li {
+    margin-left: 15px;
+  }
+}

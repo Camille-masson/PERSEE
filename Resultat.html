@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERSEE – Suivi d’alpage</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="suivi">
+
+  <!-- ======================= HEADER / NAVBAR ======================= -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">PERSEE</a>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="suividesdeplacements.html">Suivi des déplacements</a></li>
+        <li><a href="Resultat.html" class="active">Suivi d’alpage</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ======================= HERO BANNER ============================= -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Suivi des différents alpages</h1>
+      <p>Présentation détaillée de chaque alpage</p>
+    </div>
+  </section>
+
+  <!-- ======================= MENU DE SÉLECTION ======================= -->
+  <section class="section section-full">
+    <div class="section-content">
+      <div class="text" style="text-align: center; flex: 1 1 100%;">
+        <label for="alp_select" style="font-size: 1rem; font-weight: 500;">
+          Choisissez un alpage :
+        </label>
+        <select id="alp_select" style="padding: 8px; font-size: 1rem; margin-left: 10px;">
+          <option value="rouanette" selected>Alpage de Rouanette</option>
+          <option value="autre_alpage1">Autre Alpage 1</option>
+          <option value="autre_alpage2">Autre Alpage 2</option>
+          <!-- …ajoutez d’autres options si besoin… -->
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       1er ENCADRE “Carte d’identité de l’alpage”
+       ============================================ -->
+  <section id="rouanette" class="section section-full alpage-section">
+    <div class="section-content">
+      <!-- Bloc texte (à gauche) -->
+      <div class="text">
+        <h2>Carte d’identité – Alpage de Rouanette</h2>
+        <p>
+          L’alpage de Rouanette se situe dans le massif des Écrins, à une altitude comprise entre 1600 et 2700 m.
+          Il s’étend sur environ 250 ha, composés de prairies, de forêts et d’éboulis. Chaque saison d’estive,
+          jusqu’à 1200 brebis sont conduites sur cet alpage pendant 3 à 4 mois, de mi-juin à début octobre.
+        </p>
+        <p>
+          L’alpage présente une grande diversité d’habitats : mégaphorbiées, pelouses nivales, nardaies.
+          Le relief est accidenté, avec plusieurs escarpements rocheux et trois cours d’eau traversant la zone.
+        </p>
+      </div>
+
+      <!-- Conteneur sticky (à droite) : carrousel de 5 images -->
+      <div class="fixed-image-wrapper" id="wrapper-rouanette">
+        <img
+          src="images/Rouanette_1.png"
+          alt="Rouanette – Image 1"
+          class="behavior-img zoomable"
+          data-index="0"
+        />
+        <img
+          src="images/Rouanette_2.png"
+          alt="Rouanette – Image 2"
+          class="behavior-img zoomable"
+          data-index="1"
+        />
+        <img
+          src="images/Rouanette_3.png"
+          alt="Rouanette – Image 3"
+          class="behavior-img zoomable"
+          data-index="2"
+        />
+        <img
+          src="images/Rouanette_4.png"
+          alt="Rouanette – Image 4"
+          class="behavior-img zoomable"
+          data-index="3"
+        />
+        <img
+          src="images/Rouanette_5.png"
+          alt="Rouanette – Image 5"
+          class="behavior-img zoomable"
+          data-index="4"
+        />
+      </div>
+    </div>
+
+    <!-- 1ᵉ bis – paragraphe unique positionné juste en dessous du carrousel -->
+    <div class="section-content">
+      <div class="alpage-caption">
+        <p>
+          À travers ces cartes, l’alpage est décrit par différentes variables environnementales
+          structurantes : 
+          la carte des pentes, car les brebis évitent les fortes pentes (< 25 °) ;  
+          la carte des habitats pastoraux, appuyée par une carte de productivité végétale (NDVI dérivé) ;  
+          enfin, la carte de déneigement (produit SMOD), variable cruciale pour la végétation en début de saison.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       2ᵉ SECTION “Analyse des déplacements”
+       → trois blocs alternés image/text
+       ============================================== -->
+  <section class="section section-full analysis-section">
+    <div class="section-content">
+
+      <!-- Bloc 1 : Image à gauche, texte à droite -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          <img src="images/Depl_1.png" alt="Analyse – Image 1" class="zoomable" />
+        </div>
+        <div class="analysis-text">
+          <h3>Titre Analyse 1</h3>
+          <p>
+            Explication associée à la première image : par exemple “Description de l’organisation
+            spatiale des mouvements matinaux, repérée de mi-juin à fin juillet, montrant
+            les zones de départ et d’arrivée sur l’alpage…”
+          </p>
+        </div>
+      </div>
+
+      <!-- Bloc 2 : Texte à gauche, image à droite -->
+      <div class="analysis-block reverse">
+        <div class="analysis-text">
+          <h3>Titre Analyse 2</h3>
+          <p>
+            Explication pour la deuxième image : par exemple “Répartition altitudinale
+            pendant la mi-saison, mettant en évidence les zones de pâturage préférées
+            selon l’heure de la journée…”
+          </p>
+        </div>
+        <div class="analysis-image">
+          <img src="images/Depl_2.png" alt="Analyse – Image 2" class="zoomable" />
+        </div>
+      </div>
+
+      <!-- Bloc 3 : Image à gauche, texte à droite -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          <img src="images/Depl_3.png" alt="Analyse – Image 3" class="zoomable" />
+        </div>
+        <div class="analysis-text">
+          <h3>Titre Analyse 3</h3>
+          <p>
+            Explication pour la troisième image : par exemple “Carte des déplacements nocturnes
+            (entre 21 h et 5 h), révélant l’utilisation des zones proches des abris ou refuges
+            naturels…”
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer>
+    <p>&copy; 2025 PERSEE – Tous droits réservés.</p>
+  </footer>
+
+  <!-- ======================= LIGHTBOX (caché par défaut) ======================= -->
+  <div id="lightbox">
+    <span id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Agrandissement" />
+  </div>
+
+  <!-- ======================= SCRIPT LIGHTBOX + SCROLL ======================= -->
+  <script>
+    /* ===========================================
+       LIGHTBOX
+       → Toute image portant class="zoomable"
+         s’ouvre en plein écran au clic.
+    =========================================== */
+    document.querySelectorAll('.zoomable').forEach(function(img) {
+      img.addEventListener('click', function() {
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        lbImg.src = img.src;
+        lb.style.display = 'flex';
+      });
+    });
+    document.getElementById('lightbox-close').addEventListener('click', function() {
+      document.getElementById('lightbox').style.display = 'none';
+    });
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target.id === 'lightbox') {
+        this.style.display = 'none';
+      }
+    });
+
+    /* ===========================================
+       SCROLL-INTERACTIF POUR “Rouanette” (5 images)
+    =========================================== */
+    (function() {
+      const wrapperR = document.getElementById('wrapper-rouanette');
+      const imagesR  = wrapperR.querySelectorAll('.behavior-img');
+      let indexR = 0;
+      imagesR.forEach((img, idx) => img.style.opacity = idx === 0 ? '1' : '0');
+      wrapperR.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        if (e.deltaY > 0) {
+          indexR = Math.min(indexR + 1, imagesR.length - 1);
+        } else {
+          indexR = Math.max(indexR - 1, 0);
+        }
+        imagesR.forEach((img, idx) => {
+          img.style.opacity = idx === indexR ? '1' : '0';
+        });
+      });
+    })();
+
+    /* ===========================================
+       SCROLL-INTERACTIF POUR “Taux de chargement” (4 images)
+       → identique à celui de Rouanette
+    =========================================== */
+    (function() {
+      const wrapper4 = document.getElementById('wrapper-4');
+      const images4  = wrapper4.querySelectorAll('.behavior-img');
+      let index4 = 0;
+      images4.forEach((img, idx) => img.style.opacity = idx === 0 ? '1' : '0');
+      wrapper4.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        if (e.deltaY > 0) {
+          index4 = Math.min(index4 + 1, images4.length - 1);
+        } else {
+          index4 = Math.max(index4 - 1, 0);
+        }
+        images4.forEach((img, idx) => {
+          img.style.opacity = idx === index4 ? '1' : '0';
+        });
+      });
+    })();
+
+    /* ===========================================
+       GESTION DE LA SÉLECTION D’ALPAGE
+       → Affiche/caché dynamiquement les sections selon le <select>
+    =========================================== */
+    document.getElementById('alp_select').addEventListener('change', function() {
+      const sections = document.querySelectorAll('.alpage-section');
+      sections.forEach(sec => sec.style.display = 'none');
+      const choix = this.value; // “rouanette” ou “autre_alpageX”
+      const toShow = document.getElementById(choix);
+      if (toShow) toShow.style.display = 'block';
+    });
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.alpage-section').forEach(sec => {
+        sec.style.display = (sec.id === 'rouanette') ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
