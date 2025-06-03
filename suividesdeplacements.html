@@ -46,9 +46,9 @@
         <p>
           Le suivi du troupeau se fait à partir de collier GPS posé au début de la
           saison d’estive sur les moutons et retiré à la fin de la saison. Ils sont
-          programmés pour acquérir des données toutes les deux minutes entre 5 h et 23 h : 
+          programmés pour acquérir des données toutes les deux minutes entre 5 h et 23 h :
           les déplacements nocturnes ne sont donc pas étudiés du fait que les brebis
-          soient parquées. Les études de PERRON Rémy ont permis de définir à huit
+          soient parquées. Les études de PERRON Rémy ont permis de définir à 8
           le nombre de colliers GPS nécessaires pour capturer et reconstituer
           les déplacements de l’ensemble du troupeau.
         </p>
@@ -67,7 +67,7 @@
           comportent des erreurs de localisation dues à différents paramètres : le nombre de
           satellites disponibles, le couvert forestier, l’escarpement du terrain, etc.  
           Ces données doivent donc être filtrées. Nous appliquons le filtre de Bjørneraas,
-          couramment utilisé en écologie du mouvement, qui se base sur le principe de trajectoire
+          couramment utilisé en écologie du mouvement, qui se base sur le principe de trajectoire 
           pour éliminer les points aberrants.
         </p>
       </div>
@@ -90,8 +90,8 @@
         <h2>Détermination du comportement</h2>
         <p>
           Pour comprendre le comportement des brebis en estive, nous analysons la distribution
-          spatiale des points GPS filtrés, ainsi que les variables environnementales : pentes,
-          couvert végétal, points d’eau. Grâce à cette cartographie, on peut distinguer plusieurs
+          spatiale des points GPS filtrés, ainsi que les variables environnementales (pentes, couvert
+          végétal, points d’eau). À partir de cette cartographie, nous pouvons distinguer plusieurs
           types de comportement :
           <br>– Zones d’alimentation préférentielles : lieux où la densité GPS est la plus forte ;
           <br>– Zones d’abri ou de repos : proches de l’estive, sous couvert végétal ;
@@ -104,7 +104,7 @@
       </div>
 
       <!-- Conteneur sticky (à droite), empile les 3 images -->
-      <div class="fixed-image-wrapper">
+      <div class="fixed-image-wrapper" id="wrapper-3">
         <img
           src="images/Comportement_Mouton_1.png"
           alt="Comportement mouton – Image 1"
@@ -127,6 +127,55 @@
     </div>
   </section>
 
+  <!-- ========== 4ᵉ SECTION FULL-WIDTH “Reconstitution du taux de chargement” ========== -->
+  <section class="section section-full fourth-section">
+    <div class="section-content">
+      <!-- Bloc texte (centré verticalement, à gauche) -->
+      <div class="text">
+        <h2>Reconstitution du taux de chargement</h2>
+        <p>
+          Pour estimer le taux de chargement des brebis durant l’estive, nous reconstituons successivement
+          les différentes phases de pâturage à partir des points GPS filtrés.  
+          L’algorithme se base sur :  
+          <br>– la densité de points GPS par unité de surface ;  
+          <br>– la vitesse et le temps passé dans chaque zone ;  
+          <br>– le type de végétation traversée.  
+          <br>
+          En superposant ces étapes, nous obtenons une chronologie visuelle du taux de chargement :
+          du départ en début d’estive jusqu’aux pics maximaux d’activité.
+        </p>
+      </div>
+
+      <!-- Conteneur sticky (à droite), empile les 4 images -->
+      <div class="fixed-image-wrapper" id="wrapper-4">
+        <img
+          src="images/TauxChargement_1.png"
+          alt="Taux chargement – Image 1"
+          class="behavior-img zoomable"
+          data-index="0"
+        />
+        <img
+          src="images/TauxChargement_2.png"
+          alt="Taux chargement – Image 2"
+          class="behavior-img zoomable"
+          data-index="1"
+        />
+        <img
+          src="images/TauxChargement_3.png"
+          alt="Taux chargement – Image 3"
+          class="behavior-img zoomable"
+          data-index="2"
+        />
+        <img
+          src="images/TauxChargement_4.png"
+          alt="Taux chargement – Image 4"
+          class="behavior-img zoomable"
+          data-index="3"
+        />
+      </div>
+    </div>
+  </section>
+
   <!-- ======================= FOOTER ======================= -->
   <footer>
     <p>&copy; 2025 PERSEE – Tous droits réservés.</p>
@@ -140,7 +189,11 @@
 
   <!-- ======================= SCRIPT LIGHTBOX + SCROLL ======================= -->
   <script>
-    /* ===== LIGHTBOX POUR TOUTES LES IMAGES “zoomable” ===== */
+    /* ===========================================
+       LIGHTBOX
+       → Toute image portant class="zoomable"
+         s’ouvre en plein écran au clic.
+    =========================================== */
     document.querySelectorAll('.zoomable').forEach(function(img) {
       img.addEventListener('click', function() {
         const lb = document.getElementById('lightbox');
@@ -158,45 +211,54 @@
       }
     });
 
-    /* ===== SCROLL‐INTERACTIF PAR “WHEEL” POUR LE 3ᵉ ENCADRE ===== */
+    /* ===========================================
+       SCROLL-INTERACTIF POUR 3ᵉ ENCADRE (3 IMAGES)
+       → Passage au défilement de la souris (wheel)
+         pour passer d’une image à la suivante.
+    =========================================== */
     (function() {
-      const wrapper = document.querySelector('.fixed-image-wrapper');
-      const images = document.querySelectorAll(
-        '.third-section .behavior-img'
-      );
-      // On garde un index courant (0, 1 ou 2)
-      let currentIndex = 0;
-
-      // Fonction pour mettre à jour l’opacité des images en fonction de currentIndex
-      function updateOpacities() {
-        images.forEach((img, idx) => {
-          img.style.opacity = idx === currentIndex ? '1' : '0';
-        });
-      }
-
-      // Au départ, on affiche la première image
-      updateOpacities();
-
-      // On écoute l’événement wheel sur le conteneur sticky
-      wrapper.addEventListener('wheel', function(e) {
-        // e.deltaY > 0 → scroll vers le bas
-        // e.deltaY < 0 → scroll vers le haut
-
+      const wrapper3 = document.getElementById('wrapper-3');
+      const images3  = wrapper3.querySelectorAll('.behavior-img');
+      let index3 = 0;
+      // On affiche la première image
+      images3.forEach((img, idx) => img.style.opacity = idx === 0 ? '1' : '0');
+      // Au wheel dans le conteneur, on incrémente ou décrémente index3
+      wrapper3.addEventListener('wheel', function(e) {
+        e.preventDefault(); // empêche le scroll de la page pendant cette interaction
         if (e.deltaY > 0) {
-          // si on n’est pas déjà à la dernière image, on incrémente
-          if (currentIndex < images.length - 1) {
-            currentIndex += 1;
-            updateOpacities();
-          }
+          // Descendre la molette → image suivante
+          index3 = Math.min(index3 + 1, images3.length - 1);
         } else {
-          // si scroll vers le haut et qu’on n’est pas à la première, on décrémente
-          if (currentIndex > 0) {
-            currentIndex -= 1;
-            updateOpacities();
-          }
+          // Remonter la molette → image précédente
+          index3 = Math.max(index3 - 1, 0);
         }
-        // On empêche le scroll normal tant qu’on est dans wrapper
+        images3.forEach((img, idx) => {
+          img.style.opacity = idx === index3 ? '1' : '0';
+        });
+      });
+    })();
+
+    /* ===========================================
+       SCROLL-INTERACTIF POUR 4ᵉ ENCADRE (4 IMAGES)
+       → Même principe que pour le 3ᵉ, mais avec 4 images.
+    =========================================== */
+    (function() {
+      const wrapper4 = document.getElementById('wrapper-4');
+      const images4  = wrapper4.querySelectorAll('.behavior-img');
+      let index4 = 0;
+      // On affiche la première image
+      images4.forEach((img, idx) => img.style.opacity = idx === 0 ? '1' : '0');
+      // Au wheel dans le conteneur, on incrémente ou décrémente index4
+      wrapper4.addEventListener('wheel', function(e) {
         e.preventDefault();
+        if (e.deltaY > 0) {
+          index4 = Math.min(index4 + 1, images4.length - 1);
+        } else {
+          index4 = Math.max(index4 - 1, 0);
+        }
+        images4.forEach((img, idx) => {
+          img.style.opacity = idx === index4 ? '1' : '0';
+        });
       });
     })();
   </script>
