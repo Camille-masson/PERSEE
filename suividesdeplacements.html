@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERSEE – Suivi des déplacements</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="suivi">
+
+  <!-- ======================= HEADER / NAVBAR ======================= -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">PERSEE</a>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="suivi.html" class="active">Suivi des déplacements</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ======================= HERO BANNER ============================= -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Suivi des déplacements en estive</h1>
+      <p>Présentation de la méthode de suivi et des différents indicateurs</p>
+    </div>
+  </section>
+
+  <!-- ========== 1er SECTION FULL-WIDTH “Collier GPS” ========== -->
+  <section class="section section-full">
+    <div class="section-content">
+      <!-- Image à gauche (hauteur limitée à 120px) -->
+      <div class="image">
+        <img
+          src="images/Image_collier_mouton.png"
+          alt="Collier GPS sur mouton"
+          class="zoomable"
+        />
+      </div>
+      <!-- Texte à droite -->
+      <div class="text">
+        <h2>La méthode de suivi des déplacements</h2>
+        <p>
+          Le suivi du troupeau se fait à partir de collier GPS posé au début de la
+          saison d’estive sur les moutons et retiré à la fin de la saison. Ils sont
+          programmés pour acquérir des données toutes les deux minutes entre 5 h et 23 h : 
+          les déplacements nocturnes ne sont donc pas étudiés du fait que les brebis
+          soient parquées. Les études de PERRON Rémy ont permis de définir à huit
+          le nombre de colliers GPS nécessaires pour capturer et reconstituer
+          les déplacements de l’ensemble du troupeau.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2ᵉ SECTION FULL-WIDTH “Filtrer les points GPS” ========== -->
+  <section class="section section-full">
+    <div class="section-content">
+      <!-- Texte à gauche -->
+      <div class="text">
+        <h2>Filtrer les points GPS</h2>
+        <p>
+          Les données GPS récupérées en fin de saison sont brutes et, comme toute donnée GPS,
+          comportent des erreurs de localisation dues à différents paramètres : le nombre de
+          satellites disponibles, le couvert forestier, l’escarpement du terrain, etc.  
+          Ces données doivent donc être filtrées. Nous appliquons le filtre de Bjørneraas,
+          couramment utilisé en écologie du mouvement, qui se base sur le principe de trajectoire
+          pour éliminer les points aberrants.
+        </p>
+      </div>
+      <!-- Image « image-large » à droite (65 % du conteneur) -->
+      <div class="image image-large">
+        <img
+          src="images/Carto_Rouanette_Brute.png"
+          alt="Carte brute des déplacements en estive"
+          class="zoomable"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3ᵉ SECTION FULL-WIDTH “Détermination du comportement” ========== -->
+  <section class="section section-full third-section">
+    <div class="section-content">
+      <!-- Bloc texte (centré verticalement, à gauche) -->
+      <div class="text">
+        <h2>Détermination du comportement</h2>
+        <p>
+          Pour comprendre le comportement des brebis en estive, nous analysons la distribution
+          spatiale des points GPS filtrés, ainsi que les variables environnementales : pentes,
+          couvert végétal, points d’eau. Grâce à cette cartographie, on peut distinguer plusieurs
+          types de comportement :
+          <br>– Zones d’alimentation préférentielles : lieux où la densité GPS est la plus forte ;
+          <br>– Zones d’abri ou de repos : proches de l’estive, sous couvert végétal ;
+          <br>– Couloirs de déplacement : traces répétées entre deux pâturages.  
+          <br>
+          L’objectif est de cartographier ces comportements pour anticiper les besoins
+          nutritionnels et sanitaires du troupeau, et mieux gérer les ressources
+          pastorales en haute montagne.
+        </p>
+      </div>
+
+      <!-- Conteneur sticky (à droite), empile les 3 images -->
+      <div class="fixed-image-wrapper">
+        <img
+          src="images/Comportement_Mouton_1.png"
+          alt="Comportement mouton – Image 1"
+          class="behavior-img zoomable"
+          data-index="0"
+        />
+        <img
+          src="images/Comportement_Mouton_2.png"
+          alt="Comportement mouton – Image 2"
+          class="behavior-img zoomable"
+          data-index="1"
+        />
+        <img
+          src="images/Comportement_Mouton_3.png"
+          alt="Comportement mouton – Image 3"
+          class="behavior-img zoomable"
+          data-index="2"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer>
+    <p>&copy; 2025 PERSEE – Tous droits réservés.</p>
+  </footer>
+
+  <!-- ======================= LIGHTBOX (caché par défaut) ======================= -->
+  <div id="lightbox">
+    <span id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Agrandissement" />
+  </div>
+
+  <!-- ======================= SCRIPT LIGHTBOX + SCROLL ======================= -->
+  <script>
+    /* ===== LIGHTBOX POUR TOUTES LES IMAGES “zoomable” ===== */
+    document.querySelectorAll('.zoomable').forEach(function(img) {
+      img.addEventListener('click', function() {
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        lbImg.src = img.src;
+        lb.style.display = 'flex';
+      });
+    });
+    document.getElementById('lightbox-close').addEventListener('click', function() {
+      document.getElementById('lightbox').style.display = 'none';
+    });
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target.id === 'lightbox') {
+        this.style.display = 'none';
+      }
+    });
+
+    /* ===== SCROLL‐INTERACTIF PAR “WHEEL” POUR LE 3ᵉ ENCADRE ===== */
+    (function() {
+      const wrapper = document.querySelector('.fixed-image-wrapper');
+      const images = document.querySelectorAll(
+        '.third-section .behavior-img'
+      );
+      // On garde un index courant (0, 1 ou 2)
+      let currentIndex = 0;
+
+      // Fonction pour mettre à jour l’opacité des images en fonction de currentIndex
+      function updateOpacities() {
+        images.forEach((img, idx) => {
+          img.style.opacity = idx === currentIndex ? '1' : '0';
+        });
+      }
+
+      // Au départ, on affiche la première image
+      updateOpacities();
+
+      // On écoute l’événement wheel sur le conteneur sticky
+      wrapper.addEventListener('wheel', function(e) {
+        // e.deltaY > 0 → scroll vers le bas
+        // e.deltaY < 0 → scroll vers le haut
+
+        if (e.deltaY > 0) {
+          // si on n’est pas déjà à la dernière image, on incrémente
+          if (currentIndex < images.length - 1) {
+            currentIndex += 1;
+            updateOpacities();
+          }
+        } else {
+          // si scroll vers le haut et qu’on n’est pas à la première, on décrémente
+          if (currentIndex > 0) {
+            currentIndex -= 1;
+            updateOpacities();
+          }
+        }
+        // On empêche le scroll normal tant qu’on est dans wrapper
+        e.preventDefault();
+      });
+    })();
+  </script>
+</body>
+</html>
