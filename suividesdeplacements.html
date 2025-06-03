@@ -89,17 +89,14 @@
       <div class="text">
         <h2>Détermination du comportement</h2>
         <p>
-          Pour comprendre le comportement des brebis en estive, nous analysons la distribution
-          spatiale des points GPS filtrés, ainsi que les variables environnementales (pentes, couvert
-          végétal, points d’eau). À partir de cette cartographie, nous pouvons distinguer plusieurs
-          types de comportement :
-          <br>– Zones d’alimentation préférentielles : lieux où la densité GPS est la plus forte ;
-          <br>– Zones d’abri ou de repos : proches de l’estive, sous couvert végétal ;
-          <br>– Couloirs de déplacement : traces répétées entre deux pâturages.  
-          <br>
-          L’objectif est de cartographier ces comportements pour anticiper les besoins
-          nutritionnels et sanitaires du troupeau, et mieux gérer les ressources
-          pastorales en haute montagne.
+          À partir des données GPS filtrées, un modèle de chaîne de Markov cachée permet de caractériser chaque trajectoire de brebis par le comportement 
+          que celle-ci adoptait lors de son déplacement, ce qui rend possible l’identification de plusieurs comportements grâce à des notions de vitesse de
+          déplacement et à l’analyse de la rectilignité (ou non) de la trajectoire. Trois comportements sont donc ajustés aux trajectoires :
+
+
+          <br> - Repos
+          <br> - Déplacement
+          <br> - Pâturage
         </p>
       </div>
 
@@ -134,15 +131,9 @@
       <div class="text">
         <h2>Reconstitution du taux de chargement</h2>
         <p>
-          Pour estimer le taux de chargement des brebis durant l’estive, nous reconstituons successivement
-          les différentes phases de pâturage à partir des points GPS filtrés.  
-          L’algorithme se base sur :  
-          <br>– la densité de points GPS par unité de surface ;  
-          <br>– la vitesse et le temps passé dans chaque zone ;  
-          <br>– le type de végétation traversée.  
-          <br>
-          En superposant ces étapes, nous obtenons une chronologie visuelle du taux de chargement :
-          du départ en début d’estive jusqu’aux pics maximaux d’activité.
+          Le taux de chargement, quant à lui, permet d’obtenir une mesure quantitative du nombre de brebis présentes à chaque emplacement de l’alpage.
+          Ainsi, en utilisant seulement huit colliers et en s’appuyant sur le principe que le troupeau de brebis est très grégaire, un modèle basé  sur le mouvement de ponts browniens  permet d’estimer ce taux de chargement.
+          Ce dernier peut être calculé à l’échelle quotidienne, mais aussi en fonction des trois comportements identifiés : repos, déplacement et pâturage.
         </p>
       </div>
 

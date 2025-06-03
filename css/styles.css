@@ -222,7 +222,7 @@ footer p {
   gap: 40px;
 }
 
-/* === 1er ENCADRE “Collier GPS” : on limite la HAUTEUR de l’image === */
+/* === 1ᵉʳ ENCADRE “Collier GPS” : on limite la HAUTEUR de l’image === */
 .suivi .section-full:nth-of-type(1) .section-content {
   flex-direction: row;      /* image à gauche, texte à droite */
 }
@@ -243,7 +243,7 @@ footer p {
   flex: 1 1 auto;           /* texte prend tout le reste */
 }
 
-/* === 2e ENCADRE “Filtrer les points GPS” : on agrandit l’image === */
+/* === 2ᵉʳ ENCADRE “Filtrer les points GPS” : on agrandit l’image === */
 .suivi .section-full:nth-of-type(2) .section-content {
   flex-direction: row;      /* texte à gauche, image-large à droite */
 }
@@ -264,7 +264,7 @@ footer p {
   flex: 1 1 35%;            /* texte 35 % du conteneur */
 }
 
-/* === 3e SECTION “Détermination du comportement” === */
+/* === 3ᵉʳ SECTION “Détermination du comportement” === */
 .suivi .section-full:nth-of-type(3) .section-content {
   flex-direction: row;      /* texte à gauche, wrapper à droite */
 }
@@ -274,7 +274,7 @@ footer p {
   position: sticky;
   top: 60px;                /* juste sous la navbar */
   width: 100%;
-  height: 80vh;             /* reste fixe sur 80 % de la hauteur du viewport */
+  height: 80vh;             /* reste fixe sur 80 % du viewport */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,18 +290,19 @@ footer p {
   height: auto;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+  border-radius: 8px;       /* <— coins arrondis ajoutés ici */
+  display: block;
 }
 
-/* L’image « active » (celle qu’il faut voir) a opacity : 1 */
+/* L’image active (celle à afficher) a opacity : 1 */
 .fixed-image-wrapper .behavior-img.active {
   opacity: 1;
 }
 
-/* Texte de la 3e section (à gauche) – centré verticalement */
+/* Texte de la 3ᵉ section (à gauche) – centré verticalement */
 .suivi .section-full:nth-of-type(3) .section-content .text {
   flex: 1 1 35%;            /* 35 % du conteneur */
   padding-right: 20px;
-  /* align-items vertical déjà géré par .section-content { align-items: center; } */
 }
 
 /* Texte justifié pour toutes les sections-full */
@@ -316,6 +317,46 @@ footer p {
   color: #444444;
   line-height: 1.6;
   text-align: justify;
+}
+
+/* === 4ᵉ SECTION “Reconstitution du taux de chargement” === */
+.suivi .section-full:nth-of-type(4) .section-content {
+  flex-direction: row;      /* texte à gauche, wrapper à droite */
+}
+
+/* (4.1) Conteneur sticky pour ces 4 images */
+.fixed-image-wrapper#wrapper-4 {
+  position: sticky;
+  top: 60px;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* (4.2) Empilement des 4 images */
+.fixed-image-wrapper#wrapper-4 .behavior-img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 8px;       /* <— coins arrondis ici aussi */
+  display: block;
+}
+
+.fixed-image-wrapper#wrapper-4 .behavior-img.active {
+  opacity: 1;
+}
+
+/* Texte de la 4ᵉ section (à gauche) – centré verticalement */
+.suivi .section-full:nth-of-type(4) .section-content .text {
+  flex: 1 1 35%;
+  padding-right: 20px;
 }
 
 /* ---------------------------------------------
@@ -351,7 +392,7 @@ footer p {
     max-width: none;
   }
 
-  /* Le conteneur sticky (3e section) devient relatif en mobile */
+  /* Le conteneur sticky (3ᵉ et 4ᵉ sections) devient relatif en mobile */
   .fixed-image-wrapper {
     position: relative;
     top: auto;
