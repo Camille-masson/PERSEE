@@ -1223,4 +1223,33 @@ footer p {
   background:#555;
 }
 
+/* ========== BULLES (même look que page d’accueil) ========== */
+.bubble {
+  background: var(--clr-bg-light);          /* #f9fbff   */
+  border: 1px solid var(--clr-bubble-border); /* #dfe7f3 */
+  border-radius: var(--radius-lg);          /* 18 px     */
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  margin: 60px auto;                        /* espace vertical régulier */
+  max-width: 1200px;
+  padding: 40px 50px;
+}
+
+/* ========== CAROUSEL : puces “pilule” ========== */
+.carousel-dots{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  display:flex;gap:10px;
+  padding:4px 14px;
+  background:rgba(240,240,240,.9);          /* gris clair opaque */
+  border-radius:24px;                       /* pilule */
+}
+.carousel-dots .dot{
+  width:13px;height:13px;
+  border:2px solid #555;
+  border-radius:50%;
+  background:transparent;
+  transition:background .2s;
+  cursor:pointer;
+}
+.carousel-dots .dot.active{background:#005f99;}  /* bleu rempli pour l’actif */
+
 

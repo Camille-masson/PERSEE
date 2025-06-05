@@ -1,260 +1,240 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PERSEE – Accueil</title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>PERSEE – Suivi GPS</title>
+  <link rel="stylesheet" href="css/styles.css">
 
- <!-- ======================= HEADER / NAVBAR ======================= -->
+  <style>
+    :root{
+      --accent:#005f99;
+      --bg-light:#f2f6ff;
+      --rad:18px;
+    }
+
+    /* ——— INTRO collier ——— */
+    .gps-intro{
+      position:relative;z-index:3;
+      margin:-90px auto 120px;     /* 120 px ↓ d’air demandé */
+      max-width:1180px;display:grid;gap:34px;
+      grid-template-columns:320px 1fr;
+      background:var(--bg-light);border-radius:var(--rad);
+      padding:42px 50px 36px;box-shadow:0 4px 14px rgba(0,0,0,.06);
+    }
+    .gps-intro img{width:100%;border-radius:12px;object-fit:cover}
+    .gps-intro h2{margin:0 0 14px;color:var(--accent);font-size:2rem}
+
+    /* ——— SECTION générique ——— */
+    section.gps-block{
+      background:#f8faff;padding:60px 0; /* rapprocher les blocs */
+    }
+    .wrap{
+      max-width:1180px;margin:0 auto;padding:0 24px;
+      display:grid;gap:40px 60px;align-items:center; /* gap vertical réduit */
+      grid-template-columns:repeat(auto-fit,minmax(340px,1fr))
+    }
+    .gps-block h3{margin:0 0 14px;color:var(--accent);font-size:2.3rem}
+    .gps-block p{margin:0;font-size:1.05rem;line-height:1.72;color:#334}
+
+    /* ——— carrousel ——— */
+    .carousel{
+      position:relative;border-radius:var(--rad);overflow:hidden;
+      box-shadow:0 4px 14px rgba(0,0,0,.12);
+    }
+    .carousel img{
+      width:100%;height:auto;display:none;object-fit:cover
+    }
+    .carousel img.active{display:block}
+
+    .dots{
+      position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+      display:flex;gap:10px;background:rgba(255,255,255,.65);
+      padding:6px 18px;border-radius:50px
+    }
+    .dots span{width:14px;height:14px;border:2px solid #555;border-radius:50%;
+      background:transparent;cursor:pointer}
+    .dots span.active{background:#555}
+
+    /* inversion visuelle pour alterner */
+    .rev>.wrap{direction:rtl}.rev>.wrap>*{direction:ltr}
+
+    @media(max-width:768px){
+      .gps-intro{grid-template-columns:1fr;margin:-60px 16px 90px}
+      .wrap{gap:30px}
+      section.gps-block{padding:40px 0 50px}
+      .rev>.wrap{direction:ltr}
+    }
+    
+    
+    
+    /* ——— SECTION données environnementales ——— */
+.env-section   {background:#fff;padding:70px 24px 80px;}
+.env-section .center-text {max-width:760px;margin:0 auto 40px;text-align:center;}
+.env-section h2{margin:0 0 18px;color:var(--accent);font-size:2.4rem;}
+.env-section p {margin:0;font-size:1.1rem;line-height:1.7;color:#334;}
+
+.env-photos    {display:flex;gap:6px;max-width:1180px;margin:0 auto;}
+.env-photos img{flex:1 1 0;width:100%;height:280px;object-fit:cover;}
+.env-photos img:first-child{border-top-left-radius:var(--rad);border-bottom-left-radius:var(--rad);}
+.env-photos img:last-child {border-top-right-radius:var(--rad);border-bottom-right-radius:var(--rad);}
+
+/* Responsive */
+@media(max-width:768px){
+  .env-photos{flex-direction:column;height:auto;}
+  .env-photos img{height:200px;}
+}
+  </style>
+</head>
+<body class="suivi">
+
+  <!-- ░ HEADER ░ -->
   <header>
     <nav class="navbar">
       <a href="index.html" class="logo">PERSEE</a>
       <ul>
-        <!-- Seul "Accueil" a la classe active -->
-        <li><a href="index.html" class="active">Le projet</a></li>
-        <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-        <li><a href="Carte_d_identité_des_estives.html"> Carte d'identité des estives</a></li>
+        <li><a href="index.html">Le projet</a></li>
+        <li><a class="active" href="Suivi_GPS.html">Suivi GPS</a></li>
+        <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
         <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
         <li><a href="equipe.html">Équipe</a></li>
-        
       </ul>
     </nav>
   </header>
 
-  <!-- ======================= HERO BANNER ============================= -->
+  <!-- ░ HERO ░ (identique au HTML 1) -->
   <section class="hero">
     <div class="hero-content">
       <h1>Suivi des déplacements en estive</h1>
-      <p>Présentation de la méthode de suivi et des différents indicateurs</p>
+      <p>Du collier GPS aux indicateurs spatialisés</p>
     </div>
   </section>
 
-  <!-- ========== 1er SECTION FULL-WIDTH “Collier GPS” ========== -->
-  <section class="section section-full">
-    <div class="section-content">
-      <!-- Image à gauche (hauteur limitée à 120px) -->
-      <div class="image">
-        <img
-          src="images/Image_collier_mouton.png"
-          alt="Collier GPS sur mouton"
-          class="zoomable"
-        />
-      </div>
-      <!-- Texte à droite -->
-      <div class="text">
-        <h2>La méthode de suivi des déplacements</h2>
+  <!-- ░ INTRO (collier) ░ -->
+  <section class="gps-intro">
+    <img src="images/Image_collier_mouton.png" alt="Pose d’un collier GPS">
+    <div>
+      <h2>La méthode de suivi des déplacements</h2>
+      <p>
+        Un suivi GPS haute fréquence (acquisition toutes les 2 minutes), intégré aux colliers des brebis, 
+        permet de suivre le troupeau tout au long de la saison d’estive. 
         <p>
-          Le suivi du troupeau se fait à partir de collier GPS posé au début de la
-          saison d’estive sur les moutons et retiré à la fin de la saison. Ils sont
-          programmés pour acquérir des données toutes les deux minutes entre 5 h et 23 h :
-          les déplacements nocturnes ne sont donc pas étudiés du fait que les brebis
-          soient parquées. Les études de PERRON Rémy ont permis de définir à 8
-          le nombre de colliers GPS nécessaires pour capturer et reconstituer
-          les déplacements de l’ensemble du troupeau.
+        Avec seulement 8 colliers, on obtient une vision fine, à la fois dans <strong> temporelle et spatial</strong>.
+        <p>
+          Permettant ainsi d'avoir une méthode :
+          <p> <strong> - Standardisée</strong>
+          <p><strong>- Reproductible</strong>
+          <p><strong>- Déployable sur l'ensemble des sites</strong>
+        </p>
+    </div>
+  </section>
+
+  <!-- ░ BLOC 1 ░ texte gauche / carrousel droite -->
+  <section class="gps-block">
+    <div class="wrap">
+      <div>
+        <h3>Détermination du comportement</h3>
+        <p>
+        Le comportement des brebis est reconstruit a partir des localisation GPS, grace au chaine de Markov. 
+        Permettant d'associer trois comportements aux trajéctoires des brebis : 
+<p> <strong> - Repos</strong>
+<p><strong>- Déplacement</strong>
+<p><strong>- Pâturage</strong>
+        </p>
+      </div>
+
+      <div class="carousel" id="car-etat">
+        <img src="images/Comportement_Mouton_1.png" class="active" alt="">
+        <img src="images/Comportement_Mouton_2.png" alt="">
+        <img src="images/Comportement_Mouton_3.png" alt="">
+        <div class="dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░ BLOC 2 ░ carrousel gauche / texte droite -->
+  <section class="gps-block"><!-- carousel à gauche (pas de classe rev) -->
+    <div class="wrap">
+      <div class="carousel" id="car-tc">
+        <img src="images/TauxChargement_1.png" class="active" alt="">
+        <img src="images/TauxChargement_2.png" alt="">
+        <img src="images/TauxChargement_3.png" alt="">
+        <img src="images/TauxChargement_4.png" alt="">
+        <div class="dots"></div>
+      </div>
+
+      <div>
+        <h3>Reconstitution du taux de chargement</h3>
+        <p>
+          Le chargement de l'ensemble du troupeau est obtenue a partir des trajéctoires
+          et de l'effectif de brebis durant l'estive. Il offre une analyse spatial fine(10 mètres de resolution),
+          de l'utilisation de l'alpage par le troupeau. 
         </p>
       </div>
     </div>
   </section>
-
-  <!-- ========== 2ᵉ SECTION FULL-WIDTH “Filtrer les points GPS” ========== -->
-  <section class="section section-full">
-    <div class="section-content">
-      <!-- Texte à gauche -->
-      <div class="text">
-        <h2>Filtrer les points GPS</h2>
-        <p>
-          Les données GPS récupérées en fin de saison sont brutes et, comme toute donnée GPS,
-          comportent des erreurs de localisation dues à différents paramètres : le nombre de
-          satellites disponibles, le couvert forestier, l’escarpement du terrain, etc.  
-          Ces données doivent donc être filtrées. Nous appliquons le filtre de Bjørneraas,
-          couramment utilisé en écologie du mouvement, qui se base sur le principe de trajectoire 
-          pour éliminer les points aberrants.
-        </p>
-      </div>
-      <!-- Image « image-large » à droite (65 % du conteneur) -->
-      <div class="image image-large">
-        <img
-          src="images/Carto_Rouanette_Brute.png"
-          alt="Carte brute des déplacements en estive"
-          class="zoomable"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== 3ᵉ SECTION FULL-WIDTH “Détermination du comportement” ========== -->
-  <section class="section section-full third-section">
-    <div class="section-content">
-      <!-- Bloc texte (centré verticalement, à gauche) -->
-      <div class="text">
-        <h2>Détermination du comportement</h2>
-        <p>
-          À partir des données GPS filtrées, un modèle de chaîne de Markov cachée permet de caractériser chaque trajectoire de brebis par le comportement 
-          que celle-ci adoptait lors de son déplacement, ce qui rend possible l’identification de plusieurs comportements grâce à des notions de vitesse de
-          déplacement et à l’analyse de la rectilignité (ou non) de la trajectoire. Trois comportements sont donc ajustés aux trajectoires :
-
-
-          <br> - Repos
-          <br> - Déplacement
-          <br> - Pâturage
-        </p>
-      </div>
-
-      <!-- Conteneur sticky (à droite), empile les 3 images -->
-      <div class="fixed-image-wrapper" id="wrapper-3">
-        <img
-          src="images/Comportement_Mouton_1.png"
-          alt="Comportement mouton – Image 1"
-          class="behavior-img zoomable"
-          data-index="0"
-        />
-        <img
-          src="images/Comportement_Mouton_2.png"
-          alt="Comportement mouton – Image 2"
-          class="behavior-img zoomable"
-          data-index="1"
-        />
-        <img
-          src="images/Comportement_Mouton_3.png"
-          alt="Comportement mouton – Image 3"
-          class="behavior-img zoomable"
-          data-index="2"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== 4ᵉ SECTION FULL-WIDTH “Reconstitution du taux de chargement” ========== -->
-  <section class="section section-full fourth-section">
-    <div class="section-content">
-      <!-- Bloc texte (centré verticalement, à gauche) -->
-      <div class="text">
-        <h2>Reconstitution du taux de chargement</h2>
-        <p>
-          Le taux de chargement, quant à lui, permet d’obtenir une mesure quantitative du nombre de brebis présentes à chaque emplacement de l’alpage.
-          Ainsi, en utilisant seulement huit colliers et en s’appuyant sur le principe que le troupeau de brebis est très grégaire, un modèle basé  sur le mouvement de ponts browniens  permet d’estimer ce taux de chargement.
-          Ce dernier peut être calculé à l’échelle quotidienne, mais aussi en fonction des trois comportements identifiés : repos, déplacement et pâturage.
-        </p>
-      </div>
-
-      <!-- Conteneur sticky (à droite), empile les 4 images -->
-      <div class="fixed-image-wrapper" id="wrapper-4">
-        <img
-          src="images/TauxChargement_1.png"
-          alt="Taux chargement – Image 1"
-          class="behavior-img zoomable"
-          data-index="0"
-        />
-        <img
-          src="images/TauxChargement_2.png"
-          alt="Taux chargement – Image 2"
-          class="behavior-img zoomable"
-          data-index="1"
-        />
-        <img
-          src="images/TauxChargement_3.png"
-          alt="Taux chargement – Image 3"
-          class="behavior-img zoomable"
-          data-index="2"
-        />
-        <img
-          src="images/TauxChargement_4.png"
-          alt="Taux chargement – Image 4"
-          class="behavior-img zoomable"
-          data-index="3"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================= FOOTER ======================= -->
-  <footer>
-    <p>&copy; 2025 PERSEE – Tous droits réservés.</p>
-  </footer>
-
-  <!-- ======================= LIGHTBOX (caché par défaut) ======================= -->
-  <div id="lightbox">
-    <span id="lightbox-close">&times;</span>
-    <img id="lightbox-img" src="" alt="Agrandissement" />
+  
+  
+  
+  
+  <!-- ░ SECTION Croisement données environnementales ░ -->
+<section class="env-section">
+  <div class="center-text">
+    <h2>Croisement avec les données environnemental</h2>
+    <p>Cette dernière étape de la méthode vise donc à croiser les données de déplacements avec les données environnemental comme la végétation, la topographie ou les variables climatologiques permettant de comprendre l'alpage.</p>
   </div>
 
-  <!-- ======================= SCRIPT LIGHTBOX + SCROLL ======================= -->
+  <!-- 3 photos “collées” en largeur avec un léger blanc et bords arrondis aux extrémités -->
+  <div class="env-photos">
+    <img src="images/Rouanette_2.png"  alt="Carte de la végétation">
+    <img src="images/Rouanette_4.png" alt="Modèle de topographie">
+    <img src="images/Rouanette_5.png" alt="Variables climatologiques">
+  </div>
+</section>
+
+  <footer class="site-footer">
+    <p>© 2025 PERSEE — tous droits réservés.</p>
+  </footer>
+
+
+  <!-- █████████ SCRIPTS carrousels █████████ -->
   <script>
-    /* ===========================================
-       LIGHTBOX
-       → Toute image portant class="zoomable"
-         s’ouvre en plein écran au clic.
-    =========================================== */
-    document.querySelectorAll('.zoomable').forEach(function(img) {
-      img.addEventListener('click', function() {
-        const lb = document.getElementById('lightbox');
-        const lbImg = document.getElementById('lightbox-img');
-        lbImg.src = img.src;
-        lb.style.display = 'flex';
-      });
-    });
-    document.getElementById('lightbox-close').addEventListener('click', function() {
-      document.getElementById('lightbox').style.display = 'none';
-    });
-    document.getElementById('lightbox').addEventListener('click', function(e) {
-      if (e.target.id === 'lightbox') {
-        this.style.display = 'none';
-      }
-    });
+  function initCarousel(id){
+    const box=document.getElementById(id);
+    if(!box) return;
+    const imgs=[...box.querySelectorAll('img')];
+    const dotsBox=box.querySelector('.dots');
+    let idx=0;
 
-    /* ===========================================
-       SCROLL-INTERACTIF POUR 3ᵉ ENCADRE (3 IMAGES)
-       → Passage au défilement de la souris (wheel)
-         pour passer d’une image à la suivante.
-    =========================================== */
-    (function() {
-      const wrapper3 = document.getElementById('wrapper-3');
-      const images3  = wrapper3.querySelectorAll('.behavior-img');
-      let index3 = 0;
-      // On affiche la première image
-      images3.forEach((img, idx) => img.style.opacity = idx === 0 ? '1' : '0');
-      // Au wheel dans le conteneur, on incrémente ou décrémente index3
-      wrapper3.addEventListener('wheel', function(e) {
-        e.preventDefault(); // empêche le scroll de la page pendant cette interaction
-        if (e.deltaY > 0) {
-          // Descendre la molette → image suivante
-          index3 = Math.min(index3 + 1, images3.length - 1);
-        } else {
-          // Remonter la molette → image précédente
-          index3 = Math.max(index3 - 1, 0);
-        }
-        images3.forEach((img, idx) => {
-          img.style.opacity = idx === index3 ? '1' : '0';
-        });
-      });
-    })();
+    imgs.forEach((_,i)=>{
+      const s=document.createElement('span');
+      s.onclick=()=>{idx=i;update()}
+      dotsBox.appendChild(s);
+    });
+    const dots=[...dotsBox.children];
 
-    /* ===========================================
-       SCROLL-INTERACTIF POUR 4ᵉ ENCADRE (4 IMAGES)
-       → Même principe que pour le 3ᵉ, mais avec 4 images.
-    =========================================== */
-    (function() {
-      const wrapper4 = document.getElementById('wrapper-4');
-      const images4  = wrapper4.querySelectorAll('.behavior-img');
-      let index4 = 0;
-      // On affiche la première image
-      images4.forEach((img, idx) => img.style.opacity = idx === 0 ? '1' : '0');
-      // Au wheel dans le conteneur, on incrémente ou décrémente index4
-      wrapper4.addEventListener('wheel', function(e) {
-        e.preventDefault();
-        if (e.deltaY > 0) {
-          index4 = Math.min(index4 + 1, images4.length - 1);
-        } else {
-          index4 = Math.max(index4 - 1, 0);
-        }
-        images4.forEach((img, idx) => {
-          img.style.opacity = idx === index4 ? '1' : '0';
-        });
-      });
-    })();
+    box.onwheel=e=>{
+      e.preventDefault();
+      idx=(idx+(e.deltaY>0?1:-1)+imgs.length)%imgs.length;
+      update();
+    };
+
+    let sx=0;
+    box.ontouchstart=e=>sx=e.touches[0].clientX;
+    box.ontouchend=e=>{
+      const dx=e.changedTouches[0].clientX-sx;
+      if(Math.abs(dx)<40) return;
+      idx=(idx+(dx<0?1:-1)+imgs.length)%imgs.length;
+      update();
+    };
+
+    function update(){
+      imgs.forEach((im,i)=>im.classList.toggle('active',i===idx));
+      dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+    }
+    update();
+  }
+  ['car-etat','car-tc'].forEach(initCarousel);
   </script>
 </body>
 </html>
