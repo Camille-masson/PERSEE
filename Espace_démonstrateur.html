@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERSEE – Suivi d’alpage</title>
+
+  <!-- Feuille de style principale -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Styles compacts pour les puces de carrousel -->
+  <style>
+    .carousel-dots{
+      position:absolute;bottom:12px;left:50%;
+      transform:translateX(-50%);
+      display:flex;gap:8px;
+      background:rgba(255,255,255,.6);
+      padding:4px 10px;border-radius:14px;
+    }
+    .carousel-dots .dot{
+      width:12px;height:12px;border:2px solid #555;
+      border-radius:50%;background:transparent;cursor:pointer;
+    }
+    .carousel-dots .dot.active{background:#555;}
+  </style>
+</head>
+
+
+ <!-- ======================= HEADER / NAVBAR ======================= -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">PERSEE</a>
+      <ul>
+        <!-- Seul "Accueil" a la classe active -->
+        <li><a href="Le_projet.html" class="active">Le projet</a></li>
+        <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
+        <li><a href="Carte_d_identité_des_estives.html"> Carte d'identité des estives</a></li>
+        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ======================= HERO ========================= -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Suivi des différents alpages</h1>
+      <p>Présentation détaillée de chaque alpage</p>
+    </div>
+  </section>
+
+  <!-- ======================= SELECTEUR ==================== -->
+  <section class="section section-full">
+    <div class="section-content">
+      <div class="text" style="text-align:center;flex:1 1 100%;">
+        <label for="alp_select" style="font-size:1rem;font-weight:500;">Choisissez un alpage :</label>
+        <select id="alp_select" style="padding:8px;font-size:1rem;margin-left:10px;">
+          <option value="rouanette" selected>Alpage de Rouanette</option>
+          <option value="autre_alpage1">Autre Alpage 1</option>
+          <option value="autre_alpage2">Autre Alpage 2</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 1) CARTE D’IDENTITÉ ===================== -->
+  <section id="rouanette" class="section section-full alpage-section">
+    <div class="section-content">
+      <!-- Texte -->
+      <div class="text">
+        <h2>Carte d’identité – Alpage de Rouanette</h2>
+        <p>
+          L’alpage de Rouanette se situe dans le massif des Écrins, à une altitude comprise
+          entre 1 600 m et 2 700 m. Il s’étend sur environ 250 ha, composés de prairies,
+          de forêts et d’éboulis. Chaque saison d’estive, jusqu’à 1 200 brebis sont
+          conduites sur cet alpage pendant 3 à 4 mois, de mi-juin à début octobre.
+        </p>
+        <p>
+          L’alpage présente une grande diversité d’habitats : mégaphorbiées,
+          pelouses nivales, nardaies. Le relief est accidenté, avec plusieurs
+          escarpements rocheux et trois cours d’eau traversant la zone. À travers
+          ces cartes, l’alpage est décrit par différentes variables
+          environnementales structurantes : la carte des pentes (les brebis
+          évitent les fortes pentes &gt; 25°) ; la carte des habitats pastoraux,
+          appuyée par une carte de productivité végétale (NDVI dérivé) ; enfin, la
+          carte de déneigement (produit SMOD), variable cruciale pour la
+          végétation en début de saison.
+        </p>
+      </div>
+
+      <!-- Carrousel 5 images Rouanette -->
+      <div class="fixed-image-wrapper" id="wrapper-rouanette">
+        <img src="images/Rouanette_1.png" alt="Rouanette 1" class="behavior-img zoomable" data-index="0"/>
+        <img src="images/Rouanette_2.png" alt="Rouanette 2" class="behavior-img zoomable" data-index="1"/>
+        <img src="images/Rouanette_3.png" alt="Rouanette 3" class="behavior-img zoomable" data-index="2"/>
+        <img src="images/Rouanette_4.png" alt="Rouanette 4" class="behavior-img zoomable" data-index="3"/>
+        <img src="images/Rouanette_5.png" alt="Rouanette 5" class="behavior-img zoomable" data-index="4"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2) ANALYSE DES DÉPLACEMENTS ============= -->
+  <section class="section section-full analysis-section">
+    <div class="section-content">
+      <!-- Bloc 1 -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          <img src="images/Deplacement_Quotidien.jpeg" alt="Distances & dénivelés" class="zoomable"/>
+        </div>
+        <div class="analysis-text">
+          <h3>Déplacement quotidien</h3>
+          <p>
+            Le traitement des points GPS permet de calculer les distances et
+            dénivelés cumulés quotidiens parcourus par les brebis tout au long
+            de la saison (moyenne de toutes les brebis équipées). On note des
+            chiffres importants (800 à 1 000 m de dénivelé cumulé quotidien)
+            sur la période mi-août – fin septembre ; cela s’explique par la
+            configuration de l’alpage : un seul parc de nuit dessert les
+            quartiers d’août (vaste secteur et très pentu) et une seule cabane
+            est disponible. Pour exploiter correctement ce quartier, les
+            circuits journaliers sont donc rallongés et fortement dénivelés.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bloc 2 -->
+      <div class="analysis-block">
+        <div class="analysis-text">
+          <h3>Utilisation par parc de nuit</h3>
+          <p>
+            Suite à la prédation liée au retour du loup, l’obligation de parquer
+            les brebis le soir fait du parc de nuit un élément majeur du schéma
+            de pâturage. Chaque matin, les brebis quittent le parc puis y
+            reviennent au crépuscule ; ce fonctionnement contraint fortement les
+            circuits quotidiens et les possibilités d’exploitation des
+            différents quartiers. On retrouve généralement un parc de nuit par
+            quartier, souvent associé à une cabane. Sur l’ensemble des alpages
+            étudiés, trois parcs sont courants : un pour juin-septembre et un
+            pour juillet-août. Sur Rouanette, seulement deux parcs sont
+            utilisables : le premier pour juin-septembre, le second pour
+            juillet-août ; c’est une contrainte due au manque de cabanes de
+            soutien dans les quartiers d’été.
+          </p>
+        </div>
+        <div class="analysis-image">
+          <div class="fixed-image-wrapper carousel-3" id="wrapper-carrousel-parc">
+            <img src="images/ParcNuit_1.png" alt="Parc 1" class="behavior-img zoomable" data-index="0"/>
+            <img src="images/ParcNuit_2.png" alt="Parc 2" class="behavior-img zoomable" data-index="1"/>
+            <img src="images/ParcNuit_3.png" alt="Parc 3" class="behavior-img zoomable" data-index="2"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloc 3 -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          <img src="images/Schema_Paturage.png" alt="Schéma de pâturage" class="zoomable"/>
+        </div>
+        <div class="analysis-text">
+          <h3>Analyses du schéma de pâturage</h3>
+          <p>
+            En croisant les indicateurs « comportement » et « chargement », on
+            obtient le nombre de jours où chaque pixel de l’alpage a été pâturé.
+            Les parcs de nuit apparaissent comme des unités structurantes, mais
+            on peut aussi distinguer les zones simplement explorées (1 jour) et
+            les zones vraiment exploitées. Croisées aux cartes de végétation,
+            ces informations permettent d’identifier les secteurs sous-exploités
+            (nardaies par exemple) ou ceux où la pression de pâturage est trop
+            forte sur des habitats sensibles (cônes à neige, zones humides).
+            Sur Rouanette, la nardaie est peu pâturée ; ce n’est pas un choix
+            mais la conséquence de conflits d’usage sur des terrains privés qui
+            retardent la date d’accès. La végétation y est donc souvent
+            vieillissante, rendant la gestion de cet habitat complexe.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3) NDVI / RESSOURCE ==================== -->
+  <section class="section section-full resource-section">
+    <div class="section-content">
+      <div class="text">
+        <h3>Présence du troupeau selon le développement de la ressource</h3>
+        <p>
+          En faisant le lien avec les stades phénologiques détectés par NDVI,
+          il est possible de déterminer à quel stade de développement les
+          brebis consomment le plus la ressource végétale.
+        </p>
+      </div>
+      <div class="resource-image">
+        <img src="images/NDVI_Troupeau.png" alt="NDVI & présence du troupeau" class="zoomable"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer><p>&copy; 2025 PERSEE — Tous droits réservés.</p></footer>
+
+  <!-- ======================= LIGHTBOX ===================== -->
+  <div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img" src="" alt=""/></div>
+
+  <!-- ======================= SCRIPTS ====================== -->
+  <script>
+  /* -------- LIGHTBOX ------------------------------------ */
+  document.querySelectorAll('.zoomable').forEach(img=>{
+    img.addEventListener('click',()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').style.display='flex';
+    });
+  });
+  document.getElementById('lightbox-close').onclick =
+  document.getElementById('lightbox').onclick = e=>{
+    if(e.target.id==='lightbox' || e.target.id==='lightbox-close')
+      document.getElementById('lightbox').style.display='none';
+  };
+
+  /* -------- CARROUSELS (générique) ----------------------- */
+  (function(){
+    function initCarousel(wrapperId){
+      const wrapper=document.getElementById(wrapperId);
+      if(!wrapper) return;
+      const imgs=[...wrapper.querySelectorAll('.behavior-img')];
+      if(imgs.length<=1) return;
+
+      let idx=0;
+      imgs.forEach((img,i)=>img.style.opacity=i===0?'1':'0');
+
+      /* création des puces */
+      const box=document.createElement('div');box.className='carousel-dots';
+      imgs.forEach((_,i)=>{
+        const dot=document.createElement('span');
+        dot.className='dot'+(i===0?' active':'');
+        dot.onclick=()=>{idx=i;update();}
+        box.appendChild(dot);
+      });
+      wrapper.appendChild(box);
+
+      wrapper.addEventListener('wheel',e=>{
+        e.preventDefault();
+        idx+=e.deltaY>0?1:-1;
+        idx=Math.max(0,Math.min(idx,imgs.length-1));
+        update();
+      });
+
+      function update(){
+        imgs.forEach((img,i)=>img.style.opacity=i===idx?'1':'0');
+        box.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+      }
+    }
+    initCarousel('wrapper-rouanette');      // carrousel 5 images
+    initCarousel('wrapper-carrousel-parc'); // carrousel 3 images
+  })();
+
+  /* -------- Sélecteur d’alpage --------------------------- */
+  const sel=document.getElementById('alp_select');
+  sel.addEventListener('change',()=>{
+    document.querySelectorAll('.alpage-section').forEach(sec=>sec.style.display='none');
+    const s=document.getElementById(sel.value); if(s) s.style.display='block';
+  });
+  window.addEventListener('DOMContentLoaded',()=>document.getElementById('rouanette').style.display='block');
+  </script>
+</body>
+</html>
+
+
+<!-- AJOUTE ou DÉPLACE ce bloc <style> dans le <head> après tes autres styles -->
+<style>
+  /* --- correctif d’alignement pour le carrousel Rouanette --- */
+  #wrapper-rouanette .behavior-img{             /* l’image occupe la hauteur dispo */
+    width:98%;                                 /* (au lieu de 80 %)               */
+  }
+  #wrapper-rouanette .carousel-dots{            /* on rapproche les puces          */
+    bottom:5px;                                /* 20 px au-dessus du bord inférieur*/
+  }
+</style>

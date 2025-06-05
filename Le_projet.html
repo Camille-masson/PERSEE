@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERSEE – Le projet</title>
+  
+  <!-- Feuille de style principale -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Leaflet & plugins (carte déjà opérationnelle plus bas) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+  <!-- Styles spécifiques à cette page (complémentaires au styles.css) -->
+  <style>
+    /* -------- encart principal "bubble" -------------------------------- */
+    .bubble {
+      background:#ffffff;
+      border:1px solid #e2e2e2;
+      border-radius:14px;
+      box-shadow:0 2px 6px rgba(0,0,0,.05);
+      padding:40px 30px;
+    }
+    /* On conserve le flex parent .section-content issu de styles.css */
+    .bubble .section-content{align-items:flex-start;gap:30px;}
+
+    /* -------- carrousel 3 images – projet ----------------------------- */
+    .project-carousel{flex:0 0 32%;max-width:260px;position:relative;}
+    .project-carousel img{width:100%;border-radius:8px;position:absolute;inset:0;opacity:0;transition:opacity .3s ease-in-out;}
+    /* points */
+    .carousel-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:rgba(255,255,255,.6);padding:4px 10px;border-radius:14px;}
+    .carousel-dots .dot{width:10px;height:10px;border:2px solid #555;border-radius:50%;background:transparent;cursor:pointer;}
+    .carousel-dots .dot.active{background:#555;}
+
+    /* -------- bloc partenaires --------------------------------------- */
+    .partners-wrapper{background:#f5f5f5;border-radius:14px;padding:40px 30px;margin-top:60px;}
+    .partners-logos{display:flex;justify-content:center;align-items:center;gap:30px;flex-wrap:wrap;margin-top:25px;}
+    .partners-logos img{width:120px;height:auto;object-fit:contain;filter:grayscale(20%);}  /* léger désaturé pour homogénéité */
+  </style>
+</head>
+<body>
+  <!-- ======================= HEADER / NAVBAR ======================= -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">PERSEE</a>
+      <ul>
+        <li><a href="Le_projet.html" class="active">Le projet</a></li>
+        <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
+        <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
+        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ======================= HERO ========================= -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Le projet PERSEE</h1>
+      <p>Pastoralisme · Biodiversité · Estive</p>
+    </div>
+  </section>
+
+  <!-- ======================= ENCARTE DESCRIPTION + CARROUSEL ======== -->
+  <section class="section bubble">
+    <div class="section-content">
+      <!-- Texte à gauche -->
+      <div class="text" style="flex:1 1 60%;text-align:justify;">
+        <h2>Le projet&nbsp;PERSEE</h2>
+        <p><strong>DESCRIPTION DU PROJET (PHILIPPE)</strong></p>
+        <p>#<br>#<br>#<br>#</p>
+        <p style="margin-top:1rem;font-weight:500;">Qui vise à étudier&nbsp;:</p>
+        <ul style="margin-left:20px;margin-top:.5rem;list-style:disc;">
+          <li>Le système pastoral se trouve‑t‑il à un point de bascule face au nouveau forçage (événements météorologiques extrêmes, activités récréatives)&nbsp;?</li>
+          <li>Les événements météorologiques extrêmes amènent‑ils le système à un point de bascule&nbsp;?</li>
+          <li>La conduite pastorale influence‑t‑elle l’utilisation des ressources&nbsp;?</li>
+          <li>Existe‑t‑il des compromis dans l’utilisation de l’espace pastoral entre les activités productives et récréatives&nbsp;?</li>
+          <li>Quels sont les effets du pastoralisme sur les biodiversités&nbsp;?</li>
+        </ul>
+      </div>
+      <!-- Carrousel images à droite -->
+      <div class="project-carousel" id="wrapper-projet">
+        <img src="images/projet_1.jpg" alt="Illustration 1" class="behavior-img" data-index="0" />
+        <img src="images/projet_2.jpg" alt="Illustration 2" class="behavior-img" data-index="1" />
+        <img src="images/projet_3.jpg" alt="Illustration 3" class="behavior-img" data-index="2" />
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+     BLOC « Un réseau d’estives »  – carte Leaflet complète
+     ========================================================= -->
+<!-- Liens CSS Leaflet / plugins (si déjà présents, garde-les !) -->
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css">
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+
+<!-- ===== Titre + conteneur de la carte ===== -->
+<section class="section">
+  <h2>Un réseau d’estives</h2>
+  <div id="map"></div>
+</section>
+
+<!-- ===== Styles spécifiques à la carte ===== -->
+<style>
+  #map{
+    width:100%;
+    height:80vh;
+    border-radius:8px;
+    margin-top:40px;
+  }
+  .leaflet-control-zoom{display:none}      /* on masque +/– si tu veux  */
+  .alpLabel{
+    background:#fff;
+    border:1px solid #666;
+    border-radius:4px;
+    padding:2px 6px;
+    font-weight:600;
+    font-size:.85rem;
+    color:#000;
+  }
+  .marker-cluster div{
+    width:40px;height:40px;line-height:38px;
+    text-align:center;font-weight:700;
+    border-radius:50%;border:2px solid #fff;color:#fff;
+  }
+</style>
+
+<!-- ===== Scripts Leaflet / plugins (si déjà présents, garde-les !) ===== -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<!-- ===== Script d’init de la carte (copié tel quel) ===== -->
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+  /* ---------- carte & fonds ---------- */
+  const map=L.map('map',{center:[45.2,6.4],zoom:8,zoomControl:false});
+  L.control.fullscreen({position:'topleft'}).addTo(map);
+  L.control.scale({imperial:false}).addTo(map);
+
+  const esri=L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom:19,attribution:'© Esri | Maxar'});
+  const lbl=L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',
+    {maxZoom:19,attribution:'© OSM | Carto'});
+  const hybrid=L.layerGroup([esri,lbl]).addTo(map);
+  const osm=L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {maxZoom:19,attribution:'© OpenStreetMap'});
+  L.control.layers({'Satellite détaillé':hybrid,'OpenStreetMap':osm},null,
+                   {position:'topright'}).addTo(map);
+
+  /* ---------- palette « massif » ---------- */
+  const massifColors={
+    'Belledone'           :'#1f78b4',
+    'Les Ecrins'          :'#e31a1c',
+    'Le Mercantour'       :'#33a02c',
+    'La Vanoise'          :'#6a3d9a',
+    'Le Mont Blanc'       :'#ff7f00',
+    'Les Bauges'          :'#a6cee3',
+    'Le Queyras'          :'#fb9a99',
+    'Pyrénées catalanes'  :'#b2df8a',
+    'Pyrénées Ariégeoises':'#999999'
+  };
+  const colOf=m=>massifColors[m]||'#444';
+  const radius=z=>Math.max(4,Math.min(9,z*1.3-4));
+
+  /* ---------- groupes et couches ---------- */
+  const clusters={};
+  function getCluster(m){
+    if(clusters[m]) return clusters[m];
+    return clusters[m]=L.markerClusterGroup({
+      spiderfyOnMaxZoom:false,showCoverageOnHover:false,maxClusterRadius:60,
+      iconCreateFunction:cl=>{
+        const c=colOf(m);const n=cl.getChildCount();
+        return L.divIcon({className:'marker-cluster',
+          html:`<div style="background:${c}">${n>1?`+${n}`:1}</div>`,
+          iconSize:L.point(40,40)});
+      }});
+  }
+
+  const pts=L.layerGroup();      // z 7-9
+  const ptsLbl=L.layerGroup();   // z 10-12
+  let   upLayer=null;           // z ≥13
+
+  /* ---------- import GeoJSON -------------- */
+  Promise.all([
+    fetch('data/Point_alpage.geojson').then(r=>r.json()),
+    fetch('data/UP_projet.geojson').then(r=>r.json())
+  ])
+  .then(([gPts,gUp])=>{
+    /* points */
+    gPts.features.forEach(f=>{
+      const n=f.properties.Nom_alpage||'',
+            m=f.properties.Massif||'',
+            col=colOf(m),[lon,lat]=f.geometry.coordinates,ll=L.latLng(lat,lon);
+
+      getCluster(m).addLayer(
+        L.circleMarker(ll,{radius:6,color:'#fff',weight:1.4,
+          fillColor:col,fillOpacity:.9}));
+
+      pts.addLayer(
+        L.circleMarker(ll,{radius:radius(map.getZoom()),color:'#fff',weight:1.2,
+          fillColor:col,fillOpacity:.9}));
+
+      ptsLbl.addLayer(
+        L.circleMarker(ll,{radius:radius(map.getZoom()),color:'#fff',weight:1.2,
+          fillColor:col,fillOpacity:.9})
+        .bindTooltip(`<span>${n}</span>`,{
+          permanent:true,className:'alpLabel',direction:'top',offset:[0,-8]}));
+    });
+
+    /* UP */
+    upLayer=L.geoJSON(gUp,{
+      style:{color:'#fff',weight:3,fillColor:'#fff',fillOpacity:.15},
+      onEachFeature:(f,l)=>{
+        const n=f.properties.Nom_alpage||'';
+        if(n) l.bindTooltip(`<span>${n}</span>`,{
+          permanent:true,className:'alpLabel',direction:'center'});}
+    });
+
+    Object.values(clusters).forEach(c=>map.addLayer(c));
+    map.fitBounds(pts.getBounds(),{maxZoom:8});
+    updateLayers();
+  });
+
+  /* ---------- switch zoom ----------------- */
+  function updateLayers(){
+    const z=map.getZoom();
+    pts.eachLayer(l=>l.setRadius(radius(z)));
+    ptsLbl.eachLayer(l=>l.setRadius(radius(z)));
+
+    if(z<=6){                              // clusters
+      Object.values(clusters).forEach(c=>map.addLayer(c));
+      map.removeLayer(pts); map.removeLayer(ptsLbl); if(upLayer) map.removeLayer(upLayer);
+    }else if(z<=9){                        // points simples
+      Object.values(clusters).forEach(c=>map.removeLayer(c));
+      map.addLayer(pts); map.removeLayer(ptsLbl); if(upLayer) map.removeLayer(upLayer);
+    }else if(z<=12){                       // points + labels
+      Object.values(clusters).forEach(c=>map.removeLayer(c));
+      map.removeLayer(pts); map.addLayer(ptsLbl); if(upLayer) map.removeLayer(upLayer);
+    }else{                                 // UP + labels
+      Object.values(clusters).forEach(c=>map.removeLayer(c));
+      map.removeLayer(pts); map.removeLayer(ptsLbl); if(upLayer) map.addLayer(upLayer);
+    }
+  }
+  map.on('zoomend',updateLayers);
+});
+</script>
+
+  <!-- ======================= PARTENAIRES =========================== -->
+  <section class="section partners-wrapper">
+    <h2>Partenaires</h2>
+    <p style="max-width:800px;margin:0 auto;text-align:center;">
+      Le dispositif «&nbsp;Pastoralisme et Biodiversité&nbsp;» dans le socio‑écosystème estive bénéficie du soutien de l’OFB, ainsi que de l’engagement de nos partenaires techniques et scientifiques.
+    </p>
+    <div class="partners-logos">
+      <img src="images/logo_ofb.png"    alt="Logo OFB" />
+      <img src="images/logo_inrae.png"  alt="Logo INRAE" />
+      <img src="images/logo_cnrs.png"   alt="Logo CNRS" />
+      <img src="images/logo_univ_grenoble.png" alt="Logo Université Grenoble Alpes" />
+      <img src="images/logo_parc_ecrins.png"   alt="Logo Parc national des Écrins" />
+      <img src="images/logo_parc_mercantour.png"   alt="Logo Parc national du Mercantour" />
+    </div>
+  </section>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer><p>&copy; 2025 PERSEE — Tous droits réservés.</p></footer>
+
+  <!-- ======================= LIGHTBOX ===================== -->
+  <div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img" src="" alt=""/></div>
+
+  <!-- ======================= SCRIPTS ====================== -->
+  <script>
+    /* -------- LIGHTBOX (commun à tout le site) ------------- */
+    document.querySelectorAll('.behavior-img').forEach(img=>{
+      img.classList.add('zoomable'); // on réutilise la classe zoomable pour tout
+      img.addEventListener('click',()=>{
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('lightbox').style.display='flex';
+      });
+    });
+    document.getElementById('lightbox-close').onclick =
+    document.getElementById('lightbox').onclick = e=>{
+      if(e.target.id==='lightbox' || e.target.id==='lightbox-close')
+        document.getElementById('lightbox').style.display='none';
+    };
+
+    /* -------- CARROUSELS (générique) ----------------------- */
+    (function(){
+      function initCarousel(wrapperId){
+        const wrapper=document.getElementById(wrapperId);
+        if(!wrapper) return;
+        const imgs=[...wrapper.querySelectorAll('.behavior-img')];
+        if(imgs.length<=1) return;
+
+        let idx=0;
+        imgs.forEach((img,i)=>img.style.opacity=i===0?'1':'0');
+
+        /* petites puces */
+        const box=document.createElement('div');box.className='carousel-dots';
+        imgs.forEach((_,i)=>{
+          const dot=document.createElement('span');
+          dot.className='dot'+(i===0?' active':'');
+          dot.onclick=()=>{idx=i;update();}
+          box.appendChild(dot);
+        });
+        wrapper.appendChild(box);
+
+        wrapper.addEventListener('wheel',e=>{
+          e.preventDefault();
+          idx+=e.deltaY>0?1:-1;
+          idx=Math.max(0,Math.min(idx,imgs.length-1));
+          update();
+        });
+        function update(){
+          imgs.forEach((img,i)=>img.style.opacity=i===idx?'1':'0');
+          box.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+        }
+      }
+      initCarousel('wrapper-projet'); // carrousel de 3 images
+    })();
+
+    /* -------- CARTE (identique au prototype d'origine) ---- */
+    document.addEventListener('DOMContentLoaded',()=>{
+      const map=L.map('map',{center:[45.2,6.4],zoom:8,zoomControl:false});
+      L.control.fullscreen({position:'topleft'}).addTo(map);
+      L.control.scale({imperial:false}).addTo(map);
+
+      const esri=L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        {maxZoom:19,attribution:'© Esri | Maxar'});
+      const lbl=L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',
+        {maxZoom:19,attribution:'© OSM | Carto'});
+      const hybrid=L.layerGroup([esri,lbl]).addTo(map);
+      const osm=L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {maxZoom:19,attribution:'© OpenStreetMap'});
+      L.control.layers({'Satellite détaillé':hybrid,'OpenStreetMap':osm},null,{position:'topright'}).addTo(map);
+
+      /* couleurs massif + clusters... on reprend exactement le script du prototype (abrégé ici) */
+      // Pour ne pas surcharger, si tu as déjà inclus Point_alpage.geojson et UP_projet.geojson,
+      // copie‑colle l'intégralité du bloc JS "import GeoJSON" depuis le fichier original.
+    });
+  </script>
+</body>
+</html>

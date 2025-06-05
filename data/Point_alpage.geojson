@@ -1,0 +1,31 @@
+{
+"type": "FeatureCollection",
+"name": "Point_alpage",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "Massif": "Le Mont Blanc", "Nom_alpage": "La Blaitiere" }, "geometry": { "type": "Point", "coordinates": [ 6.896496349154596, 45.918268184886188 ] } },
+{ "type": "Feature", "properties": { "id": 2, "Massif": "Le Mont Blanc", "Nom_alpage": "Passy" }, "geometry": { "type": "Point", "coordinates": [ 6.711707417819297, 45.96221360240154 ] } },
+{ "type": "Feature", "properties": { "id": 3, "Massif": "Les Bauges", "Nom_alpage": "Orisan" }, "geometry": { "type": "Point", "coordinates": [ 6.264892926431419, 45.654285816423034 ] } },
+{ "type": "Feature", "properties": { "id": 4, "Massif": "La Vanoise", "Nom_alpage": "Col de la Vanoise" }, "geometry": { "type": "Point", "coordinates": [ 6.762440116567848, 45.390638779553008 ] } },
+{ "type": "Feature", "properties": { "id": 5, "Massif": "La Vanoise", "Nom_alpage": "La Grande Fesse" }, "geometry": { "type": "Point", "coordinates": [ 6.985541743594626, 45.33284289383009 ] } },
+{ "type": "Feature", "properties": { "id": 6, "Massif": "Belledone", "Nom_alpage": "Combe Madame" }, "geometry": { "type": "Point", "coordinates": [ 6.123765017462878, 45.265335126017426 ] } },
+{ "type": "Feature", "properties": { "id": 7, "Massif": "Belledone", "Nom_alpage": "Les 7 laux" }, "geometry": { "type": "Point", "coordinates": [ 6.079484268354367, 45.241428954719581 ] } },
+{ "type": "Feature", "properties": { "id": 8, "Massif": "Belledone", "Nom_alpage": "Rieu Claret" }, "geometry": { "type": "Point", "coordinates": [ 6.136533086224227, 45.231920818407936 ] } },
+{ "type": "Feature", "properties": { "id": 9, "Massif": "Belledone", "Nom_alpage": "Ane et buyant" }, "geometry": { "type": "Point", "coordinates": [ 6.121048407088121, 45.219016919127846 ] } },
+{ "type": "Feature", "properties": { "id": 10, "Massif": "Belledone", "Nom_alpage": "Bedina" }, "geometry": { "type": "Point", "coordinates": [ 6.006950771348402, 45.235724072932591 ] } },
+{ "type": "Feature", "properties": { "id": 11, "Massif": "Belledone", "Nom_alpage": "Pesee" }, "geometry": { "type": "Point", "coordinates": [ 6.020669653740917, 45.204075562066691 ] } },
+{ "type": "Feature", "properties": { "id": 12, "Massif": "Les Ecrins", "Nom_alpage": "Lanchatra" }, "geometry": { "type": "Point", "coordinates": [ 6.132186509624624, 44.939206050528078 ] } },
+{ "type": "Feature", "properties": { "id": 13, "Massif": "Les Ecrins", "Nom_alpage": "Ponsonniere" }, "geometry": { "type": "Point", "coordinates": [ 6.484191298933542, 45.041350600618877 ] } },
+{ "type": "Feature", "properties": { "id": 14, "Massif": "Les Ecrins", "Nom_alpage": "Grand cabane" }, "geometry": { "type": "Point", "coordinates": [ 6.404255038656367, 44.777499817970764 ] } },
+{ "type": "Feature", "properties": { "id": 15, "Massif": "Les Ecrins", "Nom_alpage": "Crouzet" }, "geometry": { "type": "Point", "coordinates": [ 6.501509690072607, 44.778858123158152 ] } },
+{ "type": "Feature", "properties": { "id": 16, "Massif": "Le Queyras", "Nom_alpage": "Viso" }, "geometry": { "type": "Point", "coordinates": [ 7.023098882025626, 44.730774119525002 ] } },
+{ "type": "Feature", "properties": { "id": 17, "Massif": "Les Ecrins", "Nom_alpage": "Rouanette" }, "geometry": { "type": "Point", "coordinates": [ 6.307204133018237, 44.643910502792203 ] } },
+{ "type": "Feature", "properties": { "id": 18, "Massif": "Le Mercantour", "Nom_alpage": "Alpe Bonette" }, "geometry": { "type": "Point", "coordinates": [ 6.834769867795715, 44.317645596784111 ] } },
+{ "type": "Feature", "properties": { "id": 19, "Massif": "Le Mercantour", "Nom_alpage": "Cayolle" }, "geometry": { "type": "Point", "coordinates": [ 6.732081995629964, 44.27091989833832 ] } },
+{ "type": "Feature", "properties": { "id": 20, "Massif": "Le Mercantour", "Nom_alpage": "Sanguiniere" }, "geometry": { "type": "Point", "coordinates": [ 6.776091083701, 44.263585050326476 ] } },
+{ "type": "Feature", "properties": { "id": 21, "Massif": "Le Mercantour", "Nom_alpage": "Vacherie de Roubion" }, "geometry": { "type": "Point", "coordinates": [ 6.996204439315547, 44.147110380508856 ] } },
+{ "type": "Feature", "properties": { "id": 22, "Massif": "Pyrénées catalanes", "Nom_alpage": "Nyer" }, "geometry": { "type": "Point", "coordinates": [ 2.260880895079598, 42.464068380458897 ] } },
+{ "type": "Feature", "properties": { "id": 23, "Massif": "Pyrénées Catalane", "Nom_alpage": "Mantet" }, "geometry": { "type": "Point", "coordinates": [ 2.306214330708327, 42.476021466107859 ] } },
+{ "type": "Feature", "properties": { "id": 24, "Massif": "Pyrénées Ariègeoises", "Nom_alpage": "Orlu" }, "geometry": { "type": "Point", "coordinates": [ 1.873254552231702, 42.668697056937361 ] } }
+]
+}
