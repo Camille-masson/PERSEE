@@ -15,75 +15,110 @@
 
     /* ——— INTRO collier ——— */
     .gps-intro{
-      position:relative;z-index:3;
+      position:relative; z-index:3;
       margin:-90px auto 120px;     /* 120 px ↓ d’air demandé */
-      max-width:1180px;display:grid;gap:34px;
+      max-width:1180px; display:grid; gap:34px;
       grid-template-columns:320px 1fr;
-      background:var(--bg-light);border-radius:var(--rad);
-      padding:42px 50px 36px;box-shadow:0 4px 14px rgba(0,0,0,.06);
+      background:var(--bg-light); border-radius:var(--rad);
+      padding:42px 50px 36px; box-shadow:0 4px 14px rgba(0,0,0,.06);
     }
-    .gps-intro img{width:100%;border-radius:12px;object-fit:cover}
-    .gps-intro h2{margin:0 0 14px;color:var(--accent);font-size:2rem}
+    .gps-intro img {
+      width:100%; border-radius:12px; object-fit:cover;
+    }
+    .gps-intro h2 {
+      margin:0 0 14px; color:var(--accent); font-size:2rem;
+    }
+    .gps-intro p {
+      margin:0; font-size:1.05rem; line-height:1.72; color:#334;
+      text-align: justify; /* ← justifier le texte dans l’intro */
+    }
 
     /* ——— SECTION générique ——— */
-    section.gps-block{
-      background:#f8faff;padding:60px 0; /* rapprocher les blocs */
+    section.gps-block {
+      background:#f8faff; padding:60px 0; /* rapprocher les blocs */
     }
-    .wrap{
-      max-width:1180px;margin:0 auto;padding:0 24px;
-      display:grid;gap:40px 60px;align-items:center; /* gap vertical réduit */
-      grid-template-columns:repeat(auto-fit,minmax(340px,1fr))
+    .wrap {
+      max-width:1180px; margin:0 auto; padding:0 24px;
+      display:grid; gap:40px 60px; align-items:center; /* gap vertical réduit */
+      grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
     }
-    .gps-block h3{margin:0 0 14px;color:var(--accent);font-size:2.3rem}
-    .gps-block p{margin:0;font-size:1.05rem;line-height:1.72;color:#334}
+    .gps-block h3 {
+      margin:0 0 14px; color:var(--accent); font-size:2.3rem;
+    }
+    .gps-block p {
+      margin:0; font-size:1.05rem; line-height:1.72; color:#334;
+      text-align: justify; /* ← justifier le texte dans les blocs GPS */
+    }
 
     /* ——— carrousel ——— */
-    .carousel{
-      position:relative;border-radius:var(--rad);overflow:hidden;
+    .carousel {
+      position:relative; border-radius:var(--rad); overflow:hidden;
       box-shadow:0 4px 14px rgba(0,0,0,.12);
     }
-    .carousel img{
-      width:100%;height:auto;display:none;object-fit:cover
+    .carousel img {
+      width:100%; height:auto; display:none; object-fit:cover;
     }
-    .carousel img.active{display:block}
+    .carousel img.active {
+      display:block;
+    }
 
-    .dots{
-      position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
-      display:flex;gap:10px;background:rgba(255,255,255,.65);
-      padding:6px 18px;border-radius:50px
+    .dots {
+      position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+      display:flex; gap:10px; background:rgba(255,255,255,.65);
+      padding:6px 18px; border-radius:50px;
     }
-    .dots span{width:14px;height:14px;border:2px solid #555;border-radius:50%;
-      background:transparent;cursor:pointer}
-    .dots span.active{background:#555}
+    .dots span {
+      width:14px; height:14px; border:2px solid #555; border-radius:50%;
+      background:transparent; cursor:pointer;
+    }
+    .dots span.active {
+      background:#555;
+    }
 
     /* inversion visuelle pour alterner */
-    .rev>.wrap{direction:rtl}.rev>.wrap>*{direction:ltr}
+    .rev>.wrap { direction:rtl; }
+    .rev>.wrap>* { direction:ltr; }
 
     @media(max-width:768px){
-      .gps-intro{grid-template-columns:1fr;margin:-60px 16px 90px}
-      .wrap{gap:30px}
-      section.gps-block{padding:40px 0 50px}
-      .rev>.wrap{direction:ltr}
+      .gps-intro { grid-template-columns:1fr; margin:-60px 16px 90px; }
+      .wrap { gap:30px; }
+      section.gps-block { padding:40px 0 50px; }
+      .rev>.wrap { direction:ltr; }
     }
-    
-    
-    
+
     /* ——— SECTION données environnementales ——— */
-.env-section   {background:#fff;padding:70px 24px 80px;}
-.env-section .center-text {max-width:760px;margin:0 auto 40px;text-align:center;}
-.env-section h2{margin:0 0 18px;color:var(--accent);font-size:2.4rem;}
-.env-section p {margin:0;font-size:1.1rem;line-height:1.7;color:#334;}
+    .env-section {
+      background:#fff; padding:70px 24px 80px;
+    }
+    .env-section .center-text {
+      max-width:760px; margin:0 auto 40px; text-align:center;
+    }
+    .env-section h2 {
+      margin:0 0 18px; color:var(--accent); font-size:2.4rem;
+    }
+    .env-section p {
+      margin:0; font-size:1.1rem; line-height:1.7; color:#334;
+      text-align: justify; /* ← justifier le texte dans la section environnement */
+    }
 
-.env-photos    {display:flex;gap:6px;max-width:1180px;margin:0 auto;}
-.env-photos img{flex:1 1 0;width:100%;height:280px;object-fit:cover;}
-.env-photos img:first-child{border-top-left-radius:var(--rad);border-bottom-left-radius:var(--rad);}
-.env-photos img:last-child {border-top-right-radius:var(--rad);border-bottom-right-radius:var(--rad);}
+    .env-photos {
+      display:flex; gap:6px; max-width:1180px; margin:0 auto;
+    }
+    .env-photos img {
+      flex:1 1 0; width:100%; height:280px; object-fit:cover;
+    }
+    .env-photos img:first-child {
+      border-top-left-radius:var(--rad); border-bottom-left-radius:var(--rad);
+    }
+    .env-photos img:last-child {
+      border-top-right-radius:var(--rad); border-bottom-right-radius:var(--rad);
+    }
 
-/* Responsive */
-@media(max-width:768px){
-  .env-photos{flex-direction:column;height:auto;}
-  .env-photos img{height:200px;}
-}
+    /* Responsive */
+    @media(max-width:768px){
+      .env-photos { flex-direction:column; height:auto; }
+      .env-photos img { height:200px; }
+    }
   </style>
 </head>
 <body class="suivi">
@@ -116,16 +151,18 @@
     <div>
       <h2>La méthode de suivi des déplacements</h2>
       <p>
-        Un suivi GPS haute fréquence (acquisition toutes les 2 minutes), intégré aux colliers des brebis, 
-        permet de suivre le troupeau tout au long de la saison d’estive. 
-        <p>
-        Avec seulement 8 colliers, on obtient une vision fine, à la fois dans <strong> temporelle et spatial</strong>.
-        <p>
-          Permettant ainsi d'avoir une méthode :
-          <p> <strong> - Standardisée</strong>
-          <p><strong>- Reproductible</strong>
-          <p><strong>- Déployable sur l'ensemble des sites</strong>
-        </p>
+        Un suivi GPS haute fréquence (acquisition toutes les 2 minutes), intégré aux colliers des brebis,
+        permet de suivre le troupeau tout au long de la saison d’estive.
+      </p>
+      <p>
+        Avec seulement 8 colliers, on obtient une vision fine, à la fois dans le <strong>temporel et le spatial</strong>.
+      </p>
+      <p>
+        Permettant ainsi d'avoir une méthode :
+        <br><strong>- Standardisée</strong>
+        <br><strong>- Reproductible</strong>
+        <br><strong>- Déployable sur l'ensemble des sites</strong>
+      </p>
     </div>
   </section>
 
@@ -135,18 +172,18 @@
       <div>
         <h3>Détermination du comportement</h3>
         <p>
-        Le comportement des brebis est reconstruit a partir des localisation GPS, grace au chaine de Markov. 
-        Permettant d'associer trois comportements aux trajéctoires des brebis : 
-<p> <strong> - Repos</strong>
-<p><strong>- Déplacement</strong>
-<p><strong>- Pâturage</strong>
+          Le comportement des brebis est obtenu à partir des positions GPS, grâce à la chaîne de Markov.
+          Cela permet d'associer trois comportements aux trajectoires des brebis :
+          <br><strong>- Repos</strong>
+          <br><strong>- Déplacement</strong>
+          <br><strong>- Pâturage</strong>
         </p>
       </div>
 
       <div class="carousel" id="car-etat">
-        <img src="images/Comportement_Mouton_1.png" class="active" alt="">
-        <img src="images/Comportement_Mouton_2.png" alt="">
-        <img src="images/Comportement_Mouton_3.png" alt="">
+        <img src="images/trajectoire_repos.png" class="active" alt="">
+        <img src="images/trajectoire_deplacement.png" alt="">
+        <img src="images/trajectoire_paturage.png" alt="">
         <div class="dots"></div>
       </div>
     </div>
@@ -156,85 +193,85 @@
   <section class="gps-block"><!-- carousel à gauche (pas de classe rev) -->
     <div class="wrap">
       <div class="carousel" id="car-tc">
-        <img src="images/TauxChargement_1.png" class="active" alt="">
-        <img src="images/TauxChargement_2.png" alt="">
-        <img src="images/TauxChargement_3.png" alt="">
-        <img src="images/TauxChargement_4.png" alt="">
+        <img src="images/Chargement_repos.png" class="active" alt="">
+        <img src="images/Chargement_deplacement.png" alt="">
+        <img src="images/Chargement_paturage.png" alt="">
+        <img src="images/Chargement_total.png" alt="">
         <div class="dots"></div>
       </div>
 
       <div>
         <h3>Reconstitution du taux de chargement</h3>
         <p>
-          Le chargement de l'ensemble du troupeau est obtenue a partir des trajéctoires
-          et de l'effectif de brebis durant l'estive. Il offre une analyse spatial fine(10 mètres de resolution),
-          de l'utilisation de l'alpage par le troupeau. 
+          Le chargement de <strong>l'ensemble du troupeau</strong> est reconstruit à partir des trajectoires des 8 colliers posés,
+          ce qui permet d'estimer, pour <strong>chaque comportement ou pour l'ensemble d'entre eux</strong>,
+          l'utilisation de l’estive avec une résolution <strong>spatiale et temporelle fine</strong>
+          (pas de temps journalier et résolution spatiale de 10 mètres).
         </p>
       </div>
     </div>
   </section>
-  
-  
-  
-  
-  <!-- ░ SECTION Croisement données environnementales ░ -->
-<section class="env-section">
-  <div class="center-text">
-    <h2>Croisement avec les données environnemental</h2>
-    <p>Cette dernière étape de la méthode vise donc à croiser les données de déplacements avec les données environnemental comme la végétation, la topographie ou les variables climatologiques permettant de comprendre l'alpage.</p>
-  </div>
 
-  <!-- 3 photos “collées” en largeur avec un léger blanc et bords arrondis aux extrémités -->
-  <div class="env-photos">
-    <img src="images/Rouanette_2.png"  alt="Carte de la végétation">
-    <img src="images/Rouanette_4.png" alt="Modèle de topographie">
-    <img src="images/Rouanette_5.png" alt="Variables climatologiques">
-  </div>
-</section>
+  <!-- ░ SECTION Croisement données environnementales ░ -->
+  <section class="env-section">
+    <div class="center-text">
+      <h2>Croisement avec les données environnementales</h2>
+      <p>
+        Cette dernière étape de la méthode vise donc à croiser les données de déplacements avec les données environnementales comme
+        la végétation, la topographie ou les variables climatologiques. Offrant ainsi une vision fine et globale du système.
+      </p>
+    </div>
+
+    <!-- 3 photos “collées” en largeur avec un léger blanc et bords arrondis aux extrémités -->
+    <div class="env-photos">
+      <img src="images/Rouanette_2.png"  alt="Carte de la végétation">
+      <img src="images/Rouanette_4.png" alt="Modèle de topographie">
+      <img src="images/Rouanette_5.png" alt="Variables climatologiques">
+    </div>
+  </section>
 
   <footer class="site-footer">
     <p>© 2025 PERSEE — tous droits réservés.</p>
   </footer>
 
-
   <!-- █████████ SCRIPTS carrousels █████████ -->
   <script>
-  function initCarousel(id){
-    const box=document.getElementById(id);
-    if(!box) return;
-    const imgs=[...box.querySelectorAll('img')];
-    const dotsBox=box.querySelector('.dots');
-    let idx=0;
+    function initCarousel(id){
+      const box = document.getElementById(id);
+      if(!box) return;
+      const imgs = [...box.querySelectorAll('img')];
+      const dotsBox = box.querySelector('.dots');
+      let idx = 0;
 
-    imgs.forEach((_,i)=>{
-      const s=document.createElement('span');
-      s.onclick=()=>{idx=i;update()}
-      dotsBox.appendChild(s);
-    });
-    const dots=[...dotsBox.children];
+      imgs.forEach((_,i)=>{
+        const s = document.createElement('span');
+        s.onclick = () => { idx = i; update(); }
+        dotsBox.appendChild(s);
+      });
+      const dots = [...dotsBox.children];
 
-    box.onwheel=e=>{
-      e.preventDefault();
-      idx=(idx+(e.deltaY>0?1:-1)+imgs.length)%imgs.length;
+      box.onwheel = e => {
+        e.preventDefault();
+        idx = (idx + (e.deltaY>0 ? 1 : -1) + imgs.length) % imgs.length;
+        update();
+      };
+
+      let sx = 0;
+      box.ontouchstart = e => sx = e.touches[0].clientX;
+      box.ontouchend = e => {
+        const dx = e.changedTouches[0].clientX - sx;
+        if(Math.abs(dx) < 40) return;
+        idx = (idx + (dx<0 ? 1 : -1) + imgs.length) % imgs.length;
+        update();
+      };
+
+      function update(){
+        imgs.forEach((im, i) => im.classList.toggle('active', i === idx));
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
       update();
-    };
-
-    let sx=0;
-    box.ontouchstart=e=>sx=e.touches[0].clientX;
-    box.ontouchend=e=>{
-      const dx=e.changedTouches[0].clientX-sx;
-      if(Math.abs(dx)<40) return;
-      idx=(idx+(dx<0?1:-1)+imgs.length)%imgs.length;
-      update();
-    };
-
-    function update(){
-      imgs.forEach((im,i)=>im.classList.toggle('active',i===idx));
-      dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
     }
-    update();
-  }
-  ['car-etat','car-tc'].forEach(initCarousel);
+    ['car-etat','car-tc'].forEach(initCarousel);
   </script>
 </body>
 </html>
