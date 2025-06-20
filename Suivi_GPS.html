@@ -311,6 +311,27 @@ footer      p, footer      li{
   font-size:1.35rem;
   line-height:1.55;
 }
+
+
+
+
+
+
+
+ /* ============================ NAVBAR ============================ */
+    .navbar{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:1.2rem 2rem;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);
+      position:sticky;top:0;z-index:1000;
+    }
+    .navbar .logo{font-weight:800;font-size:1.5rem;color:var(--accent)}
+    .navbar ul{display:flex;gap:1.6rem;list-style:none;font-weight:600}
+    .navbar a{padding:.25rem .5rem;border-radius:.25rem;transition:background .25s}
+    .navbar a:hover,.navbar a.active{background:rgba(0,95,153,.08)}
+
+
+
+
   </style>
 </head>
 <!-- ░░░ Light-box ░░░ (ajout) -->
@@ -322,19 +343,20 @@ footer      p, footer      li{
 </div>
 <body class="suivi">
 
-  <!-- ░ HEADER ░ -->
-  <header>
-    <nav class="navbar">
-      <a href="index.html" class="logo">PERSEE</a>
-      <ul>
-        <li><a href="index.html">Le projet</a></li>
-        <li><a class="active" href="Suivi_GPS.html">Méthode</a></li>
-        <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
-        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-        <li><a href="equipe.html">Équipe</a></li>
-      </ul>
-    </nav>
-  </header>
+ <!-- =========== NAVBAR =========== -->
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">PERSEE</a>
+    <ul>
+      <li><a href="index.html" class="active">Le projet</a></li>
+      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
+      <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
+      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+      <li><a href="equipe.html">Équipe</a></li>
+    </ul>
+  </nav>
+</header>
+
 
   <!-- ░ HERO ░ (identique au HTML 1) -->
   <section class="hero">

@@ -1,245 +1,602 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PERSEE – Suivi d’alpage</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PERSEE – Suivi d’alpage</title>
 
-  <!-- Feuille de style principale -->
-  <link rel="stylesheet" href="css/styles.css" />
+<!-- police Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Styles compacts pour les puces de carrousel -->
-  <style>
-    .carousel-dots{
-      position:absolute;bottom:12px;left:50%;
-      transform:translateX(-50%);
-      display:flex;gap:8px;
-      background:rgba(255,255,255,.6);
-      padding:4px 10px;border-radius:14px;
+<!-- ============== STYLES INTÉGRÉS ============== -->
+<style>
+:root{
+  --accent:#005f99;
+  --bg:#f1f3f6;
+  --radius:18px;
+  --shadow:0 8px 24px rgba(0,0,0,.08);
+  --gap:80px;
+  --pad:48px;
+  --img-w:700px;
+  /* slider */
+  --arrow-size:44px;
+}
+
+/********************************** RESET & TYPO *********************************/
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',Arial,Helvetica,sans-serif;
+  font-size:17px;line-height:1.75;background:var(--bg);color:#222;
+}
+img,video{display:block;max-width:100%;height:auto}
+a{text-decoration:none;color:inherit}
+h1,h2,h3,h4{font-weight:800;line-height:1.25;color:var(--accent)}
+p{margin-top:1rem}
+
+ /* ============================ NAVBAR ============================ */
+    .navbar{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:1.2rem 2rem;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);
+      position:sticky;top:0;z-index:1000;
     }
-    .carousel-dots .dot{
-      width:12px;height:12px;border:2px solid #555;
-      border-radius:50%;background:transparent;cursor:pointer;
-    }
-    .carousel-dots .dot.active{background:#555;}
-  </style>
+    .navbar .logo{font-weight:800;font-size:1.5rem;color:var(--accent)}
+    .navbar ul{display:flex;gap:1.6rem;list-style:none;font-weight:600}
+    .navbar a{padding:.25rem .5rem;border-radius:.25rem;transition:background .25s}
+    .navbar a:hover,.navbar a.active{background:rgba(0,95,153,.08)}
+
+/************************************** HERO **************************************/
+.hero{
+  height:60vh;display:flex;align-items:center;justify-content:center;
+  background:url('images/hero.jpg') center/cover no-repeat;
+  position:relative;color:#fff;text-align:center;
+}
+.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.hero-content{position:relative;z-index:1}
+.hero h1{font-size:3rem;margin-bottom:.8rem}
+@media(max-width:768px){.hero{height:45vh}.hero h1{font-size:2.4rem}}
+
+/************************************ SECTIONS ************************************/
+.section{padding:4rem 0}
+.section-full .section-content{max-width:1240px;margin:0 auto;padding:0 1.5rem}
+
+/********************************** SELECTEUR *************************************/
+.text label{font-weight:600;margin-right:.5rem}
+select{font-size:1rem;padding:.55rem 1rem;border-radius:.5rem;border:1px solid #ccc}
+
+/******************************** ANALYSE BLOCKS *********************************/
+.analysis-section{background:var(--bg)}
+.analysis-block{
+  display:flex;gap:var(--pad);align-items:center;
+  background:#fff;border-radius:var(--radius);padding:var(--pad);
+  box-shadow:var(--shadow);margin-top:var(--gap);
+  transition:transform .25s,box-shadow .25s;
+}
+.analysis-block:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.12)}
+.analysis-block.reverse{flex-direction:row-reverse}
+
+.analysis-image{
+  flex:0 0 var(--img-w);max-width:var(--img-w);
+  aspect-ratio:4/3;position:relative;border-radius:var(--radius);overflow:hidden;
+}
+.analysis-text h3{font-size:2rem;margin-bottom:1rem;position:relative}
+.analysis-text h3::after{content:"";position:absolute;left:0;bottom:-8px;width:40px;height:4px;background:var(--accent);border-radius:2px}
+
+/********************************* CAROUSELS **************************************/
+.carousel-wrapper{position:relative;width:100%;height:100%;cursor:pointer}
+.carousel-wrapper>.behavior-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .35s;
+}
+.carousel-wrapper>.active{opacity:1}
+.carousel-dots{
+  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;background:rgba(255,255,255,.7);
+  padding:4px 10px;border-radius:14px;backdrop-filter:blur(4px);
+}
+.carousel-dots .dot{
+  width:12px;height:12px;border:2px solid #555;border-radius:50%;
+  background:transparent;cursor:pointer;transition:background .2s;
+}
+.carousel-dots .dot.active{background:#555}
+
+/*********************************** LIGHTBOX ************************************/
+#lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:2000}
+#lightbox img{max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+#lightbox-close{position:absolute;top:20px;right:28px;font-size:42px;color:#fff;cursor:pointer;user-select:none}
+
+/************************************ SLIDER *************************************/
+.slider{position:relative;overflow:visible;margin-top:var(--gap)}
+
+.slider .analysis-block{
+  position:absolute;top:0;left:0;width:100%;
+  transition:transform .6s ease,opacity .6s ease;
+  opacity:0;transform:translateX(100%);
+  pointer-events:none; /* évite les clics hors carte active */
+  display:flex !important; /* toujours flex, masqué par opacity */
+}
+.slider .analysis-block[data-status="active"]{opacity:1;transform:translateX(0);pointer-events:auto}
+.slider .analysis-block[data-status="before"]{opacity:0;transform:translateX(-100%)}
+.slider .analysis-block[data-status="after"]{opacity:0;transform:translateX(100%)}
+
+.slide-btn{
+  position:absolute;z-index:50;top:50%;transform:translateY(-50%);
+  width:var(--arrow-size);height:var(--arrow-size);
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;line-height:1;
+  background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:50%;
+  cursor:pointer;transition:background .25s;
+}
+.slide-btn:hover{background:rgba(0,0,0,.55)}
+.slide-btn.prev{left:8px}
+.slide-btn.next{right:8px}
+@media(max-width:900px){
+  :root{--arrow-size:38px;}
+  .slide-btn.prev{left:4px}.slide-btn.next{right:4px}
+}
+
+/******************************** RESPONSIVE *************************************/
+@media(max-width:1200px){:root{--img-w:540px;--pad:40px}}
+@media(max-width:900px){
+  :root{--gap:64px}
+  .analysis-block,.analysis-block.reverse{flex-direction:column;text-align:center}
+  .analysis-image{max-width:100%;flex:none}
+}
+@media(max-width:600px){
+  :root{--gap:48px;--pad:32px}
+  body{font-size:15px}
+  .hero h1{font-size:2rem}
+  .analysis-text h3{font-size:1.6rem}
+}
+
+.hidden{display:none}
+
+
+
+
+/* ─── Ajustements « hero » ───────────────────────────────── */
+.hero{
+  height:100vh;           /* plein écran */
+}
+
+.hero h1,
+.hero p{
+  color:#fff !important;  /* texte blanc (écrase la couleur accent) */
+}
+
+
+/* ─── Titre de section ─────────────────── */
+.section-title{
+  text-align:center;
+  font-size:2rem;
+  margin:0;               /* aucun espace supplémentaire */
+}
+
+/* ─── On remonte un peu le slider ──────── */
+.analysis-section .slider{
+  margin-top:40px;        /* au lieu du gros 80 px par défaut   */
+}
+
+/* on neutralise toute marge interne aux cartes dans le slider */
+.slider .analysis-block{ margin-top:0 !important; }
+
+
+
+
+
+
+
+
+
+/* ========== Flèches hors de la carte ========== */
+:root{
+  --arrow-size:44px;   /* diamètre du bouton            */
+  --card-pad:48px;     /* même padding que .analysis-block */
+}
+
+.analysis-section .slider{ overflow:visible; }   /* pour laisser dépasser les flèches */
+
+.slider .slide-btn{
+  position:absolute; z-index:50;
+  top:50%; transform:translateY(-50%);
+  width:var(--arrow-size); height:var(--arrow-size);
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; line-height:1;
+  background:rgba(0,0,0,.35); color:#fff;
+  border:none; border-radius:50%;
+  cursor:pointer; transition:background .25s;
+}
+
+.slider .slide-btn.prev{
+  left:calc(-0.5 * var(--arrow-size) - var(--card-pad));
+}
+.slider .slide-btn.next{
+  right:calc(-0.5 * var(--arrow-size) - var(--card-pad));
+}
+
+.slider .slide-btn:hover{ background:rgba(0,0,0,.55); }
+
+@media(max-width:900px){
+  :root{ --arrow-size:38px; --card-pad:32px; }
+}
+
+
+
+
+
+/* ——— Légende qui s’affiche au sur-vol ou dans le carousel ——— */
+.caption{
+  position:absolute;inset:auto 0 0 0;          /* collée en bas */
+  padding:10px 14px;
+  font-size:.95rem;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(4px);
+  color:#fff;
+  border-bottom-left-radius:inherit;
+  border-bottom-right-radius:inherit;
+  opacity:0;                                   /* cachée par défaut */
+  transition:opacity .3s;
+}
+.analysis-image:hover .caption{opacity:1}       /* pour les images “simples” */
+.carousel-wrapper .caption{opacity:1}           /* toujours visible en carousel */
+
+/* légende cachée par défaut… */
+.carousel-wrapper .caption{opacity:0}
+
+/* …et qui apparaît quand on survole le carousel */
+.carousel-wrapper:hover .caption{opacity:1}
+
+
+
+
+/* ===== Section “croisement” ===== */
+.cross-block{margin-top:var(--gap)}                /* même rythme vertical que le reste */
+.full-image{
+  margin-top:2rem;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.full-image img{display:block;width:100%;height:auto}
+
+
+
+</style>
 </head>
 
+<body>
 
- <!-- ======================= HEADER / NAVBAR ======================= -->
-  <header>
-    <nav class="navbar">
-      <a href="index.html" class="logo">PERSEE</a>
-      <ul>
-        <!-- Seul "Accueil" a la classe active -->
-        <li><a href="index.html" class="active">Le projet</a></li>
-        <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-        <li><a href="Carte_d_identité_des_estives.html"> Carte d'identité des estives</a></li>
-        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-        <li><a href="equipe.html">Équipe</a></li>
-        
-      </ul>
-    </nav>
-  </header>
-
-  <!-- ======================= HERO ========================= -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Suivi des différents alpages</h1>
-      <p>Présentation détaillée de chaque alpage</p>
-    </div>
-  </section>
-
-  <!-- ======================= SELECTEUR ==================== -->
-  <section class="section section-full">
-    <div class="section-content">
-      <div class="text" style="text-align:center;flex:1 1 100%;">
-        <label for="alp_select" style="font-size:1rem;font-weight:500;">Choisissez un alpage :</label>
-        <select id="alp_select" style="padding:8px;font-size:1rem;margin-left:10px;">
-          <option value="rouanette" selected>Alpage de Rouanette</option>
-          <option value="autre_alpage1">Autre Alpage 1</option>
-          <option value="autre_alpage2">Autre Alpage 2</option>
-        </select>
-      </div>
-    </div>
-  </section>
+<!-- =========== NAVBAR =========== -->
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">PERSEE</a>
+    <ul>
+      <li><a href="index.html" class="active">Le projet</a></li>
+      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
+      <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
+      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+      <li><a href="equipe.html">Équipe</a></li>
+    </ul>
+  </nav>
+</header>
 
 
 
-  <!-- ============ 2) ANALYSE DES DÉPLACEMENTS ============= -->
-  <section class="section section-full analysis-section">
-    <div class="section-content">
-      <!-- Bloc 1 -->
+
+
+
+<!-- =========== HERO =========== -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Suivi des différents alpages</h1>
+    <p>Présentation détaillée de chaque alpage</p>
+  </div>
+</section>
+
+<!-- =========== SELECTEUR =========== -->
+<section class="section section-full">
+  <div class="section-content text" style="text-align:center">
+    <label for="alp_select">Choisissez un alpage :</label>
+    <select id="alp_select">
+      <option value="rouanette" selected>Alpage de Rouanette</option>
+      <option value="autre_alpage1">Autre Alpage 1</option>
+      <option value="autre_alpage2">Autre Alpage 2</option>
+    </select>
+  </div>
+</section>
+
+<!-- =========== ANALYSES =========== -->
+<section class="section section-full analysis-section alpage-section" id="rouanette">
+  <div class="section-content">
+
+    <!-- ——— Titre de la section ——— -->
+    <h2 class="section-title">Indicateurs : estive démonstratrice</h2>
+
+    <!-- ——— Slider de blocs ——— -->
+    <div class="slider">
+
+      <!-- flèche précédente -->
+      <button class="slide-btn prev" aria-label="Précédent">&#10094;</button>
+
+      <!-- ========= Bloc 1 ========= -->
       <div class="analysis-block">
         <div class="analysis-image">
-          <img src="images/plot_dist_deniv.jpeg" alt="Distances & dénivelés" class="zoomable"/>
-        </div>
-        <div class="analysis-text">
-          <h3>Déplacement quotidien</h3>
-          <p>
-            Le traitement des points GPS permet de calculer les distances et
-            dénivelés cumulés quotidiens parcourus par les brebis tout au long
-            de la saison (moyenne de toutes les brebis équipées). On note des
-            chiffres importants (800 à 1 000 m de dénivelé cumulé quotidien)
-            sur la période mi-août – fin septembre ; cela s’explique par la
-            configuration de l’alpage : un seul parc de nuit dessert les
-            quartiers d’août (vaste secteur et très pentu) et une seule cabane
-            est disponible. Pour exploiter correctement ce quartier, les
-            circuits journaliers sont donc rallongés et fortement dénivelés.
-          </p>
-        </div>
-      </div>
-
-      <!-- Bloc 2 -->
-      <div class="analysis-block">
-        <div class="analysis-text">
-          <h3>Utilisation par parc de nuit</h3>
-          <p>
-            Suite à la prédation liée au retour du loup, l’obligation de parquer
-            les brebis le soir fait du parc de nuit un élément majeur du schéma
-            de pâturage. Chaque matin, les brebis quittent le parc puis y
-            reviennent au crépuscule ; ce fonctionnement contraint fortement les
-            circuits quotidiens et les possibilités d’exploitation des
-            différents quartiers. On retrouve généralement un parc de nuit par
-            quartier, souvent associé à une cabane. Sur l’ensemble des alpages
-            étudiés, trois parcs sont courants : un pour juin-septembre et un
-            pour juillet-août. Sur Rouanette, seulement deux parcs sont
-            utilisables : le premier pour juin-septembre, le second pour
-            juillet-août ; c’est une contrainte due au manque de cabanes de
-            soutien dans les quartiers d’été.
-          </p>
-        </div>
-        <div class="analysis-image">
-          <div class="fixed-image-wrapper carousel-3" id="wrapper-carrousel-parc">
-            <img src="images/Chargement_explo.png" alt="Parc 1" class="behavior-img zoomable" data-index="0"/>
-            <img src="images/Chargement_quartier_juin.png" alt="Parc 2" class="behavior-img zoomable" data-index="1"/>
-            <img src="images/Chargement_quartier_juillet.png" alt="Parc 3" class="behavior-img zoomable" data-index="2"/>
-            <img src="images/Chargement_quartier_aout.png" alt="Parc 3" class="behavior-img zoomable" data-index="3"/>
-            <img src="images/Chargement_quartier_septembre.png" alt="Parc 3" class="behavior-img zoomable" data-index="4"/>
+          <div class="carousel-wrapper" id="car-bloc5">
+            <img src="images/Chargement_total.png"        class="zoomable behavior-img active" data-caption="Chargement – total"        alt="Chargement total">
+            <img src="images/Chargement_repos.png"        class="zoomable behavior-img"        data-caption="Chargement – repos"        alt="Chargement repos">
+            <img src="images/Chargement_deplacement.png"  class="zoomable behavior-img"        data-caption="Chargement – déplacement"  alt="Chargement déplacement">
+            <img src="images/Chargement_paturage.png"     class="zoomable behavior-img"        data-caption="Chargement – pâturage"     alt="Chargement pâturage">
           </div>
         </div>
+        <div class="analysis-text">
+          <h3>Chargement</h3>
+          <p>L’agrégation à l’échelle du troupeau des données recueillies par animal fournit des informations sur le chargement (en nombre d’animaux par unité de surface et par unité de temps).
+          La charge pastorale peut être estimée par comportement. Typiquement, il est proposé une restitution cartographique du chargement par jour à une échelle spatiale de 10m.</p>
+        </div>
       </div>
 
-      <!-- Bloc 3 -->
+      <!-- ========= Bloc 2 ========= -->
+      <div class="analysis-block reverse">
+        <div class="analysis-image">
+          <div class="carousel-wrapper" id="wrapper-carrousel-parc">
+            <img src="images/Chargement_explo.png"              class="zoomable behavior-img active" data-caption="Surface explorée" alt="Parc 1">
+            <img src="images/Chargement_quartier_juin.png"      class="zoomable behavior-img"        data-caption="Quartier de Juin" alt="Parc 2">
+            <img src="images/Chargement_quartier_juillet.png"   class="zoomable behavior-img"        data-caption="Quartier de Juillet" alt="Parc 3">
+            <img src="images/Chargement_quartier_aout.png"      class="zoomable behavior-img"        data-caption="Quartier d'Aout" alt="Parc 4">
+            <img src="images/Chargement_quartier_septembre.png" class="zoomable behavior-img"        data-caption="Quartier de Septembre" alt="Parc 5">
+          </div>
+        </div>
+        <div class="analysis-text">
+          <h3>Chargement par quartier</h3>
+          <p>(texte)</p>
+        </div>
+      </div>
+
+      <!-- ========= Bloc 3 ========= -->
       <div class="analysis-block">
         <div class="analysis-image">
-          <img src="images/Nombre_de_jour_paturee.png" alt="Schéma de pâturage" class="zoomable"/>
+          <img src="images/Nombre_de_jour_paturee.png" class="zoomable" alt="Nombre de jours pâturés">
         </div>
         <div class="analysis-text">
           <h3>Analyses du schéma de pâturage</h3>
-          <p>
-            En croisant les indicateurs « comportement » et « chargement », on
-            obtient le nombre de jours où chaque pixel de l’alpage a été pâturé.
-            Les parcs de nuit apparaissent comme des unités structurantes, mais
-            on peut aussi distinguer les zones simplement explorées (1 jour) et
-            les zones vraiment exploitées. Croisées aux cartes de végétation,
-            ces informations permettent d’identifier les secteurs sous-exploités
-            (nardaies par exemple) ou ceux où la pression de pâturage est trop
-            forte sur des habitats sensibles (cônes à neige, zones humides).
-            Sur Rouanette, la nardaie est peu pâturée ; ce n’est pas un choix
-            mais la conséquence de conflits d’usage sur des terrains privés qui
-            retardent la date d’accès. La végétation y est donc souvent
-            vieillissante, rendant la gestion de cet habitat complexe.
-          </p>
+          <p>(texte)…</p>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ============ 3) NDVI / RESSOURCE ==================== -->
-  <section class="section section-full resource-section">
-    <div class="section-content">
-      <div class="text">
-        <h3>Présence du troupeau selon le développement de la ressource</h3>
-        <p>
-          En faisant le lien avec les stades phénologiques détectés par NDVI,
-          il est possible de déterminer à quel stade de développement les
-          brebis consomment le plus la ressource végétale.
-        </p>
+      <!-- flèche suivante -->
+      <button class="slide-btn next" aria-label="Suivant">&#10095;</button>
+
+    </div><!-- /.slider -->
+
+  </div><!-- /.section-content -->
+</section>
+
+
+
+
+<!-- ===== CROISEMENT DES INDICATEURS ===== -->
+<section class="section section-full analysis-section cross-section">
+  <div class="section-content">
+
+    <h2 class="section-title">Croisement des indicateurs avec les variables environnementales</h2>
+
+    <!-- ── Bloc 1 ── -->
+    <div class="cross-block">
+      <h3>Chargement et végétation</h3>
+      <p>Croisement … (quelques lignes d’explication sur la manière dont les cartes de chargement sont confrontées à la hauteur ou à la qualité de la végétation).</p>
+
+      <div class="full-image">
+        <img src="images/comparaison_habitat.png" alt="Carte croisant chargement et végétation">
       </div>
-      <div class="resource-image">
-        <img src="images/pheno.png" alt="NDVI & présence du troupeau" class="zoomable"/>
+    </div>
+
+    <!-- ── Bloc 2 ── -->
+    <div class="cross-block">
+      <h3>Présence du troupeau et phénologie</h3>
+      <p>Croisement … (description du rapprochement entre les positions GPS du troupeau et les phases de pousse de l’herbe issues de l’imagerie satellite).</p>
+
+      <div class="full-image">
+        <img src="images/pheno.png" alt="Carte croisant présence du troupeau et phénologie">
       </div>
     </div>
-  </section>
 
-  <!-- ======================= FOOTER ======================= -->
-  <footer><p>&copy; 2025 PERSEE — Tous droits réservés.</p></footer>
+  </div><!-- /.section-content -->
+</section>
 
-  <!-- ======================= LIGHTBOX ===================== -->
-  <div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img" src="" alt=""/></div>
 
-  <!-- ======================= SCRIPTS ====================== -->
-  <script>
-  /* -------- LIGHTBOX ------------------------------------ */
-  document.querySelectorAll('.zoomable').forEach(img=>{
-    img.addEventListener('click',()=>{
-      document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox').style.display='flex';
+
+
+
+
+
+
+
+
+
+<!-- =========== FOOTER =========== -->
+<footer><p>&copy; 2025 PERSEE — Tous droits réservés.</p></footer>
+
+<!-- =========== LIGHTBOX =========== -->
+<div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img" alt=""></div>
+
+<script>
+/*──────────────────── 1. LIGHT-BOX (zoom plein écran) ───────────────────*/
+(function(){
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = document.getElementById('lightbox-img');
+  const closeLb = document.getElementById('lightbox-close');
+
+  let lbGroup = [];          // images du carousel courant
+  let lbIdx   = 0;           // index dans le groupe
+
+  function openLB(img){
+    const wrap = img.closest('.carousel-wrapper');
+    lbGroup = wrap ? [...wrap.querySelectorAll('.behavior-img')] : [img];
+    lbIdx   = lbGroup.indexOf(img);
+    lbImg.src = lbGroup[lbIdx].src;
+    lb.style.display = 'flex';
+  }
+  function closeLB(){ lb.style.display='none'; }
+  function navLB(dir){
+    if(lbGroup.length<=1) return;
+    lbIdx = (lbIdx + dir + lbGroup.length)%lbGroup.length;
+    lbImg.src = lbGroup[lbIdx].src;
+  }
+
+  /* click sur ttes les images zoomables */
+  document.querySelectorAll('.zoomable').forEach(im=>{
+    im.addEventListener('click',()=>openLB(im));
+  });
+
+  /* fermetures */
+  closeLb.addEventListener('click',closeLB);
+  lb.addEventListener('click',e=>{if(e.target.id==='lightbox')closeLB();});
+
+  /* navigation souris / clavier / tactile */
+  lb.addEventListener('wheel',e=>{e.preventDefault();navLB(e.deltaY>0?1:-1);});
+  let touchX=0;
+  lb.addEventListener('touchstart',e=>touchX=e.touches[0].clientX,{passive:true});
+  lb.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-touchX;
+    if(Math.abs(dx)<40) return;
+    navLB(dx<0?1:-1);
+  });
+  window.addEventListener('keydown',e=>{
+    if(lb.style.display!=='flex') return;
+    if(e.key==='ArrowRight') navLB(1);
+    else if(e.key==='ArrowLeft') navLB(-1);
+    else if(e.key==='Escape')    closeLB();
+  });
+})();
+
+/*──────────────────── 2. CAROUSEL d’images avec légende ─────────────────*/
+function initCarousel(wrapId){
+  const wrap=document.getElementById(wrapId);
+  if(!wrap) return;
+
+  const items=[...wrap.querySelectorAll('.behavior-img')];
+  if(items.length<=1) return;          // pas de carousel si une seule img
+
+  /* — légende (caption) — */
+  const cap=document.createElement('div');
+  cap.className='caption';
+  cap.textContent = items[0].dataset.caption || items[0].alt || '';
+  wrap.appendChild(cap);
+
+  /* — bullets — */
+  const dots=document.createElement('div');
+  dots.className='carousel-dots';
+  items.forEach((_,i)=>{
+    const d=document.createElement('span');
+    d.className='dot'+(i?'':' active');
+    d.onclick = ()=>{idx=i;update();};
+    dots.appendChild(d);
+  });
+  wrap.appendChild(dots);
+
+  let idx=0;
+
+  /* — défilement souris / tactile — */
+  wrap.addEventListener('wheel',e=>{
+    e.preventDefault();
+    idx=(idx+(e.deltaY>0?1:-1)+items.length)%items.length;
+    update();
+  });
+  let sx=0;
+  wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  wrap.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)<40) return;
+    idx=(idx+(dx<0?1:-1)+items.length)%items.length;
+    update();
+  });
+
+  function update(){
+    items.forEach((im,i)=>{
+      const active = (i===idx);
+      im.classList.toggle('active',active);
+      if(im.tagName==='VIDEO'){ active?im.play():im.pause(); }
+    });
+    dots.childNodes.forEach((d,i)=>d.classList.toggle('active',i===idx));
+    cap.textContent = items[idx].dataset.caption || items[idx].alt || '';
+  }
+  update();
+}
+
+/* init des carousels existants */
+['car-bloc5','wrapper-carrousel-parc'].forEach(initCarousel);
+
+/*──────────────────── 3. CAPTION pour images “simples” ──────────────────*/
+document.querySelectorAll('.analysis-image > img.zoomable:not(.behavior-img)')
+  .forEach(img=>{
+    const parent=img.parentElement;
+    if(parent.querySelector('.caption')) return;
+    const c=document.createElement('div');
+    c.className='caption';
+    c.textContent = img.dataset.caption || img.alt || '';
+    parent.appendChild(c);
+  });
+
+/*──────────────────── 4. SLIDER de blocs (inchangé) ─────────────────────*/
+document.querySelectorAll('.slider').forEach(initSlider);
+
+function initSlider(slider){
+  const cards=[...slider.querySelectorAll('.analysis-block')];
+  if(!cards.length) return;
+
+  let idx=0;
+  slider.style.minHeight='200px';
+
+  function setStates(){
+    cards.forEach((c,i)=>{
+      if(i===idx)      c.dataset.status='active';
+      else if(i<idx)   c.dataset.status='before';
+      else             c.dataset.status='after';
+    });
+    updateHeight();
+  }
+  function updateHeight(){
+    const h=cards[idx].getBoundingClientRect().height;
+    if(h) slider.style.height=h+'px';
+  }
+  function move(d){
+    idx=(idx+d+cards.length)%cards.length;
+    setStates();
+  }
+
+  /* attente chargement images pour hauteur dynamique */
+  cards.forEach(card=>{
+    card.querySelectorAll('img').forEach(img=>{
+      if(!img.complete){
+        img.addEventListener('load',updateHeight,{once:true});
+        img.addEventListener('error',updateHeight,{once:true});
+      }
     });
   });
-  document.getElementById('lightbox-close').onclick =
-  document.getElementById('lightbox').onclick = e=>{
-    if(e.target.id==='lightbox' || e.target.id==='lightbox-close')
-      document.getElementById('lightbox').style.display='none';
-  };
 
-  /* -------- CARROUSELS (générique) ----------------------- */
-  (function(){
-    function initCarousel(wrapperId){
-      const wrapper=document.getElementById(wrapperId);
-      if(!wrapper) return;
-      const imgs=[...wrapper.querySelectorAll('.behavior-img')];
-      if(imgs.length<=1) return;
-
-      let idx=0;
-      imgs.forEach((img,i)=>img.style.opacity=i===0?'1':'0');
-
-      /* création des puces */
-      const box=document.createElement('div');box.className='carousel-dots';
-      imgs.forEach((_,i)=>{
-        const dot=document.createElement('span');
-        dot.className='dot'+(i===0?' active':'');
-        dot.onclick=()=>{idx=i;update();}
-        box.appendChild(dot);
-      });
-      wrapper.appendChild(box);
-
-      wrapper.addEventListener('wheel',e=>{
-        e.preventDefault();
-        idx+=e.deltaY>0?1:-1;
-        idx=Math.max(0,Math.min(idx,imgs.length-1));
-        update();
-      });
-
-      function update(){
-        imgs.forEach((img,i)=>img.style.opacity=i===idx?'1':'0');
-        box.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-      }
-    }
-    initCarousel('wrapper-rouanette');      // carrousel 5 images
-    initCarousel('wrapper-carrousel-parc'); // carrousel 3 images
-  })();
-
-  /* -------- Sélecteur d’alpage --------------------------- */
-  const sel=document.getElementById('alp_select');
-  sel.addEventListener('change',()=>{
-    document.querySelectorAll('.alpage-section').forEach(sec=>sec.style.display='none');
-    const s=document.getElementById(sel.value); if(s) s.style.display='block';
+  slider.querySelector('.slide-btn.prev').addEventListener('click',()=>move(-1));
+  slider.querySelector('.slide-btn.next').addEventListener('click',()=>move(1));
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft')  move(-1);
+    if(e.key==='ArrowRight') move(1);
   });
-  window.addEventListener('DOMContentLoaded',()=>document.getElementById('rouanette').style.display='block');
-  </script>
+  window.addEventListener('resize',updateHeight);
+  window.addEventListener('load',updateHeight);
+
+  setStates();
+}
+
+/*──────────────────── 5. SÉLECTEUR d’alpage (inchangé) ───────────────────*/
+(function(){
+  const sel=document.getElementById('alp_select');
+  if(!sel) return;
+  sel.addEventListener('change',()=>{
+    document.querySelectorAll('.alpage-section').forEach(s=>s.classList.add('hidden'));
+    const sec=document.getElementById(sel.value);
+    if(sec) sec.classList.remove('hidden');
+  });
+})();
+</script>
 </body>
 </html>
-
-
-<!-- AJOUTE ou DÉPLACE ce bloc <style> dans le <head> après tes autres styles -->
-<style>
-  /* --- correctif d’alignement pour le carrousel Rouanette --- */
-  #wrapper-rouanette .behavior-img{             /* l’image occupe la hauteur dispo */
-    width:98%;                                 /* (au lieu de 80 %)               */
-  }
-  #wrapper-rouanette .carousel-dots{            /* on rapproche les puces          */
-    bottom:5px;                                /* 20 px au-dessus du bord inférieur*/
-  }
-</style>

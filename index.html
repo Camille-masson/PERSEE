@@ -381,20 +381,56 @@
   
   </style>
 </head>
+
+
+
+
+
+
+
+
+
+
+<script>
+/* ===== 1.   menu burger ===== */
+document.querySelector('.nav-toggle')
+        .addEventListener('click', () =>
+  document.querySelector('.nav-links').classList.toggle('open')
+);
+
+/* ===== 2.   lien <a> actif automatiquement ===== */
+(function () {
+  const page = location.pathname.split('/').pop().toLowerCase() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    const target = a.getAttribute('href').split('/').pop().toLowerCase();
+    if (target === page) a.classList.add('active');
+  });
+})();
+</script>
+
+
+
+
 <body>
-  <!-- ======================= HEADER / NAVBAR ======================= -->
-  <header>
-    <nav class="navbar">
-      <a href="index.html" class="logo">PERSEE</a>
-      <ul>
-        <li><a href="index.html" class="active">Le projet</a></li>
-        <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-        <li><a href="Carte_d'identité_des_estives.html">Carte d'identité des estives</a></li>
-        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-        <li><a href="equipe.html">Équipe</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- navbar.html  — à inclure par copie/coller
+     ou en SSI / PHP / template, selon ton workflow -->
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">PERSEE</a>
+
+    <button class="nav-toggle" aria-label="Ouvrir/fermer le menu">
+      &#9776;
+    </button>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Le projet</a></li>
+      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
+      <li><a href="Carte_d_identité_des_estives.html">Carte d’identité des estives</a></li>
+      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+      <li><a href="equipe.html">Équipe</a></li>
+    </ul>
+  </nav>
+</header>
 
   <!-- ======================= HERO ========================= -->
   <section class="hero">
@@ -491,18 +527,18 @@
     <h2>Partenaires</h2>
     
         <div class="partners-logos">
-      <img src="images/logo_ofb.png"    alt="Logo OFB" />
-      <img src="images/logo_cnrs.png"  alt="Logo CNRS" />
-      <img src="images/logo_cnrs.png"   alt="Logo Réserves Catalanes" />
-      <img src="images/logo_univ_grenoble.png" alt="Logo CREA" />
-      <img src="images/logo_parc_ecrins.png"   alt="Logo ASTER" />
-      <img src="images/logo_parc_mercantour.png"   alt="Logo PNM" />
-      <img src="images/logo_parc_mercantour.png"   alt="Logo PNE" />
-      <img src="images/logo_parc_mercantour.png"   alt="Logo Réserves Contamine" />
-      <img src="images/logo_parc_mercantour.png"   alt="Logo Réserves Viso" />
-      <img src="images/logo_parc_mercantour.png"   alt="Logo PNR Bauges" />
-      <img src="images/logo_parc_mercantour.png"   alt="Logo PNR Queyras" />
-      <img src="images/logo_parc_mercantour.png"   alt="Logo PNV" />
+      <img src="images/ofb.png"    alt="Logo OFB" />
+      <img src="images/cnrs.png"  alt="Logo CNRS" />
+      <img src="images/RN Pyrénées Catalanes.png"   alt="Logo Réserves Catalanes" />
+      <img src="images/CREA.png" alt="Logo CREA" />
+      <img src="images/RN France.png"   alt="Logo ASTER" />
+      <img src="images/PNM.png"   alt="Logo PNM" />
+      <img src="images/PNE.png"   alt="Logo PNE" />
+      <img src="images/RN Sixt-Passy.png"   alt="Logo Réserves Contamine" />
+      <img src="images/RN Ristolat Viso.png"   alt="Logo Réserves Viso" />
+      <img src="images/RN France.png"   alt="Logo PNR Bauges" />
+      <img src="images/PNR Queyras.webp"   alt="Logo PNR Queyras" />
+      <img src="images/PNV.png"   alt="Logo PNV" />
     </div>
   </section>
 
