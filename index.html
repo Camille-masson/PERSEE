@@ -35,17 +35,16 @@
     }
 
      <!-- ======================= HEADER / NAVBAR ======================= -->
+  < <!-- ░ HEADER ░ -->
   <header>
     <nav class="navbar">
       <a href="index.html" class="logo">PERSEE</a>
       <ul>
-        <!-- Seul "Accueil" a la classe active -->
-        <li><a href="index.html" class="active">Le projet</a></li>
-        <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-        <li><a href="Carte_d_identité_des_estives.html"> Carte d'identité des estives</a></li>
+        <li><a href="index.html">Le projet</a></li>
+        <li><a class="active" href="Suivi_GPS.html">Méthode</a></li>
+        <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
         <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
         <li><a href="equipe.html">Équipe</a></li>
-        
       </ul>
     </nav>
   </header>
@@ -67,7 +66,7 @@
 
     /* ======== BLOC « Présentation du projet » ======== */
     .project-intro {
-      background: var(--clr-bg-light);
+      background: #fff;
       border: 1px solid var(--clr-bubble-border);
       border-radius: var(--radius-lg);
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -107,7 +106,7 @@
 
     /* ======== BLOC « Objectifs du projet » ======== */
     .project-objectives {
-      background: #fff;
+      background: var(--clr-bg-light);
       border: 1px solid var(--clr-bubble-border);
       border-radius: var(--radius-lg);
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -160,6 +159,44 @@
       border-radius: 10px;
       box-shadow: 0 1px 5px rgba(0,0,0,0.1);
     }
+    
+    
+    
+    
+    /* ======== BLOC « Contributeurs du projet » ======== */
+.project-contributors{
+  background: #fff;
+  border: 1px solid var(--clr-bubble-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  max-width: 1200px;
+  margin: var(--gap-section) auto 0 auto;
+}
+.project-contributors .content-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+  align-items:center;
+  padding:2rem;
+}
+.project-contributors .text h2{
+  margin:0 0 .75rem 0;
+  color:var(--clr-accent);
+  font-size:1.8rem;
+}
+.project-contributors .text p{
+  margin-bottom:1rem;
+}
+
+/* ======== Texte plus gros & justifié pour les 3 encarts ======== */
+.project-intro .text p,
+.project-objectives .text p,
+.project-objectives .text ul li,
+.project-contributors .text p{
+  font-size:1.1rem;        /* augmente la taille */
+  text-align:justify;       /* justifie le texte  */
+}
+
 
     /* ======== BLOC « Un réseau d’estives » (carte) ======== */
     #map {
@@ -229,6 +266,119 @@
   <footer class="site-footer">
     <p>© 2025 PERSEE – Tous droits réservés.</p>
   </footer>
+  
+  
+  
+  /* -- MISE EN FORME COMMUNE AUX 3 ENCARTS --------------------------- */
+.section .text h2 {
+  font-size: 2rem;          /* titres plus grands */
+}
+
+.section .text p,
+.section .text li {          /* <p> + puces éventuelles */
+  text-align: justify;       /* texte justifié */
+  font-size: 1.35rem;        /* corps plus grand */
+  line-height: 1.55;
+}
+  
+  
+  /* ---------------------------------------------------------- */
+/* 1. Arrière-plan : seulement le 2ᵉ encart en bleu très clair */
+/* ---------------------------------------------------------- */
+.project-intro,
+.project-contributors {          /* 1ᵉʳ et 3ᵉ blocs → fond blanc */
+  background: #fff;
+}
+
+.project-objectives {            /* 2ᵉ bloc → fond bleuté */
+  background: var(--clr-bg-light);
+}
+
+
+
+/* ---------------------------------------------------------- */
+/* 3. Corps de texte : plus gros & justifié (inchangé sinon)  */
+/* ---------------------------------------------------------- */
+.project-intro .text p,
+.project-objectives .text p,
+.project-objectives .text ul li,
+.project-contributors .text p {
+  font-size: 1.25rem;
+  text-align: justify;
+  line-height: 1.45;
+}
+
+  
+  /*======================================================================
+  1 ▹ « Cartes » plus compactes : moins de blanc au-dessus / dessous
+======================================================================*/
+.section.section {                          /* marge extérieure           */
+  padding-top: 20px;
+  padding-bottom: 20px;                     /* ↓ au lieu de 60px          */
+}
+
+.project-intro .content-grid,
+.project-objectives .content-grid,
+.project-contributors .content-grid {       /* padding intérieur          */
+  padding: 1.25rem 2rem;                    /* ↓ au lieu de 2rem 2rem     */
+}
+
+
+
+/* ================================================================
+   3 ▹ Contributeurs (3ᵉ encart) : fond blanc garanti
+================================================================ */
+.project-contributors{
+  background: #fff !important;
+}
+
+ /* ==================================================================
+   ENCAR(T) 3  – photo moins longue et décollée des bords
+   ------------------------------------------------------------------
+   • 45 % de la largeur (comme l’encart 2)
+   • 1 rem de padding autour de la photo pour qu’elle ne colle plus
+     au cadre arrondi.
+================================================================== */
+@media (min-width: 768px) {
+
+  /* disposition 45 % image / 55 % texte déjà définie ; on garde */
+  .project-contributors .content-grid{
+    grid-template-columns: 45% 55%;
+    align-items: start;                 /* hauts alignés            */
+  }
+
+  /* espace autour de la photo */
+  .project-contributors .image{
+    padding: 1rem;                      /* marge intérieure         */
+  }
+
+  /* contraintes communes aux autres encarts */
+  .project-contributors .image img{
+    width: 100%;
+    height: auto;
+    max-height: 420px;                  /* garde la cohérence       */
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,.1);
+  }
+}
+
+  /* ------------------------------------------------------------------
+   Mise au point des espacements autour du titre de la carte
+-------------------------------------------------------------------*/
+.estives-map {                /* ↑ écarte la carte du bloc précédent */
+  padding-top: 60px;          /* (valeur à ajuster si besoin)        */
+}
+
+/* Titre : on rapproche du #map et on le centre comme avant */
+.map-title{
+  text-align: center;         /* garde l’alignement existant         */
+  color: var(--clr-accent);
+  margin-top: 0;              /* pas d’espace au-dessus du titre     */
+  margin-bottom: 0.4rem;      /* espace réduit avant la carte        */
+  font-size: 1.8rem;          /* taille inchangée                    */
+}
+  
   </style>
 </head>
 <body>
@@ -259,30 +409,17 @@
     <div class="content-grid">
       <!-- Texte explicatif à gauche -->
       <div class="text">
-        <h2>Présentation du projet PERSEE</h2>
+        <h2>Le projet PERSEE : c’est quoi ?</h2>
+      
         <p>
-          <strong>DESCRIPTION DU PROJET (POUR PHILIPPE)</strong>
-        </p>
+          C’est un projet de connaissances portant sur les liens entre les <strong> activités pastorales</strong> en estive
+          et les <strong> dynamiques des biodiversités</strong>. L’estive est un espace partagé ; à la fois espace agricole, 
+          espace récréatif et lieu de préservation d’une vie « sauvage ». <strong>PERSEE</strong> contribue à comprendre comment 
+          ces différentes vocations de l’estive peuvent être conciliées dans un contexte marqué par le changement 
+          climatique, les transformations dans l’usage de l’espace montagne et les mutations socio-économiques.
         <p>
-          <em>TExte fictif : Le projet PERSEE (Pastoralisme Et biodiveRsités dans le Socio-Écosystème Estive) a pour ambition de mieux comprendre  bla bla  bla bla  bla bla 
-           bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla 
-            bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla .</em>
-        </p>
-        <p>
-          Le LECA et l'OFB collabore pour :
-        </p>
-        <ul>
-          <li>Mettre en place un réseau d’étude GPS sur plusieurs estives de montagne</li>
-          <li>Bla bla bla bla bla bla bla bla bla bla </li>
-          <li>Bla bla bla bla bla bla bla bla bla bla  bla bla  bla bla </li>
-          <li> bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla  bla bla </li>
-        </ul>
       </div>
-      <!-- Image à droite -->
-      <div class="image">
-        <img src="images/projet_1.jpg" alt="Paysage d'estive avec troupeau et montagnes">
       </div>
-    </div>
   </section>
 
   <!-- ======== SECTION 2 : Objectifs du Projet ======== -->
@@ -290,38 +427,70 @@
     <div class="content-grid reverse">
       <!-- Image à gauche -->
       <div class="image">
-        <img src="images/projet_objets.png" alt="Graphique des objectifs du projet PERSEE">
+        <img src="images/projet_1.jpg" alt="Graphique des objectifs du projet PERSEE">
       </div>
       <!-- Liste des objectifs à droite -->
       <div class="text">
-        <h2>Objectifs du projet</h2>
-        <p><strong>Ce projet vise à répondre aux questions suivantes (PHILIPPE) :</strong></p>
-        <ul>
-          <li>Le système pastoral se trouve-t-il à un point de bascule face au nouveau forçage (événements climatiques extrêmes, activités récréatives) ?</li>
-          <li>Les événements météorologiques extrêmes amènent-ils le système à un point critique ?</li>
-          <li>La conduite pastorale influence-t-elle l’utilisation des ressources ?</li>
-          <li>Existe-t-il des compromis dans l’utilisation de l’espace entre activités productives et récréatives ?</li>
-          <li>Quels sont les effets du pastoralisme sur la biodiversité alpine ?</li>
-        </ul>
-        <p>En répondant à ces questions, ...........................................................................</p>
+        <h2>Que fait-on dans PERSEE ?</h2>
+        <p>PERSEE réalise un suivi des déplacements des troupeaux pendant la saison d’estive.
+        Les données recueillies sont croisées avec de nombreuses autres informations telles que les contraintes
+        liées à la conduite, l’enneigement, le microclimat, la distribution des habitats, la fréquentation humaine,
+        les déplacements des ongulés sauvages etc. Le traitement de l’ensemble de ces données conduit à une vision 
+        systémique du fonctionnement et de la dynamique du socio-écosystème estive.</p>
       </div>
     </div>
   </section>
+  
+  <!-- ======== SECTION 3 : Qui contribue à PERSEE ? ======== -->
+<section class="section project-contributors">
+  <div class="content-grid">
+    <!-- Texte -->
+    <div class="text">
+      <h2>Qui contribue à PERSEE&nbsp;?</h2>
 
-  <!-- ======== SECTION 3 : Un réseau d’estives (Carte Leaflet) ======== -->
-  <section class="section">
-    <h2 style="text-align:center;color:var(--clr-accent);margin-bottom:1.2rem;">Un réseau d’estives</h2>
-    <div id="map"></div>
-  </section>
+      <p>
+        Le projet <strong>PERSEE</strong> est le fruit d’une coopération entre le
+        <strong>CNRS</strong> et l’<strong>OFB</strong>. Il se déploie actuellement
+        dans une dizaine d’estives réparties dans les Alpes et les Pyrénées
+        françaises. Les actions du projet sont mises en œuvre grâce à une
+        étroite collaboration avec la profession agricole (groupements pastoraux,
+        éleveurs et bergers) et les gestionnaires d’espaces protégés
+        (Parcs nationaux, parcs régionaux, réserves naturelles).
+        D’autres sites candidats peuvent rejoindre le dispositif.
+      </p>
+    </div>
+
+    <!-- Image – remplace src si tu as une photo adaptée -->
+    <div class="image">
+      <img src="images/image2.jpg"
+           alt="Éleveurs, bergers et scientifiques en estive">
+    </div>
+  </div>
+</section>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+ <section class="section estives-map">
+  <!-- (on SUPPRIME totalement l’attribut style) -->
+  <h2 class="map-title">Un réseau d’estives</h2>
+  <div id="map"></div>
+</section>
 
   <!-- ======== SECTION 4 : Partenaires ======== -->
   <section class="section partners-wrapper">
     <h2>Partenaires</h2>
-    <p>
-      Le dispositif « Pastoralisme et Biodiversité » dans le socio-écosystème estive bénéficie du soutien de l’OFB,
-      ainsi que de l’engagement de nos partenaires techniques et scientifiques.
-    </p>
-    <div class="partners-logos">
+    
+        <div class="partners-logos">
       <img src="images/logo_ofb.png"    alt="Logo OFB" />
       <img src="images/logo_cnrs.png"  alt="Logo CNRS" />
       <img src="images/logo_cnrs.png"   alt="Logo Réserves Catalanes" />

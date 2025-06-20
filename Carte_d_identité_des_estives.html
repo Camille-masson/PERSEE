@@ -9,9 +9,82 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
 
   <!-- =========================== STYLE INTERNE =========================== -->
   <style>
+  
+  
+ /* ─── NAVBAR compacte & bords collés ─────────────────────────────── */
+
+/* hauteur + fine : 48 px, paddings réduits */
+.navbar{
+  height:48px;                 /* ← au lieu de 60 px                      */
+  padding:0 1.25rem;           /* moins d’air interne                    */
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+
+/* on vire la largeur max qui re-centrait tout */
+.navbar,                       /* barre complète  */
+.navbar > *{                  /* tous ses enfants */
+  max-width:none !important;
+}
+
+/* logo PERSEE collé à gauche ; les liens poussés à droite */
+.navbar .logo{
+  margin-right:auto;           /* pousse le <ul> vers la droite */
+  font-size:1.35rem;           /* un peu + compact               */
+}
+
+/* la liste reste à droite, espacements réduits */
+.navbar ul{
+  gap:1.2rem;                  /* ancien 1.6rem → 1.2rem          */
+}
+
+/* liens actifs en gris doux */
+.navbar a.active{
+  background:rgba(0,0,0,.08);
+  border-radius:4px;
+}
+
+/* petit bonus : lien > état “hover” identique pour la souris */
+.navbar a:hover{
+  background:rgba(0,0,0,.08);
+}
+
+
+/* ───────────────────────── HERO PLEIN ÉCRAN ───────────────────────── */
+.hero{position:relative;height:100vh;           /* ← modif : 100 vh */
+      background:center/cover no-repeat;
+      display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
+.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.hero-content{position:relative;z-index:1;padding:2rem 1rem}
+.hero h1{font-size:3rem;margin-bottom:.8rem}
+.hero p{font-size:1.4rem;font-weight:300}
+@media(max-width:768px){
+  .hero{height:75vh}       /* ← option mobile si tu veux voir le contenu */
+  .hero h1{font-size:2.3rem}
+  .hero p{font-size:1.15rem}
+}
+  
+/* juste APRES le bloc .hero existant */
+.hero h1{
+  color:#fff;            /* blanc */
+}
+
+/* si ton accent (#005f99) revient ailleurs, ajoute !important */
+.hero h1{
+  color:#fff !important;
+}  
+  
+  
+  
+  
+  
+  
+  
+  
+  
     /* ======================== VARIABLES RAPIDES ======================== */
     :root{
       /* mise à l’échelle rapide de l’ensemble du thème */
@@ -47,13 +120,7 @@
     .navbar a{padding:.25rem .5rem;border-radius:.25rem;transition:background .25s}
     .navbar a:hover,.navbar a.active{background:rgba(0,95,153,.08)}
 
-    /* ============================ HERO ============================ */
-    .hero{background:url('images/hero_alpage.jpg') center/cover no-repeat;min-height:45vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative}
-    .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
-    .hero-content{position:relative;z-index:1;padding:2rem 1rem}
-    .hero h1{font-size:3rem;margin-bottom:.8rem}
-    .hero p{font-size:1.4rem;font-weight:300;margin:0}
-
+    
     /* ============================ SECTIONS ============================ */
     .section{padding:4rem 0}
     .section-full .section-content{max-width:1240px;margin:0 auto;padding:0 1.5rem}
@@ -89,6 +156,18 @@
     .caption{position:absolute;inset:auto 0 0 0;padding:10px 14px;font-size:.95rem;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);color:#fff;border-bottom-left-radius:inherit;border-bottom-right-radius:inherit;opacity:0;transition:opacity .3s}
     .analysis-image:hover .caption{opacity:1}
 
+/* Vidéos dans les carrousels : même positionnement que les images */
+.carousel-wrapper video.behavior-img{
+  position:absolute;          /* remplit tout le wrapper */
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;           /* rogne comme un background-size:cover */
+  opacity:0;                  /* même transition que l'img */
+  transition:opacity .35s;
+}
+.carousel-wrapper video.behavior-img.active{
+  opacity:1;
+}
     /* -------- Texte -------- */
     .analysis-text h3{font-size:2rem;margin-bottom:1rem;position:relative}
     .analysis-text h3::after{content:"";position:absolute;left:0;bottom:-8px;width:40px;height:4px;background:var(--accent);border-radius:2px}
@@ -105,6 +184,329 @@
 
     /* ============================ RESPONSIVE < 600 ============================ */
     @media(max-width:600px){:root{--gap:48px;--pad:32px};body{font-size:15px}.hero h1{font-size:2.2rem}.hero p{font-size:1.2rem}.analysis-text h3{font-size:1.6rem}.analysis-text p{font-size:1.05rem}}
+    
+    
+    /* ───── slider des analysis-block ───── */
+.slider{position:relative}
+.slider .analysis-block{display:none}               /* tous cachés */
+.slider .analysis-block.active{display:flex}        /* seul actif */
+
+.slide-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(0,0,0,.35);color:#fff;
+  border:none;font-size:34px;line-height:1;cursor:pointer;
+  padding:6px 12px;border-radius:50%;z-index:10;
+  transition:background .25s;
+}
+.slide-btn:hover{background:rgba(0,0,0,.55)}
+.slide-btn.prev{left:-20px}        /* recule d’un peu le bouton */
+.slide-btn.next{right:-20px}
+@media(max-width:900px){.slide-btn{font-size:28px}}
+    
+    /* juste après .analysis-section{background:#f1f3f6} … */
+.analysis-section{
+  background:#f1f3f6;
+  position:relative;   /* ← nouveau : référence pour les flèches */
+}
+.slide-btn.prev{left:600px;}   /* ou -24px, ajuste à ton goût */
+.slide-btn.next{right:600px;}    
+
+
+/* ▸ 1.a  — conteneur image : même ratio partout  ------------------------- */
+.analysis-image{
+  flex:0 0 var(--img-w);           /* largeur fixe desktop         */
+  max-width:var(--img-w);
+  aspect-ratio:4/3;                /* ← même hauteur pour tous     */
+  position:relative;
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+
+/* les images & wrappers (carousel ou simple) remplissent 100 %  */
+.analysis-image img,
+.analysis-image > .carousel-wrapper{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+}
+
+/* ▸ 1.b  — légère anim’ entre les cartes  ------------------------------- */
+.slider .analysis-block{
+  opacity:0;
+  transform:translateX(40px);
+  transition:opacity .45s ease, transform .45s ease;
+}
+.slider .analysis-block.active{
+  opacity:1;
+  transform:none;
+  display:flex;                    /* déjà dans votre JS           */
+}
+
+/* ▸ 1.c  — (re)position des flèches : toujours 24 px hors de la carte ---- */
+.slide-btn.prev,
+.slide-btn.next{                   /* on enlève le left:600px etc. */
+  top:50%; transform:translateY(-50%);
+}
+.slide-btn.prev{ left:-24px; }
+.slide-btn.next{ right:-24px; }
+@media(max-width:900px){
+  .slide-btn.prev{ left:-12px; }
+  .slide-btn.next{ right:-12px; }
+}
+
+/* ► Tous les blocs à l’intérieur du slider ont la même marge   */
+.slider .analysis-block{
+  margin-top:0 !important;   /* on neutralise la règle first-of-type */
+}
+
+/* ► On redonne l’écart général au conteneur plutôt qu’aux cartes */
+.analysis-section .slider{
+  margin-top:var(--gap);      /* même valeur qu’avant (80 px) */
+}
+
+
+
+/* ── slider : on masque le débordement et on fixe la hauteur dynamiquement ── */
+.slider{
+  position:relative;
+  overflow:hidden;        /* pour cacher les cartes qui sortent du cadre */
+}
+
+/* ── toutes les cartes sont ABSOLUES dans le slider ── */
+.slider .analysis-block{
+  position:absolute; top:0; left:0; width:100%;
+  transition:transform .6s ease, opacity .6s ease;
+  opacity:0;                      /* état “caché” par défaut         */
+  transform:translateX(100%);     /* rangée à droite hors-champ      */
+  pointer-events:none;            /* évite de cliquer lors du slide  */
+}
+
+/* état selon l’attribut data-status (défini en JS) */
+.slider .analysis-block[data-status="active"]{
+  opacity:1; transform:translateX(0); pointer-events:auto;
+}
+.slider .analysis-block[data-status="before"]{
+  opacity:0; transform:translateX(-100%);   /* rangée à gauche        */
+}
+.slider .analysis-block[data-status="after"]{
+  opacity:0; transform:translateX(100%);    /* rangée à droite        */
+}
+
+/* remet l’affichage flex à toutes les cartes (sera de toute façon masqué par opacity) */
+.slider .analysis-block{display:flex !important;}
+
+
+
+
+
+
+
+
+/* ── 1.a  Angles : on propage vraiment le border-radius ─────────────────── */
+.analysis-image > .carousel-wrapper,
+.analysis-image > img{
+  border-radius:inherit;        /* hérite du radius du conteneur        */
+  overflow:hidden;              /* évite tout débordement d’image       */
+}
+
+/* ── 1.b  Boutons : on annule les “left:-24px” & co.  ───────────────────── */
+.slide-btn.prev,
+.slide-btn.next{
+  left:auto; right:auto;        /* on laisse le JS décider              */
+  pointer-events:auto;
+}
+
+/* largeur/hauteur un poil plus confortables */
+.slide-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+
+/* ────── LIGHTBOX plein écran ─────────────────────────────────────────── */
+#lightbox{
+  position:fixed;               /* colle à la fenêtre, pas à la page    */
+  inset:0;                      /* top:0 right:0 bottom:0 left:0        */
+  display:none;                 /* masqué par défaut                    */
+  align-items:center;           /* centre l’image horizontalement       */
+  justify-content:center;       /* centre l’image verticalement         */
+  background:rgba(0,0,0,.8);    /* fond noir translucide                */
+  z-index:1000;                 /* au-dessus de tout le reste           */
+}
+
+#lightbox img{
+  max-width:90vw;               /* 90 % de la largeur viewport          */
+  max-height:90vh;              /* 90 % de la hauteur viewport          */
+  border-radius:8px;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  object-fit:contain;
+}
+
+#lightbox-close{
+  position:absolute;
+  top:24px; right:24px;
+  font-size:42px;
+  color:#fff; cursor:pointer;
+  line-height:1;
+  user-select:none;
+}
+
+
+
+/* ====== SLIDER : structure & animation ================================== */
+.analysis-section .slider{
+  position:relative;
+  overflow:hidden;                 /* masque les cartes qui glissent */
+  margin-top:var(--gap);           /* même espace qu’avant            */
+}
+
+/* chaque carte ABSOLUE, animée gauche ↔ droite -------------------------- */
+.slider .analysis-block{
+  position:absolute; top:0; left:0; width:100%;
+  transition:transform .6s ease, opacity .6s ease;
+  opacity:0; transform:translateX(100%);
+  pointer-events:none;             /* pas de clics hors carte active  */
+}
+
+/* états (gérés en JS via data-status) */
+.slider .analysis-block[data-status="active"] {opacity:1; transform:translateX(0);  pointer-events:auto;}
+.slider .analysis-block[data-status="before"] {opacity:0; transform:translateX(-100%);}
+.slider .analysis-block[data-status="after"]  {opacity:0; transform:translateX(100%);}
+
+/* on neutralise les vieux display:none ---------------------------------- */
+.slider .analysis-block{display:flex !important;}
+
+/* ====== ANGLES parfaits ================================================= */
+.analysis-image{
+  flex:0 0 var(--img-w);
+  max-width:var(--img-w);
+  aspect-ratio:4/3;
+  position:relative;
+  border-radius:var(--radius);
+  overflow:hidden;                 /* coupe net tout débordement      */
+}
+.analysis-image img,
+.analysis-image > .carousel-wrapper{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  border-radius:inherit;           /* propage le radius               */
+}
+
+/* ====== FLÈCHES ========================================================= */
+.slide-btn{
+  position:absolute; z-index:20;
+  width:44px; height:44px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; line-height:1;
+  background:rgba(0,0,0,.35); color:#fff; border:none;
+  border-radius:50%; cursor:pointer;
+  transition:background .25s;
+}
+.slide-btn:hover{background:rgba(0,0,0,.55);}
+/* ▸ flèches collées au bord du slider ----------------------------------- */
+.slide-btn{
+  position:absolute;
+  top:50%; transform:translateY(-50%);
+  width:44px; height:44px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; line-height:1;
+  background:rgba(0,0,0,.35); color:#fff; border:none; border-radius:50%;
+  cursor:pointer; transition:background .25s;
+}
+
+.slide-btn.prev{ left:-24px; }   /* −24 px = moitié de leur largeur – 2 px d’air */
+.slide-btn.next{ right:-24px; }  /* (modifie la valeur si tu veux plus/moins d’écart) */
+
+@media (max-width:900px){         /* sur mobile, on colle un peu moins loin */
+  .slide-btn.prev{ left:-18px; }
+  .slide-btn.next{ right:-18px; }
+}
+
+.slide-btn:hover{ background:rgba(0,0,0,.55); }
+
+
+/* ==== FLÈCHES – position fixe à l’extérieur du bloc actif ============= */
+.slide-btn{
+  position:absolute;                /* référence : la <section> */
+  z-index:20;
+  width:44px; height:44px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; line-height:1;
+  background:rgba(0,0,0,.35); color:#fff; border:none; border-radius:50%;
+  cursor:pointer; transition:background .25s;
+  top:50%; transform:translateY(-50%);
+}
+
+.slide-btn:hover{background:rgba(0,0,0,.55);}
+
+
+
+/* le conteneur .slider sert maintenant de référence aux flèches */
+.slider{position:relative;}
+
+/* mêmes dimensions mais positionnées *dans* le bloc */
+.slider .slide-btn{
+  position:absolute;                 /* ↳ référence : .slider */
+  top:50%; transform:translateY(-50%);
+  width:44px; height:44px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; line-height:1;
+  background:rgba(0,0,0,.35);
+  color:#fff; border:none; border-radius:50%;
+  cursor:pointer; transition:background .25s;
+}
+.slider .slide-btn.prev{left:8px;}   /* ← 8 px du bord de la carte */
+.slider .slide-btn.next{right:8px;}  /* → 8 px du bord de la carte */
+
+@media (max-width:900px){            /* un léger retrait sur mobile */
+  .slider .slide-btn.prev{left:4px;}
+  .slider .slide-btn.next{right:4px;}
+}
+
+.slider .slide-btn:hover{background:rgba(0,0,0,.55);}
+
+/* 1 /  paramètre commun  */
+:root{
+  --arrow-size:44px;   /* diamètre du bouton              */
+  --card-pad:48px;     /* même valeur que --pad de .analysis-block */
+}
+
+/* 2 /  conteneur : on conserve overflow:visible pour ne rien couper */
+.slider{ position:relative; overflow:visible; }
+
+/* 3 /  style général des flèches (identique) */
+.slider .slide-btn{
+  position:absolute; z-index:50;
+  top:50%; transform:translateY(-50%);
+  width:var(--arrow-size); height:var(--arrow-size);
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; line-height:1;
+  background:rgba(0,0,0,.35); color:#fff;
+  border:none; border-radius:50%; cursor:pointer;
+  transition:background .25s;
+}
+
+/* 4 /  placement : on sort de la carte de
+         ½ flèche  +  padding carte            */
+.slider .slide-btn.prev{
+  left:calc(-0.5 * var(--arrow-size) - var(--card-pad));
+}
+.slider .slide-btn.next{
+  right:calc(-0.5 * var(--arrow-size) - var(--card-pad));
+}
+
+@media (max-width:900px){
+  :root{
+    --arrow-size:38px;   /* flèche un peu plus petite           */
+    --card-pad:32px;     /* padding de la carte en mobile (voir ton CSS) */
+  }
+}
+
+.slider .slide-btn:hover{ background:rgba(0,0,0,.55); }
+
+
+
+/* ─── Priorité la plus haute : on laisse dépasser les flèches ─── */
+.analysis-section .slider{
+  overflow:visible;        /* flèches enfin visibles */
+}
   </style>
 </head>
 
@@ -112,25 +514,26 @@
 
   <!-- ============================ HEADER ============================ -->
   <header>
-    <nav class="navbar">
-      <a href="index.html" class="logo">PERSEE</a>
-      <ul>
-        <li><a href="index.html" class="active">Le projet</a></li>
-        <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-        <li><a href="Carte_d'identité_des_estives.html">Carte d'identité des estives</a></li>
-        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-        <li><a href="equipe.html">Équipe</a></li>
-      </ul>
-    </nav>
-  </header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">PERSEE</a>
 
+    <ul>
+      <li><a href="index.html">Le projet</a></li>
+      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
+      <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
+      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+      <li><a href="equipe.html">Équipe</a></li>
+    </ul>
+  </nav>
+</header>
   <!-- ============================ HERO ============================ -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Suivi des différents alpages</h1>
-      <p>Présentation détaillée de chaque alpage</p>
-    </div>
-  </section>
+  <!-- bannière -->
+<section class="hero" style="background-image:url('images/hero.jpg')">
+  <div class="hero-content">
+    <h1>Méthode de suivi des déplacements en estive</h1>
+    <p>Du collier GPS aux indicateurs</p>
+  </div>
+</section>
 
   <!-- ============================ SELECTEUR ALPAGE ============================ -->
   <section class="section section-full">
@@ -150,9 +553,13 @@
   </section>
 
   <!-- ============================ CARTES ============================ -->
-  <section class="section section-full analysis-section alpage-section">
-    <div class="section-content">
+  <!-- =================== CARTES =================== -->
+<section class="section section-full analysis-section alpage-section">
+  <div class="section-content">
 
+    <div class="slider"><!--  ⬅ position relative  -->
+      <!-- flèche précédente -->
+      <button class="slide-btn prev" aria-label="Précédent">&#10094;</button>
       <!-- ===== Carte topographique ===== -->
       <div class="analysis-block">
         <div class="analysis-image">
@@ -163,10 +570,33 @@
           </div>
         </div>
         <div class="analysis-text">
-          <h3>Carte topographique (LiDAR)</h3>
-          <p>Le <strong>LiDAR</strong> permet d'observer l'estive à haute résolution spatiale (1&nbsp;m), rendant possibles des cartes <strong>topographiques, d'exposition ou de pentes</strong>.</p>
+          <h3>Topographique et hauteur de végétation</h3>
+          <p>Nous traitons les données Lidar de l’IGN pour caractériser la topographie des estives et la hauteur de la végétation à très haute résolution spatiale (1 m). </p>
         </div>
       </div>
+      
+      
+      <!-- ===== Enneigement ===== -->
+      <div class="analysis-block reverse">
+        <div class="analysis-image">
+          <div class="carousel-wrapper" id="car-bloc4">
+            <img src="images/snow2021.png" class="zoomable behavior-img"        alt="SMOD 2021"   data-caption="Enneigement hiver 2021 (SMOD)">
+            <img src="images/snow2022.png" class="zoomable behavior-img"        alt="SMOD 2022"   data-caption="Enneigement hiver 2022 (SMOD)">
+            <img src="images/snow2023.png" class="zoomable behavior-img"        alt="SMOD 2023"   data-caption="Enneigement hiver 2023 (SMOD)">
+            <img src="images/Fsca.png"     class="zoomable behavior-img active" alt="FSCA"        data-caption="Enneigement median sur 15 ans (FSCA)">
+          </div>
+        </div>
+        <div class="analysis-text">
+          <h3>Enneigement saisonnier</h3>
+          <p>En collaboration avec le CESBIO (CNRS, Université de Toulouse), nous déterminons pour chaque année 
+          les dates du déneigement printanier et du réenneigement automnal à 20m de résolution spatiale. Les conditions 
+          météorologiques au cours de la période sans neige sont également produites à fine résolution spatiale afin de modéliser 
+          la pousse saisonnière de l’herbe dans les différents quartiers de l’estive..</p>
+        </div>
+      </div>
+      
+      
+      
 
       <!-- ===== Carte d’habitat ===== -->
       <div class="analysis-block reverse">
@@ -174,16 +604,22 @@
           <img src="images/Carte_habitat_bis.png" class="zoomable" alt="Cartographie d'habitat" data-caption="Cartographie des habitats pastoraux">
         </div>
         <div class="analysis-text">
-          <h3>Carte d'habitat</h3>
-          <p>Cette cartographie, adaptée aux milieux pastoraux et issue du croisement de différentes sources, restitue les types de végétation présents sur l'estive.</p>
+          <h3>Habitats</h3>
+          <p>Nous produisons des cartes de distribution des habitats selon leur vocation pastorale.
+          Ce travail est réalisé soit en s’appuyant sur des cartographies existantes, soit en développant de 
+          nouveaux produits combinant imagerie satellite et données acquises au sol.</p>
         </div>
       </div>
 
-      <!-- ===== Carte de phénologie ===== -->
+      <!-- ===== Phénologie ===== -->
       <div class="analysis-block">
         <div class="analysis-image">
           <div class="carousel-wrapper" id="car-bloc3">
-            <img src="images/GIF_Green_wave.gif" class="zoomable behavior-img active" alt="Vague verte" data-caption="Vague verte (NDVI max)">
+            <video class="behavior-img"
+       autoplay loop muted playsinline preload="auto"
+       data-caption="Vague verte (animation)">
+  <source src="images/Greenwave.mp4" type="video/mp4">
+</video>
             <img src="images/Carte_MAX_V_2021.png" class="zoomable behavior-img" alt="Production 2021"  data-caption="Production 2021 (NDVI max)">
             <img src="images/Carte_MAX_V_2022.png" class="zoomable behavior-img" alt="Production 2022"  data-caption="Production 2022 (NDVI max)">
             <img src="images/Carte_MAX_V_2023.png" class="zoomable behavior-img" alt="Production 2023"  data-caption="Production 2023 (NDVI max)">
@@ -191,28 +627,19 @@
         </div>
         <div class="analysis-text">
           <h3>Carte de phénologie</h3>
-          <p>Le PPI (<em>Plant Phenology Index</em>) issu d’images Sentinel-2 renseigne le <strong>cycle phénologique</strong>, la <strong>productivité</strong> et d’autres indicateurs à 10&nbsp;m de résolution, pas journalier.</p>
+          <p>Nous traitons les images satellite Sentinel-2 (produit HR-VPP, résolution 20m) afin de caractériser les différentes phases de la pousse de l’herbe 
+          (croissance, plateau, senescence) au cours de la saison de chaque année de suivi. Ces cycles phénologiques renseignent indirectement sur la qualité de la ressource 
+          pastorale disponible.</p>
         </div>
       </div>
 
-      <!-- ===== Carte d’enneigement ===== -->
-      <div class="analysis-block reverse">
-        <div class="analysis-image">
-          <div class="carousel-wrapper" id="car-bloc4">
-            <img src="images/Fsca.png"     class="zoomable behavior-img active" alt="FSCA"        data-caption="Enneigement 15 ans (FSCA)">
-            <img src="images/snow2021.png" class="zoomable behavior-img"        alt="SMOD 2021"   data-caption="Dénèigement hiver 2021 (SMOD)">
-            <img src="images/snow2022.png" class="zoomable behavior-img"        alt="SMOD 2022"   data-caption="Dénèigement hiver 2022 (SMOD)">
-            <img src="images/snow2023.png" class="zoomable behavior-img"        alt="SMOD 2023"   data-caption="Dénèigement hiver 2023 (SMOD)">
-          </div>
-        </div>
-        <div class="analysis-text">
-          <h3>Carte d'enneigement</h3>
-          <p>La dynamique de la neige (accumulation, fonte, résidus) est suivie à 10&nbsp;m de résolution spatiale et pas journalier.</p>
-        </div>
-      </div>
+      
 
-    </div>
-  </section>
+    <button class="slide-btn next" aria-label="Suivant">&#10095;</button>
+    </div><!-- /.slider -->
+
+  </div><!-- /.section-content -->
+</section>
 
   <!-- ============================ FOOTER ============================ -->
   <footer>
@@ -265,6 +692,91 @@
     const sel=document.getElementById('alp_select');
     sel.addEventListener('change',()=>{document.querySelectorAll('.alpage-section').forEach(s=>s.style.display='none');const t=document.getElementById(sel.value);if(t)t.style.display='block';});
     window.addEventListener('DOMContentLoaded',()=>document.getElementById('demonstratrice').style.display='block');
-  </script>
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+  /* nom du fichier courant : '' → index.html  */
+  const here = decodeURIComponent(
+                 location.pathname.split('/').pop() || 'index.html'
+               ).toLowerCase();
+
+  document.querySelectorAll('.navbar a').forEach(link=>{
+    const target = decodeURIComponent(
+                     link.getAttribute('href').split('/').pop()
+                   ).toLowerCase();
+
+    if (target === here) link.classList.add('active');
+  });
+});
+</script>
+
+  
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const slider = document.querySelector('.slider');
+  if(!slider) return;
+
+  const cards = [...slider.querySelectorAll('.analysis-block')];
+  let idx = 0;                                        // slide courante
+
+  /* ► 0. sécurité : on évite une hauteur nulle */
+  slider.style.minHeight = '200px';
+
+  /* ► 1. fonctions utilitaires ------------------------------------------------ */
+  function setStates(){
+    cards.forEach((c,i) => {
+      if(i === idx)       c.dataset.status = 'active';
+      else if(i < idx)    c.dataset.status = 'before';
+      else                c.dataset.status = 'after';
+    });
+    updateHeight();
+  }
+
+  function updateHeight(){
+    /* hauteur réelle de la slide active */
+    const h = cards[idx].getBoundingClientRect().height;
+    if(h) slider.style.height = h + 'px';
+  }
+
+  function move(dir){
+    idx = (idx + dir + cards.length) % cards.length;
+    setStates();
+  }
+
+  /* ► 2. écoute du chargement de CHAQUE image --------------------------------- */
+  cards.forEach(card => {
+    card.querySelectorAll('img').forEach(img => {
+      if(!img.complete){
+        img.addEventListener('load', updateHeight, { once:true });
+        img.addEventListener('error', updateHeight, { once:true });
+      }
+    });
+  });
+
+  /* ► 3. interactivité -------------------------------------------------------- */
+  document.querySelector('.slide-btn.prev').addEventListener('click', () => move(-1));
+  document.querySelector('.slide-btn.next').addEventListener('click', () => move(+1));
+
+  window.addEventListener('keydown', e => {
+    if(e.key === 'ArrowLeft')  move(-1);
+    if(e.key === 'ArrowRight') move(+1);
+  });
+
+  window.addEventListener('resize', updateHeight);
+  window.addEventListener('load',   updateHeight);   // toutes ressources chargées
+
+  /* ► 4. premier affichage ----------------------------------------------------- */
+  setStates();
+});
+</script>
+
+
+
+
+
+  
+  
+  
 </body>
 </html>

@@ -119,8 +119,207 @@
       .env-photos { flex-direction:column; height:auto; }
       .env-photos img { height:200px; }
     }
+    
+    
+    
+    
+    /* =============================================================
+   ENV-PHOTOS – plein format, coins arrondis, ombre
+   (remplace les anciennes règles si elles existent)
+================================================================ */
+.env-photos{
+  display:block;                 /* plus de flex : une seule image */
+  max-width:1180px;
+  margin:0 auto;                 /* centrage horizontal            */
+}
+
+.env-photos img{
+  width:100%;                    /* toute la largeur disponible    */
+  height:auto;                   /* ratio naturel → plus de coupe  */
+  border-radius:var(--rad);      /* mêmes coins que partout        */
+  box-shadow:0 4px 14px rgba(0,0,0,.12);  /* même ombrage          */
+  display:block;                 /* enlève le petit espace du inline-block */
+}
+
+/* mobile : si tu veux limiter la hauteur sur petits écrans, dé-commente
+@media(max-width:768px){
+  .env-photos img{ max-height:260px; object-fit:cover; }
+}
+*/
+
+
+
+/* ░░░ Réduction des 3 visuels pleine-largeur ░░░ */
+@media (min-width: 769px){      /* seulement sur les écrans larges */
+  .env-photos img{
+    width: 90%;                 /* ↔ passe de 100 % à 90 %          */
+    max-width: 900px;           /* limite haute (facultatif)        */
+    margin: 0 auto;             /* centre l’image                   */
+  }
+}
+
+
+
+/* ██████ LIGHT-BOX plein écran ██████ */
+#lightbox{
+  position:fixed; inset:0;                     /* couvre tout l’écran    */
+  background:rgba(0,0,0,.9);
+  display:none; align-items:center; justify-content:center;
+  z-index:1000;
+}
+#lightbox img{
+  max-width:90vw; max-height:90vh;             /* marge autour de l’image */
+  border-radius:12px;                          /* coins doux comme ailleurs */
+  box-shadow:0 4px 24px rgba(0,0,0,.45);
+}
+#lightbox .close, #lightbox .prev, #lightbox .next{
+  position:absolute; top:50%; transform:translateY(-50%);
+  font-size:52px; line-height:1; color:#fff; cursor:pointer;
+  user-select:none;
+}
+#lightbox .close{ top:30px; right:40px; transform:none; }
+#lightbox .prev{ left:40px; }
+#lightbox .next{ right:40px; }
+#lightbox .disabled{ opacity:.25; pointer-events:none; }
+
+/* petit confort visuel */
+img.zoomable{ cursor:zoom-in; }
+
+
+
+
+
+/* ██████ TITRE INTERACTIF SUR IMAGE ██████ */
+.img-wrap{                       /* conteneur créé en JS */
+  position:relative;
+}
+
+.img-wrap img{                   /* l’image elle-même  */
+  display:block; width:100%; height:auto;
+}
+
+.img-wrap::after{                /* fond sombre toujours présent */
+  content:"";
+  position:absolute; left:0; right:0; bottom:0;
+  height:42px;
+  background:rgba(0,0,0,.45);
+}
+
+.img-wrap .caption{              /* le titre qui glisse */
+  position:absolute; left:0; right:0; bottom:0;
+  padding:10px 14px 6px;
+  font-size:1rem; font-weight:600;
+  color:#fff;
+  transform:translateY(100%);    /* caché sous le bord */
+  opacity:0;
+  transition:transform .35s ease, opacity .35s ease;
+}
+
+.img-wrap:hover .caption{
+  transform:translateY(0);       /* remonte dans la bande */
+  opacity:1;
+}
+
+
+
+
+
+
+/* ░░░ Carrousel : on ne montre que la diapo active ░░░ */
+.carousel .img-wrap{ display:none; }      /* toutes cachées par défaut      */
+.carousel .img-wrap.active{ display:block; } /* la diapo courante s’affiche */
+
+/* ░░░ Large image pleine largeur (env-photos) ░░░ */
+@media (min-width:769px){
+  .env-photos .img-wrap{                  /* l’enveloppe prend la même taille
+                                             que l’image (90 % / 900 px)    */
+    width:90%;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .env-photos .img-wrap img{ width:100%; }/* l’image occupe toute l’enveloppe */
+}
+
+
+
+/* ███ LÉGENDE — cachée par défaut, visible au survol ███ */
+.img-wrap .caption{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:10px 14px 6px;
+  font-size:1rem; font-weight:600; color:#fff;
+  background:rgba(0,0,0,.55);             /* même fond que l’overlay */
+  transform:translateY(100%); opacity:0;
+  transition:transform .35s ease, opacity .35s ease;
+  pointer-events:none;                    /* clics toujours sur l’image */
+}
+
+/* uniquement si l’appareil sait « hover » */
+@media (hover:hover){
+  .img-wrap:hover .caption{
+    transform:translateY(0);
+    opacity:1;
+  }
+}
+
+
+
+/* ███ Coins du bas toujours arrondis ███ */
+.img-wrap{                      /* l’enveloppe prend le rayon */
+  border-radius:var(--rad);
+  overflow:hidden;              /* masque tout débordement    */
+}
+
+/* la bande sombre suit la courbure */
+.img-wrap::after{
+  border-bottom-left-radius:var(--rad);
+  border-bottom-right-radius:var(--rad);
+}
+
+/* ─── on efface complètement la barre grise ─── */
+.img-wrap::after{ content:none !important; }
+
+/* ─── conteneur des grandes photos (env-photos) ─── */
+.env-photos .img-wrap{
+  border-radius:var(--rad);                 /* mêmes coins qu’ailleurs   */
+  overflow:hidden;                          /* rien ne déborde           */
+  box-shadow:0 4px 14px rgba(0,0,0,.12);    /* ombre douce identique     */
+}
+
+/* largeur réduite à 90 % (max 900 px) sur desktop */
+@media (min-width:769px){
+  .env-photos .img-wrap{
+    width:90%; max-width:900px; margin:0 auto;
+  }
+}
+
+/* ─── TYPO GLOBALE (propre, sans !important) ─── */
+
+/* Titres */
+.gps-intro h2,
+.gps-block  h3,
+.env-section h2{
+  font-size:2rem;
+  line-height:1.3;
+}
+
+/* Paragraphes & puces – tous les contextes textes du site */
+.gps-intro  p, .gps-intro  li,
+.gps-block  p, .gps-block  li,
+.env-section p, .env-section li,
+footer      p, footer      li{
+  text-align:justify;
+  font-size:1.35rem;
+  line-height:1.55;
+}
   </style>
 </head>
+<!-- ░░░ Light-box ░░░ (ajout) -->
+<div id="lightbox">
+  <span class="close">&times;</span>
+  <span class="prev">&#10094;</span>
+  <img src="" alt="image agrandie">
+  <span class="next">&#10095;</span>
+</div>
 <body class="suivi">
 
   <!-- ░ HEADER ░ -->
@@ -129,7 +328,7 @@
       <a href="index.html" class="logo">PERSEE</a>
       <ul>
         <li><a href="index.html">Le projet</a></li>
-        <li><a class="active" href="Suivi_GPS.html">Suivi GPS</a></li>
+        <li><a class="active" href="Suivi_GPS.html">Méthode</a></li>
         <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
         <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
         <li><a href="equipe.html">Équipe</a></li>
@@ -140,8 +339,8 @@
   <!-- ░ HERO ░ (identique au HTML 1) -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Suivi des déplacements en estive</h1>
-      <p>Du collier GPS aux indicateurs spatialisés</p>
+      <h1>Méthode de suivi des déplacements en estive</h1>
+      <p>Du collier GPS aux indicateurs</p>
     </div>
   </section>
 
@@ -149,19 +348,12 @@
   <section class="gps-intro">
     <img src="images/Image_collier_mouton.png" alt="Pose d’un collier GPS">
     <div>
-      <h2>La méthode de suivi des déplacements</h2>
+      <h2>Déplacements</h2>
       <p>
-        Un suivi GPS haute fréquence (acquisition toutes les 2 minutes), intégré aux colliers des brebis,
-        permet de suivre le troupeau tout au long de la saison d’estive.
-      </p>
-      <p>
-        Avec seulement 8 colliers, on obtient une vision fine, à la fois dans le <strong>temporel et le spatial</strong>.
-      </p>
-      <p>
-        Permettant ainsi d'avoir une méthode :
-        <br><strong>- Standardisée</strong>
-        <br><strong>- Reproductible</strong>
-        <br><strong>- Déployable sur l'ensemble des sites</strong>
+       Il est réalisé grâce à des colliers équipés de GPS programmés pour une acquisition toutes les 2 minutes. 
+       L’autonomie de la batterie permet de suivre le déplacement de l’animal pendant 3 à 4 mois. 
+       Il n’y a pas d’intervention à prévoir pendant la saison en estive. Il n’y a pas de transmission des données en temps réel. Avec 6 à 8 animaux équipés, 
+       il est possible de bien représenter les déplacements d’un troupeau ovin conduit.  La méthode a été testée avec succès sur plusieurs alpages depuis trois ou quatre ans.
       </p>
     </div>
   </section>
@@ -170,20 +362,18 @@
   <section class="gps-block">
     <div class="wrap">
       <div>
-        <h3>Détermination du comportement</h3>
+        <h3>Comportement</h3>
         <p>
-          Le comportement des brebis est obtenu à partir des positions GPS, grâce à la chaîne de Markov.
-          Cela permet d'associer trois comportements aux trajectoires des brebis :
-          <br><strong>- Repos</strong>
-          <br><strong>- Déplacement</strong>
-          <br><strong>- Pâturage</strong>
+          L’analyse des données GPS - par modèle de Markov caché - permet de déterminer trois comportements 
+          : repos, déplacement, pâturage. Le temps passé dans l’un ou l’autre de ces trois états et les localisations 
+          correspondantes sont analysés heure par heure pendant toute la saison.
         </p>
       </div>
 
       <div class="carousel" id="car-etat">
-        <img src="images/trajectoire_repos.png" class="active" alt="">
-        <img src="images/trajectoire_deplacement.png" alt="">
-        <img src="images/trajectoire_paturage.png" alt="">
+        <img src="images/trajectoire_repos.png" class="active" alt="Trajéctoires repos">
+        <img src="images/trajectoire_deplacement.png" alt="Trajéctoires déplacements">
+        <img src="images/trajectoire_paturage.png" alt="Trajéctoires pâturage">
         <div class="dots"></div>
       </div>
     </div>
@@ -193,85 +383,225 @@
   <section class="gps-block"><!-- carousel à gauche (pas de classe rev) -->
     <div class="wrap">
       <div class="carousel" id="car-tc">
-        <img src="images/Chargement_repos.png" class="active" alt="">
-        <img src="images/Chargement_deplacement.png" alt="">
-        <img src="images/Chargement_paturage.png" alt="">
-        <img src="images/Chargement_total.png" alt="">
+        <img src="images/plot_dist_deniv_1.jpeg" class="active" alt=" Distance et Dénivelé 2022">
+        <img src="images/plot_dist_deniv_2.jpeg" alt="Distance et Dénivelé 2023">
+        <img src="images/plot_dist_deniv_3.jpeg" alt="Distance et Dénivelé 2024">
         <div class="dots"></div>
       </div>
 
       <div>
-        <h3>Reconstitution du taux de chargement</h3>
+        <h3>Distance et dénivelé parcourus</h3>
         <p>
-          Le chargement de <strong>l'ensemble du troupeau</strong> est reconstruit à partir des trajectoires des 8 colliers posés,
-          ce qui permet d'estimer, pour <strong>chaque comportement ou pour l'ensemble d'entre eux</strong>,
-          l'utilisation de l’estive avec une résolution <strong>spatiale et temporelle fine</strong>
-          (pas de temps journalier et résolution spatiale de 10 mètres).
+         Le suivi GPS haute fréquence permet d’obtenir des trajectoires très précises,
+         ce qui rend possible le calcul de la distance et du dénivelé parcourus par les 
+         brebis équipées. Ces données peuvent servir de base pour estimer la dépense énergétique,
+         à mettre en relation avec les pratiques pastorales.
         </p>
       </div>
     </div>
   </section>
 
   <!-- ░ SECTION Croisement données environnementales ░ -->
-  <section class="env-section">
-    <div class="center-text">
-      <h2>Croisement avec les données environnementales</h2>
-      <p>
-        Cette dernière étape de la méthode vise donc à croiser les données de déplacements avec les données environnementales comme
-        la végétation, la topographie ou les variables climatologiques. Offrant ainsi une vision fine et globale du système.
-      </p>
-    </div>
+<section class="env-section">
+  <div class="center-text">
+    <h2>Indicateurs</h2>
+    <p>
+      Les informations sur les déplacements, les comportements et les chargements sont croisées avec d’autres données 
+      (enneigement saisonnier, carte d’habitats, phénologie de la végétation, fréquentation humaine etc). Il en résulte 
+      un ensemble d’indicateurs permettant de caractériser finement les modalités de la conduite en estive, ses variations au cours 
+      de la saison et entre années, ses liens avec différents niveaux de biodiversités (habitat, espèces, populations).
+    </p>
+  </div>
 
-    <!-- 3 photos “collées” en largeur avec un léger blanc et bords arrondis aux extrémités -->
-    <div class="env-photos">
-      <img src="images/Rouanette_2.png"  alt="Carte de la végétation">
-      <img src="images/Rouanette_4.png" alt="Modèle de topographie">
-      <img src="images/Rouanette_5.png" alt="Variables climatologiques">
-    </div>
-  </section>
+  <!-- ─── 1 seule photo pleine largeur ─── -->
+  <div class="env-photos">
+    <img src="images/methode_schema.png"
+         alt="Schéma des indicateurs">
+  </div>
+</section>
+
+
+
+<!-- ░ Méthode ndvi ░ -->
+
+<section class="env-section">
+  <div class="center-text">
+    <h2>La phénologie</h2>
+    <p>
+      L'IRG (...), est une mesure du vert des feuilles obtenus par satéllite. Et permet de caractérisé la végétation a la fois
+      en productivité en se base sur l'intensité de vert, mais également de comprendre ca phénologie avec la caractérisation des 
+      différentes phases. 
+    </p>
+  </div>
+
+  <!-- ─── 1 seule photo pleine largeur ─── -->
+  <div class="env-photos">
+    <img src="images/Figure_NDVI.png"
+         alt="Schéma de caractérisation de la phénologie a partir de l'IRG">
+  </div>
+</section>
+
+
+
+
+
+
+<!-- ░ Méthode ndvi ░ -->
+
+<section class="env-section">
+  <div class="center-text">
+    <h2>L'enneigement sur l'alpage</h2>
+    <p>
+      Le SMOD (Snow Melting Out Day) est une mesure du statut enneigé ou non d’un pixel,
+      dérivée d’observations satellitaires. Il permet d’obtenir la date de déneigement de 
+      chaque pixel de l’alpage et d’identifier à la fois la précocité (ou non) du printemps ainsi 
+      que le schéma de déneigement, en distinguant les zones qui se dégagent tôt de celles qui se dégagent tard.
+    </p>
+  </div>
+
+  <!-- ─── 1 seule photo pleine largeur ─── -->
+  <div class="env-photos">
+    <img src="images/Figure_SMOD.png"
+         alt="Schéma de caractérisation de l'état enneigement de l'éstive">
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
 
   <footer class="site-footer">
     <p>© 2025 PERSEE — tous droits réservés.</p>
   </footer>
 
   <!-- █████████ SCRIPTS carrousels █████████ -->
-  <script>
-    function initCarousel(id){
-      const box = document.getElementById(id);
-      if(!box) return;
-      const imgs = [...box.querySelectorAll('img')];
-      const dotsBox = box.querySelector('.dots');
-      let idx = 0;
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
 
-      imgs.forEach((_,i)=>{
-        const s = document.createElement('span');
-        s.onclick = () => { idx = i; update(); }
-        dotsBox.appendChild(s);
-      });
-      const dots = [...dotsBox.children];
+/* =====================================================
+   0. EMBALLAGE DES IMAGES + CAPTION
+===================================================== */
+document.querySelectorAll('.carousel img, .env-photos img').forEach(img=>{
+  if(img.parentElement.classList.contains('img-wrap')) return; // déjà fait
 
-      box.onwheel = e => {
-        e.preventDefault();
-        idx = (idx + (e.deltaY>0 ? 1 : -1) + imgs.length) % imgs.length;
-        update();
-      };
+  const wrap = document.createElement('div');
+  wrap.className = 'img-wrap';
+  img.parentNode.insertBefore(wrap, img);
+  wrap.appendChild(img);
 
-      let sx = 0;
-      box.ontouchstart = e => sx = e.touches[0].clientX;
-      box.ontouchend = e => {
-        const dx = e.changedTouches[0].clientX - sx;
-        if(Math.abs(dx) < 40) return;
-        idx = (idx + (dx<0 ? 1 : -1) + imgs.length) % imgs.length;
-        update();
-      };
+  const capTxt = img.dataset.caption || img.alt || "";
+  const cap    = document.createElement('span');
+  cap.className = 'caption';
+  cap.textContent = capTxt;
+  wrap.appendChild(cap);
+});
 
-      function update(){
-        imgs.forEach((im, i) => im.classList.toggle('active', i === idx));
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      }
-      update();
-    }
-    ['car-etat','car-tc'].forEach(initCarousel);
-  </script>
+/* =====================================================
+   1. CARROUSELS
+===================================================== */
+function initCarousel(id){
+  const box  = document.getElementById(id);
+  if(!box) return;
+
+  const wraps   = [...box.querySelectorAll('.img-wrap')];
+  const dotsBox = box.querySelector('.dots');
+  let idx = 0;
+
+  wraps.forEach((_,i)=>{
+    const dot = document.createElement('span');
+    dot.onclick = ()=>{ idx=i; update(); };
+    dotsBox.appendChild(dot);
+  });
+  const dots = [...dotsBox.children];
+
+  box.addEventListener('wheel',e=>{
+    e.preventDefault();
+    idx = (idx + (e.deltaY>0?1:-1) + wraps.length) % wraps.length;
+    update();
+  });
+
+  let startX = 0;
+  box.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
+  box.addEventListener('touchend',e=>{
+    const dx = e.changedTouches[0].clientX - startX;
+    if(Math.abs(dx) < 40) return;
+    idx = (idx + (dx<0?1:-1) + wraps.length) % wraps.length;
+    update();
+  });
+
+  function update(){
+    wraps.forEach((w,i)=>w.classList.toggle('active',i===idx));
+    dots .forEach((d,i)=>d.classList.toggle('active',i===idx));
+  }
+  update();
+}
+['car-etat','car-tc'].forEach(initCarousel);
+
+/* =====================================================
+   2. LIGHT-BOX
+===================================================== */
+const lb        = document.getElementById('lightbox');
+const lbImg     = lb.querySelector('img');
+const btnPrev   = lb.querySelector('.prev');
+const btnNext   = lb.querySelector('.next');
+const btnClose  = lb.querySelector('.close');
+
+let gallery = [];
+let gIdx    = 0;
+
+document.querySelectorAll('.carousel img, .env-photos img').forEach(img=>{
+  img.classList.add('zoomable');
+  img.addEventListener('click',()=>openLightbox(img));
+});
+
+function openLightbox(clickedImg){
+  const car = clickedImg.closest('.carousel');
+  gallery   = car ? [...car.querySelectorAll('.img-wrap img')] : [clickedImg];
+  gIdx      = gallery.indexOf(clickedImg);
+  showImg();
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function showImg(){ lbImg.src = gallery[gIdx].src; }
+
+btnPrev.onclick = ()=>{ gIdx = (gIdx-1+gallery.length)%gallery.length; showImg(); };
+btnNext.onclick = ()=>{ gIdx = (gIdx+1)           %gallery.length;     showImg(); };
+
+function closeLightbox(){
+  lb.style.display='none';
+  document.body.style.overflow='';
+}
+btnClose.onclick = closeLightbox;
+lb.addEventListener('click',e=>{ if(e.target===lb) closeLightbox(); });
+
+lb.addEventListener('wheel',e=>{
+  e.preventDefault();
+  (e.deltaY>0 ? btnNext : btnPrev).click();
+});
+
+document.addEventListener('keydown',e=>{
+  if(lb.style.display!=='flex') return;
+  if(e.key==='Escape')    closeLightbox();
+  if(e.key==='ArrowLeft') btnPrev.click();
+  if(e.key==='ArrowRight')btnNext.click();
+});
+
+}); /* fin DOMContentLoaded */
+</script>
+
+  
+  
+  
+  
+  
+  
+  
 </body>
 </html>
