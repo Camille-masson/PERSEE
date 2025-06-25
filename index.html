@@ -1,747 +1,250 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PERSEE – Le projet</title>
-  
-  <!-- Feuille de style principale (si vous avez déjà un styles.css, gardez-le) -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>PERSEE – Le projet</title>
 
-  <!-- Leaflet & plugins (carte déjà opérationnelle plus bas) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <!-- Police Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Styles spécifiques à cette page (complémentaires au styles.css) -->
-  <style>
-    :root {
-      /* palette douce */
-      --clr-bg-light: #f9fbff;
-      --clr-bubble-border: #dfe7f3;
-      --clr-accent: #0e6cb6;
-      --radius-lg: 18px;
-      --gap-section: 60px;
-    }
+    <!-- Leaflet & plug-ins -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-    }
-
-     
-
-    /* ======== SECTION BASIQUES ======== */
-    section.section {
-      padding: var(--gap-section) 1rem;
-    }
-
-    /* ======== BLOC « Présentation du projet » ======== */
-    .project-intro {
-      background: #fff;
-      border: 1px solid var(--clr-bubble-border);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      max-width: 1200px;
-      margin: -80px auto 0 auto; /* pour chevaucher légèrement la hero */
-      z-index: 2;
-      position: relative;
-    }
-    .project-intro .content-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      align-items: center;
-      padding: 2rem;
-    }
-    .project-intro .text h2 {
-      margin-top: 0;
-      margin-bottom: 0.75rem;
-      color: var(--clr-accent);
-      font-size: 1.8rem;
-    }
-    .project-intro .text p {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-    .project-intro .text p em {
-      font-style: italic;
-      color: #555;
-    }
-    .project-intro .image img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    }
-
-    /* ======== BLOC « Objectifs du projet » ======== */
-    .project-objectives {
-      background: var(--clr-bg-light);
-      border: 1px solid var(--clr-bubble-border);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      max-width: 1200px;
-      margin: var(--gap-section) auto 0 auto;
-    }
-    .project-objectives .content-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      align-items: center;
-      padding: 2rem;
-    }
-    /* Cette classe permet d’inverser l’ordre image/texte pour petits écrans */
-    .project-objectives .content-grid.reverse {
-      grid-template-areas:
-        "img"
-        "txt";
-    }
-    .project-objectives .content-grid.reverse .image {
-      grid-area: img;
-    }
-    .project-objectives .content-grid.reverse .text {
-      grid-area: txt;
-    }
-    @media screen and (min-width: 768px) {
-      .project-objectives .content-grid.reverse {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: "img txt";
+    <!-- ====================== STYLE ====================== -->
+    <style>
+      /* ─── Variables + reset ──────────────────────────── */
+      :root{
+        --accent:#005f99;
+        --clr-bg-light:#f9fbff;
+        --clr-bubble-border:#dfe7f3;
+        --radius-lg:18px;
+        --gap-section:60px;
+        --nav-h:56px;
       }
-    }
-    .project-objectives .text h2 {
-      margin-top: 0;
-      margin-bottom: 0.75rem;
-      color: var(--clr-accent);
-      font-size: 1.8rem;
-    }
-    .project-objectives .text ul {
-      margin-left: 1.2rem;
-      padding: 0;
-    }
-    .project-objectives .text ul li {
-      margin-bottom: 0.6rem;
-      line-height: 1.5rem;
-    }
-    .project-objectives .image img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    }
-    
-    
-    
-    
-    /* ======== BLOC « Contributeurs du projet » ======== */
-.project-contributors{
-  background: #fff;
-  border: 1px solid var(--clr-bubble-border);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0,0,0,.05);
-  max-width: 1200px;
-  margin: var(--gap-section) auto 0 auto;
-}
-.project-contributors .content-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:2rem;
-  align-items:center;
-  padding:2rem;
-}
-.project-contributors .text h2{
-  margin:0 0 .75rem 0;
-  color:var(--clr-accent);
-  font-size:1.8rem;
-}
-.project-contributors .text p{
-  margin-bottom:1rem;
-}
-
-/* ======== Texte plus gros & justifié pour les 3 encarts ======== */
-.project-intro .text p,
-.project-objectives .text p,
-.project-objectives .text ul li,
-.project-contributors .text p{
-  font-size:1.1rem;        /* augmente la taille */
-  text-align:justify;       /* justifie le texte  */
-}
-
-
-    /* ======== BLOC « Un réseau d’estives » (carte) ======== */
-    #map {
-      width: 90%;
-      max-width: 1100px;
-      height: 68vh;
-      border-radius: var(--radius-lg);
-      margin: 40px auto;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .leaflet-control-zoom { display: none; }
-    .alpLabel {
-      background: #fff;
-      border: 1px solid #666;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-weight: 600;
-      font-size: .85rem;
-      color: #000;
-    }
-    .marker-cluster div {
-      width: 40px;
-      height: 40px;
-      line-height: 38px;
-      text-align: center;
-      font-weight: 700;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      color: #fff;
-    }
-
-    /* ======== BLOC « Partenaires » ======== */
-    .partners-wrapper {
-      background: #f5f5f5;
-      border-radius: var(--radius-lg);
-      padding: 40px 30px;
-      margin: var(--gap-section) auto;
-      max-width: 1200px;
-    }
-    .partners-wrapper h2 {
-      text-align: center;
-      color: var(--clr-accent);
-      margin-bottom: 1rem;
-    }
-    .partners-wrapper p {
-      max-width: 800px;
-      margin: 0 auto 1.5rem auto;
-      text-align: center;
-      color: #555;
-    }
-    .partners-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin-top: 25px;
-    }
-    .partners-logos img {
-      width: 120px;
-      height: auto;
-      object-fit: contain;
-      filter: grayscale(20%);
-    }
-
-
-  
-  
-  /* -- MISE EN FORME COMMUNE AUX 3 ENCARTS --------------------------- */
-.section .text h2 {
-  font-size: 2rem;          /* titres plus grands */
-}
-
-.section .text p,
-.section .text li {          /* <p> + puces éventuelles */
-  text-align: justify;       /* texte justifié */
-  font-size: 1.35rem;        /* corps plus grand */
-  line-height: 1.55;
-}
-  
-  
-  /* ---------------------------------------------------------- */
-/* 1. Arrière-plan : seulement le 2ᵉ encart en bleu très clair */
-/* ---------------------------------------------------------- */
-.project-intro,
-.project-contributors {          /* 1ᵉʳ et 3ᵉ blocs → fond blanc */
-  background: #fff;
-}
-
-.project-objectives {            /* 2ᵉ bloc → fond bleuté */
-  background: var(--clr-bg-light);
-}
-
-
-
-/* ---------------------------------------------------------- */
-/* 3. Corps de texte : plus gros & justifié (inchangé sinon)  */
-/* ---------------------------------------------------------- */
-.project-intro .text p,
-.project-objectives .text p,
-.project-objectives .text ul li,
-.project-contributors .text p {
-  font-size: 1.25rem;
-  text-align: justify;
-  line-height: 1.45;
-}
-
-  
-  /*======================================================================
-  1 ▹ « Cartes » plus compactes : moins de blanc au-dessus / dessous
-======================================================================*/
-.section.section {                          /* marge extérieure           */
-  padding-top: 20px;
-  padding-bottom: 20px;                     /* ↓ au lieu de 60px          */
-}
-
-.project-intro .content-grid,
-.project-objectives .content-grid,
-.project-contributors .content-grid {       /* padding intérieur          */
-  padding: 1.25rem 2rem;                    /* ↓ au lieu de 2rem 2rem     */
-}
-
-
-
-/* ================================================================
-   3 ▹ Contributeurs (3ᵉ encart) : fond blanc garanti
-================================================================ */
-.project-contributors{
-  background: #fff !important;
-}
-
- /* ==================================================================
-   ENCAR(T) 3  – photo moins longue et décollée des bords
-   ------------------------------------------------------------------
-   • 45 % de la largeur (comme l’encart 2)
-   • 1 rem de padding autour de la photo pour qu’elle ne colle plus
-     au cadre arrondi.
-================================================================== */
-@media (min-width: 768px) {
-
-  /* disposition 45 % image / 55 % texte déjà définie ; on garde */
-  .project-contributors .content-grid{
-    grid-template-columns: 45% 55%;
-    align-items: start;                 /* hauts alignés            */
-  }
-
-  /* espace autour de la photo */
-  .project-contributors .image{
-    padding: 1rem;                      /* marge intérieure         */
-  }
-
-  /* contraintes communes aux autres encarts */
-  .project-contributors .image img{
-    width: 100%;
-    height: auto;
-    max-height: 420px;                  /* garde la cohérence       */
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 1px 5px rgba(0,0,0,.1);
-  }
-}
-
-  /* ------------------------------------------------------------------
-   Mise au point des espacements autour du titre de la carte
--------------------------------------------------------------------*/
-.estives-map {                /* ↑ écarte la carte du bloc précédent */
-  padding-top: 60px;          /* (valeur à ajuster si besoin)        */
-}
-
-/* Titre : on rapproche du #map et on le centre comme avant */
-.map-title{
-  text-align: center;         /* garde l’alignement existant         */
-  color: var(--clr-accent);
-  margin-top: 0;              /* pas d’espace au-dessus du titre     */
-  margin-bottom: 0.4rem;      /* espace réduit avant la carte        */
-  font-size: 1.8rem;          /* taille inchangée                    */
-}
-  
-  
-  
-  /* Google Font (Inter) – ajoute-le une seule fois dans le <head> */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-
-/* variables utiles (couleur d’accent) */
-:root{
-  --accent:#005f99;
-}
-
-/* ========= NAVBAR PERSEE (uniforme sur tout le site) ========= */
-:root{
-  --nav-bg: #ffffff;
-  --nav-accent: #005f99;
-  --nav-link-hover: rgba(0,0,0,.08);
-}
-
-.persee-navbar{
-  height: 56px;
-  display:flex;
-  align-items:center;
-  padding: 0 1.25rem;
-  background: var(--nav-bg);
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
-  position: sticky;           /* reste visible au défilement */
-  top:0; z-index: 2000;
-}
-
-/* logo */
-.persee-navbar .logo{
-  font: 800 1.35rem/1 'Inter',sans-serif;
-  color: var(--nav-accent);
-  text-decoration:none;
-  margin-right:auto;
-}
-
-/* liste */
-.persee-navbar .nav-links{
-  display:flex; gap:1.3rem;
-  list-style:none;
-  margin:0; padding:0;
-}
-
-/* liens */
-.persee-navbar .nav-links a{
-  display:block;
-  padding:.35rem .7rem;
-  font:600 1rem/1 'Inter',sans-serif;
-  text-decoration:none; color:#222;
-  border-radius:6px;
-  transition:background .25s;
-}
-.persee-navbar .nav-links a:hover{
-  background:var(--nav-link-hover);
-}
-
-/* lien actif — ajouté en JS */
-.persee-navbar .nav-links a.active{
-  background:rgba(0,95,153,.12);
-  color:var(--nav-accent);
-}
-
-/* ---------- burger (mobile) ---------- */
-.nav-toggle{
-  display:none;               /* masqué sur desktop */
-  flex-direction:column;
-  gap:4px;
-  background:none; border:none;
-  cursor:pointer;
-  margin-left:1rem;
-}
-.nav-toggle span{
-  width:22px; height:3px;
-  background:#333; border-radius:2px;
-}
-
-/* mobile : affiche le burger, cache les liens */
-@media(max-width:768px){
-  .nav-toggle{ display:flex; }
-  .persee-navbar .nav-links{
-    position:absolute;
-    right:0; top:56px;
-    flex-direction:column;
-    background:var(--nav-bg);
-    width:100%;
-    max-height:0;
-    overflow:hidden;
-    transition:max-height .3s ease;
-    box-shadow:0 4px 10px rgba(0,0,0,.06);
-  }
-  .persee-navbar .nav-links.open{
-    max-height:260px;          /* assez pour 4 liens */
-  }
-  .persee-navbar .nav-links li{
-    border-bottom:1px solid rgba(0,0,0,.05);
-  }
-}
-  
-  
-  /* ──────────────────────────────────────────────────────────
-   ENCAR(T) « Contributeurs + Carte »
-   – image supprimée
-   – texte & titre centrés
-   – carte (#map) intégrée et prend toute la largeur
-─────────────────────────────────────────────────────────── */
-.project-contributors .content-grid{
-  display:flex;                 /* pile verticale sur mobile */
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:2rem 2.5rem;
-  gap:2rem;
-}
-
-.project-contributors .text h2{
-  font-size:2rem;
-  margin:0 0 1rem 0;
-}
-
-.project-contributors .text p{
-  max-width:780px;
-  margin:0 auto;
-}
-
-.project-contributors .image{display:none;}         /* on masque l’ancienne photo */
-
-/* la carte prendra tout l’encart */
-.project-contributors #map{
-  width:100%;
-  height:68vh;
-  margin:0;
-}
-  
-/* ─── Bandeau “Équipe” (nouvelle palette) ───────────────────────── */
-.team-banner{
-  background:#fff;                           /* même fond que les encarts */
-  border:1px solid var(--clr-bubble-border); /* liseré gris-bleuté        */
-  border-radius:var(--radius-lg);
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  max-width:1200px;
-  margin:var(--gap-section) auto 0 auto;
-  padding:36px 28px;
-  text-align:center;
-  color:#333;                                /* texte sombre, lisible     */
-}
-
-.team-banner h2{
-  margin:0 0 1rem 0;
-  font-size:1.9rem;
-  color:var(--clr-accent);                   /* bleu PERSEE pour le titre */
-}
-
-.team-banner ul{
-  list-style:none;
-  margin:0;
-  padding:0;
-  font-size:1.2rem;
-  line-height:1.55;
-}
-
-.team-banner li+li{ margin-top:.6rem; }
-
-.team-banner strong{ color:#000; }           /* les intitulés ressortent  */
-  /* ─── Bandeau “Équipe” : fond bleuté identique aux autres blocs ─── */
-.team-banner{
-  background: var(--clr-bg-light);    /* #f9fbff, déjà défini dans :root */
-  border: 1px solid var(--clr-bubble-border);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0,0,0,.06);
-  max-width: 1200px;
-  margin: var(--gap-section) auto 0 auto;
-  padding: 36px 28px;
-  text-align: center;
-  color: #333;
-}
-  /* ──────────────────────────────────────────────────────────
-   Partenaires  ➜  bandeau pleine largeur + logos uniformes
-─────────────────────────────────────────────────────────── */
-
-/* 1 ▸ le bloc occupe 100 % de la fenêtre, plus de bord arrondi */
-.partners-wrapper{
-  width:100%;
-  max-width:none;             /* plus de 1200 px « boîte »           */
-  margin:var(--gap-section) 0 0 0;   /* même écart vertical, mais plus d’auto */
-  padding:48px 8vw;           /* “8 vw” = marge latérale (%)         */
-  border-radius:0;            /* coins carrés → bandeau              */
-  background:var(--clr-bg-light);     /* même bleu clair que les autres encarts */
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
-}
-
-/* 2 ▸ Titre & texte toujours centrés (inchangés) */
-.partners-wrapper h2,
-.partners-wrapper p{ max-width:none; }
-
-/* 3 ▸ grille des logos : centrés, espacés, même taille */
-.partners-logos{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:40px;                   /* espace régulier entre logos         */
-  flex-wrap:wrap;
-  margin-top:30px;
-}
-
-/* 4 ▸ chaque logo : largeur fixe, hauteur fixe, contenu contenu */
-.partners-logos img{
-  width:160px;                /* ← ajuste si besoin (même largeur)   */
-  height:100px;               /* ← même hauteur partout              */
-  object-fit:contain;         /* pas de déformation                  */
-  filter:grayscale(15%);      /* filtre doux inchangé                */
-}
-  /* ───────── Partners : couleur d’origine + sans espace avant le footer ───────── */
-.partners-wrapper{
-  background:#f5f5f5;            /* gris clair “d’origine”                */
-  margin: var(--gap-section) 0 0 0;  /* marge en haut, 0 en bas            */
-}
-
-/* le footer vient immédiatement, donc on lui enlève son écart supérieur */
-footer{ margin-top:0; }
-
-
-/* ─── Logos partenaires : même hauteur visuelle ───────────── */
-.partners-logos img{
-  height:90px;               /* hauteur identique pour tous  (ajuste si besoin) */
-  width:auto;                /* largeur libre, respecte les proportions          */
-  object-fit:contain;        /* on ne déforme pas l’image                        */
-  filter:grayscale(15%);
-}
-
-
-/* 1 – remet le bloc à sa place dans le flux */
-.project-intro{
-  margin: 0 auto;            /* plus de marge négative */
-  transform: translateY(-40px);   /* même chevauchement, mais visuel seulement */
-}
-
-/* 2 – évite qu’un autre chevauchement réapparaisse un jour */
-.hero{ overflow:hidden; }    /* on cache tout ce qui dépasse dans la hero */
-
-
-
-
-
-
-
-/* 1. la barre reste collée en haut même quand on scrolle */
-.persee-navbar{
-  position: fixed;   /* au lieu de sticky             */
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 2000;
-}
-
-
-
-
-
-
-  </style>
-</head>
-
-
-
-
-
-
-
-<body>
-<!-- ▸ NAVBAR PERSEE ───────────────────────────────────────── -->
-<nav class="persee-navbar">
-  <a class="logo" href="index.html">PERSEE</a>
-
-  <!-- burger -->
-  <button class="nav-toggle" aria-label="Ouvrir / fermer le menu">
-    <span></span><span></span><span></span>
-  </button>
-
-  <!-- liens -->
-  <ul class="nav-links">
-    <li><a href="index.html">Le projet</a></li>
-    <li><a href="Suivi_GPS.html">Méthodes</a></li>
-    <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
-    <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-  </ul>
-</nav>
-
-  <!-- ======================= HERO ========================= -->
-  <section class="hero" style="background-image:url('images/hero.jpg')">
-    <div class="hero-content">
-      <h1>PERSEE</h1>
-      <p>Pastoralisme Et biodiveRsités dans le Socio-Écosystème Estive </p>
-    </div>
-  </section>
-
-  <!-- ======== SECTION 1 : Présentation du Projet ======== -->
-  <section class="section project-intro">
-    <div class="content-grid">
-      <!-- Texte explicatif à gauche -->
-      <div class="text">
-        <h2>Le projet PERSEE : c’est quoi ?</h2>
+      *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{
+        font-family:'Inter',Arial,Helvetica,sans-serif;
+        line-height:1.6;color:#333;background:#fff;
+        padding-top:var(--nav-h);
+      }
+
+      /* ─── NAVBAR ─────────────────────────────────────── */
+      .persee-navbar{
+        position:fixed;top:0;left:0;width:100%;height:var(--nav-h);
+        display:flex;align-items:center;gap:1.3rem;padding:0 1.25rem;
+        background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.06);z-index:2000;
+      }
+      .persee-navbar .logo{font:800 1.35rem/1 'Inter',sans-serif;color:var(--accent);text-decoration:none;margin-right:auto}
+      .persee-navbar .nav-links{display:flex;gap:1.3rem;list-style:none}
+      .persee-navbar .nav-links a{
+        font:600 1rem/1 'Inter',sans-serif;padding:.35rem .7rem;border-radius:6px;
+        color:#222;text-decoration:none;transition:background .25s;
+      }
+      .persee-navbar .nav-links a:hover{background:rgba(0,0,0,.08)}
+      .persee-navbar .nav-links a.active{background:rgba(0,95,153,.12);color:var(--accent)}
+      .nav-toggle{display:none;flex-direction:column;gap:4px;background:none;border:0;cursor:pointer}
+      .nav-toggle span{width:22px;height:3px;background:#333;border-radius:2px}
+      @media(max-width:768px){
+        .nav-toggle{display:flex}
+        .persee-navbar .nav-links{
+          position:absolute;right:0;top:var(--nav-h);flex-direction:column;width:100%;
+          background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.06);
+          max-height:0;overflow:hidden;transition:max-height .3s ease;
+        }
+        .persee-navbar .nav-links.open{max-height:260px}
+        .persee-navbar .nav-links li{border-bottom:1px solid rgba(0,0,0,.05)}
+      }
+
+      /* ─── HERO ───────────────────────────────────────── */
+      .hero{
+        position:relative;height:100vh;
+        background:url('images/hero.jpg') center/cover no-repeat;
+        display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;
+      }
+      .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+      .hero-content{position:relative;z-index:1;padding:0 1rem}
+      .hero h1{font:800 3rem/1 'Inter',sans-serif;margin-bottom:.5rem}
+      .hero p{font:300 1.25rem/1.35 'Inter',sans-serif}
+      @media(max-width:768px){.hero{height:75vh}.hero h1{font-size:2.3rem}.hero p{font-size:1.05rem}}
+
+      /* ─── SECTIONS ───────────────────────────────────── */
+      .section{padding:var(--gap-section) 1rem}
+      .section h2{font:800 2rem/1.25 'Inter',sans-serif;color:var(--accent);margin-bottom:.75rem}
+      .section p{font-size:1.25rem;line-height:1.45;text-align:justify}
+
+      /* titre centré optionnel */
+      .section-title{font-size:2.4rem;font-weight:800;margin-bottom:1.5rem;color:var(--accent);text-align:center}
+
+      /* ─── ENCARTS Intro / Objectifs ─────────────────── */
+      .project-intro,.project-objectives{
+        border:1px solid var(--clr-bubble-border);border-radius:var(--radius-lg);
+        box-shadow:0 2px 8px rgba(0,0,0,.05);max-width:1200px;
+        position:relative;z-index:2;
+      }
+      .project-intro   {background:#fff;margin:-80px auto 0 auto}
+      .project-objectives{background:var(--clr-bg-light);margin:var(--gap-section) auto 0 auto}
+
+      .content-grid{
+        display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+        gap:2rem;align-items:center;padding:2rem;
+      }
+      .content-grid.reverse .image{order:-1}
+      @media(min-width:768px){.content-grid.reverse{grid-template-columns:1fr 1fr}}
+
+      .content-grid img{
+        width:100%;height:auto;object-fit:cover;border-radius:10px;
+        box-shadow:0 1px 5px rgba(0,0,0,.1);
+      }
+
+      /* — même corpo de texte partout — */
+      .project-intro .text p,
+      .project-objectives .text p{font-size:1.25rem;line-height:1.45;margin-bottom:1rem}
+
+      /* ─── Contributeurs + carte ─────────────────────── */
+      .project-contributors{
+        background:#fff;border:1px solid var(--clr-bubble-border);border-radius:var(--radius-lg);
+        box-shadow:0 2px 8px rgba(0,0,0,.05);max-width:1200px;margin:var(--gap-section) auto 0 auto;
+      }
+      .project-contributors .content-grid{
+        display:flex;flex-direction:column;align-items:center;gap:2rem;padding:2rem 2.5rem;text-align:center;
+      }
+      #map{width:100%;max-width:1100px;height:68vh;border-radius:var(--radius-lg);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+      /* ─── Bandeau Équipe ─────────────────────────────── */
+      .team-banner{
+        background:var(--clr-bg-light);border:1px solid var(--clr-bubble-border);border-radius:var(--radius-lg);
+        box-shadow:0 2px 8px rgba(0,0,0,.06);max-width:1200px;margin:var(--gap-section) auto 0 auto;
+        padding:36px 28px;text-align:center;
+      }
+      .team-banner h2{font:800 1.9rem/1 'Inter',sans-serif;color:var(--accent);margin-bottom:1rem}
+      .team-banner ul{list-style:none;font-size:1.2rem;line-height:1.55;color:#333}
+      .team-banner li+li{margin-top:.6rem}
+
+      /* ─── Partenaires ───────────────────────────────── */
+      .partners-wrapper{
+        background:#f5f5f5;padding:48px 8vw;margin:var(--gap-section) 0 0;border-radius:0;text-align:center;
+      }
+      .partners-wrapper h2{font:800 2rem/1 'Inter',sans-serif;color:var(--accent);margin-bottom:1rem}
+      .partners-logos{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;margin-top:30px}
+      .partners-logos img{width:160px;height:100px;object-fit:contain;filter:grayscale(15%)}
+
+      /* ─── Footer ────────────────────────────────────── */
+      footer{background:var(--accent);color:#fff;text-align:center;padding:20px 0;font-size:.9rem;margin-top:0}
+
+      /* ─── Leaflet cluster “bulle” ───────────────────── */
+      .marker-cluster div{
+        width:40px;height:40px;line-height:38px;text-align:center;font-weight:700;
+        border:2px solid #fff;border-radius:50%;color:#fff;
+      }
+
+      /* ─── Mobile : sections plus compactes ──────────── */
+      @media(max-width:768px){.section{padding:40px 1rem}}
       
-        <p>
-          C’est un projet de connaissances portant sur les liens entre les <strong> activités pastorales</strong> en estive
-          et les <strong> dynamiques des biodiversités</strong>. L’estive est un espace partagé ; à la fois espace agricole, 
-          espace récréatif et lieu de préservation d’une vie « sauvage ». <strong>PERSEE</strong> contribue à comprendre comment 
-          ces différentes vocations de l’estive peuvent être conciliées dans un contexte marqué par le changement 
-          climatique, les transformations dans l’usage de l’espace montagne et les mutations socio-économiques.
-        <p>
+      /* ══ Compacte les blocs “Présentation” & “Objectifs” ═══════════════════ */
+
+/* 1 ▸ moins d’espace au-dessus / au-dessous du bloc entier */
+.project-intro.section,
+.project-objectives.section{
+  padding: 30px 1rem;      /* au lieu de 60 px définis dans .section   */
+}
+
+/* 2 ▸ marge interne + espace colonne/colonne plus petits                */
+.project-intro .content-grid,
+.project-objectives .content-grid{
+  padding: 1rem 2rem;      /* haut-bas 1 rem, gauche-droite 2 rem      */
+  gap: 1.5rem;             /* écart entre image & texte (au lieu de 2) */
+}
+      
+    </style>
+  </head>
+
+  <body>
+
+    <!-- ▸ NAVBAR -->
+    <nav class="persee-navbar">
+      <a class="logo" href="index.html">PERSEE</a>
+      <button class="nav-toggle" aria-label="Ouvrir / fermer le menu"><span></span><span></span><span></span></button>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Le projet</a></li>
+        <li><a href="Suivi_GPS.html">Méthodes</a></li>
+        <li><a href="Carte_d'identité_des_estives.html">Identité des estives</a></li>
+        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+      </ul>
+    </nav>
+
+    <!-- ▸ HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>PERSEE</h1>
+        <p>Pastoralisme Et biodiveRsités dans le Socio-Écosystème Estive</p>
       </div>
+    </section>
+
+    <!-- ▸ Présentation -->
+    <section class="section project-intro">
+      <div class="content-grid">
+        <div class="text">
+          <h2>Le projet PERSEE : c’est quoi ?</h2>
+          <p>C’est un projet de connaissances portant sur les liens entre les activités pastorales en estive et les dynamiques des biodiversités.
+          L’estive est un espace partagé ; à la fois espace agricole, espace récréatif et lieu de préservation d’une vie « sauvage ». 
+          PERSEE contribue à comprendre comment ces différentes vocations de l’estive peuvent être conciliées dans un contexte marqué par le
+          changement climatique, les transformations dans l’usage de l’espace montagne et les mutations socio-économiques.</p>
+        
+    </section>
+
+    <!-- ▸ Objectifs -->
+    <section class="section project-objectives">
+      <div class="content-grid reverse">
+        <div class="image"><img src="images/projet_1.jpg" alt="Objectifs PERSEE"></div>
+        <div class="text">
+          <h2>Que fait-on dans PERSEE ?</h2>
+          <p>PERSEE réalise un suivi des déplacements des troupeaux pendant la saison d’estive. Les données recueillies sont croisées avec de 
+          nombreuses autres informations telles que les contraintes liées à la conduite, l’enneigement, le microclimat, la distribution des habitats, 
+          la fréquentation humaine, les déplacements des ongulés sauvages etc. Le traitement de l’ensemble de ces données conduit à une vision systémique 
+          du fonctionnement et de la dynamique du socio-écosystème estive.</p>
+        </div>
       </div>
-  </section>
+    </section>
 
-  <!-- ======== SECTION 2 : Objectifs du Projet ======== -->
-  <section class="section project-objectives">
-    <div class="content-grid reverse">
-      <!-- Image à gauche -->
-      <div class="image">
-        <img src="images/projet_1.jpg" alt="Graphique des objectifs du projet PERSEE">
+    <!-- ▸ Contributeurs + carte -->
+    <section class="section project-contributors">
+      <div class="content-grid">
+        <div class="text">
+          <h2>Qui contribue à PERSEE ?</h2>
+          <p>Le projet PERSEE est une coopération entre le CNRS et l’OFB. Il se déploie actuellement dans une dizaine d’estives réparties dans les Alpes
+          et les Pyrénées françaises. Les actions du projet sont mises en œuvre grâce à une étroite collaboration la profession agricole 
+          (groupements pastoraux, éleveurs et bergers) et les gestionnaires d’espaces protégés (Parcs Nationaux, parcs régionaux, réserves naturelles). 
+          D’autres sites candidats peuvent rejoindre le dispositif.</p>
+        </div>
+        <div id="map"></div>
       </div>
-      <!-- Liste des objectifs à droite -->
-      <div class="text">
-        <h2>Que fait-on dans PERSEE ?</h2>
-        <p>PERSEE réalise un suivi des déplacements des troupeaux pendant la saison d’estive.
-        Les données recueillies sont croisées avec de nombreuses autres informations telles que les contraintes
-        liées à la conduite, l’enneigement, le microclimat, la distribution des habitats, la fréquentation humaine,
-        les déplacements des ongulés sauvages etc. Le traitement de l’ensemble de ces données conduit à une vision 
-        systémique du fonctionnement et de la dynamique du socio-écosystème estive.</p>
-      </div>
-    </div>
-  </section>
-  
-<!-- ===== SECTION : Contributeurs + Carte ===== -->
-<section class="section project-contributors">
-  <div class="content-grid">
+    </section>
 
-    <!-- Texte centré -->
-    <div class="text">
-      <h2>Qui contribue à PERSEE&nbsp;?</h2>
-      <p>
-        Le projet PERSEE est une coopération entre le CNRS et l’OFB. Il se déploie actuellement dans une dizaine
-        d’estives réparties dans les Alpes et les Pyrénées françaises. Les actions du projet sont mises en œuvre grâce à
-        une étroite collaboration la profession agricole (groupements pastoraux, éleveurs et bergers) et les gestionnaires 
-        d’espaces protégés (Parcs Nationaux, parcs régionaux, réserves naturelles). D’autres sites candidats peuvent rejoindre le dispositif.
-        <!-- texte inchangé -->
-      </p>
-    </div>
+    <!-- ▸ Équipe -->
+    <section class="team-banner">
+      <h2>L’équipe PERSEE</h2>
+      <ul>
+        <li><strong>Coordination :</strong> Philippe Choler (CNRS) &amp; Mathieu Garel (OFB)</li>
+        <li><strong>Chargée de mission :</strong> Marion Janel</li>
+        <li><strong>Ingénieur écologue :</strong> Camille Masson</li>
+      </ul>
+    </section>
 
-    <!-- Carte interactive directement dans l’encart -->
-    <div id="map"></div>
-
-  </div>
-</section>
-
-
-
-
-
-
-
-
-
-<!-- ========== BANDEAU ÉQUIPE ========== -->
-<section class="team-banner">
-  <h2>L’équipe PERSEE</h2>
-
-  <ul>
-    <li><strong>Coordination du projet :</strong> Philippe Choler&nbsp;(CNRS) &amp; Mathieu Garel&nbsp;(OFB)</li>
-    <li><strong>Chargée de mission :</strong> Marion Janel</li>
-    <li><strong>Ingénieur écologue :</strong> Camille Masson</li>
-  </ul>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- ======== SECTION 4 : Partenaires ======== -->
-  <section class="section partners-wrapper">
-    <h2>Partenaires</h2>
-    
-        <div class="partners-logos">
-      <img src="images/ofb.png"    alt="Logo OFB" />
+    <!-- ▸ Partenaires -->
+    <section class="partners-wrapper">
+      <h2>Partenaires</h2>
+      <div class="partners-logos">
+        <img src="images/ofb.png"    alt="Logo OFB" />
       <img src="images/cnrs.png"  alt="Logo CNRS" />
       <img src="images/RN Pyrénées Catalanes.png"   alt="Logo Réserves Catalanes" />
       <img src="images/CREA.png" alt="Logo CREA" />
@@ -753,217 +256,193 @@ footer{ margin-top:0; }
       <img src="images/RN France.png"   alt="Logo PNR Bauges" />
       <img src="images/PNR Queyras.webp"   alt="Logo PNR Queyras" />
       <img src="images/PNV.png"   alt="Logo PNV" />
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <!-- ======== FOOTER ======== -->
-  <footer>
-    <p>&copy; 2025 PERSEE — Tous droits réservés.</p>
-  </footer>
+    <!-- ▸ FOOTER -->
+    <footer>&copy;&nbsp;2025&nbsp;PERSEE — Tous droits réservés.</footer>
 
-  <!-- ======== SCRIPT LEAFLET (inchangé) ======== -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      /* ---------- carte & fonds ---------- */
-      const map = L.map('map', { center: [45.2, 6.4], zoom: 8, zoomControl: false });
-      L.control.fullscreen({ position: 'topleft' }).addTo(map);
-      L.control.scale({ imperial: false }).addTo(map);
+    <!-- ====================== SCRIPT ====================== -->
+    <script>
+      /* burger mobile */
+      document.querySelector('.nav-toggle')
+              .addEventListener('click',()=>document.querySelector('.nav-links').classList.toggle('open'));
 
-      const esri = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        { maxZoom: 19, attribution: '© Esri | Maxar' }
-      );
-      const lbl = L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',
-        { maxZoom: 19, attribution: '© OSM | Carto' }
-      );
-      const hybrid = L.layerGroup([esri, lbl]).addTo(map);
-      const osm = L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        { maxZoom: 19, attribution: '© OpenStreetMap' }
-      );
-      L.control.layers(
-        { 'Satellite détaillé': hybrid, 'OpenStreetMap': osm },
-        null,
-        { position: 'topright' }
-      ).addTo(map);
-
-      /* normes de couleur pour les massifs */
-      const massifColors = {
-        'Belledone': '#1f78b4',
-        'Les Ecrins': '#e31a1c',
-        'Le Mercantour': '#33a02c',
-        'La Vanoise': '#6a3d9a',
-        'Le Mont Blanc': '#ff7f00',
-        'Les Bauges': '#a6cee3',
-        'Le Queyras': '#fb9a99',
-        'Pyrénées catalanes': '#b2df8a',
-        'Pyrénées Ariégeoises': '#999999'
-      };
-      const colOf = m => massifColors[m] || '#444';
-      const radius = z => Math.max(4, Math.min(9, z * 1.3 - 4));
-
-      /* ---------- groupes et couches ---------- */
-      const clusters = {};
-      function getCluster(m) {
-        if (clusters[m]) return clusters[m];
-        return (clusters[m] = L.markerClusterGroup({
-          spiderfyOnMaxZoom: false,
-          showCoverageOnHover: false,
-          maxClusterRadius: 60,
-          iconCreateFunction: cl => {
-            const c = colOf(m);
-            const n = cl.getChildCount();
-            return L.divIcon({
-              className: 'marker-cluster',
-              html: `<div style="background:${c}">${n > 1 ? `+${n}` : 1}</div>`,
-              iconSize: L.point(40, 40)
-            });
-          }
-        }));
-      }
-
-      const pts = L.layerGroup();
-      const ptsLbl = L.layerGroup();
-      let upLayer = null;
-
-      Promise.all([
-        fetch('data/Point_alpage.geojson').then(r => r.json()),
-        fetch('data/UP_projet.geojson').then(r => r.json())
-      ]).then(([gPts, gUp]) => {
-        gPts.features.forEach(f => {
-          const n = f.properties.Nom_alpage || '',
-            m = f.properties.Massif || '',
-            col = colOf(m),
-            [lon, lat] = f.geometry.coordinates,
-            ll = L.latLng(lat, lon);
-
-          getCluster(m).addLayer(
-            L.circleMarker(ll, {
-              radius: 6,
-              color: '#fff',
-              weight: 1.4,
-              fillColor: col,
-              fillOpacity: .9
-            })
-          );
-
-          pts.addLayer(
-            L.circleMarker(ll, {
-              radius: radius(map.getZoom()),
-              color: '#fff',
-              weight: 1.2,
-              fillColor: col,
-              fillOpacity: .9
-            })
-          );
-
-          ptsLbl.addLayer(
-            L.circleMarker(ll, {
-              radius: radius(map.getZoom()),
-              color: '#fff',
-              weight: 1.2,
-              fillColor: col,
-              fillOpacity: .9
-            }).bindTooltip(`<span>${n}</span>`, {
-              permanent: true,
-              className: 'alpLabel',
-              direction: 'top',
-              offset: [0, -8]
-            })
-          );
+      /* lien actif */
+      (()=>{
+        const cur=(decodeURIComponent(location.pathname.split('/').pop())||'index.html').toLowerCase();
+        document.querySelectorAll('.persee-navbar .nav-links a').forEach(a=>{
+          const tgt=decodeURIComponent(a.getAttribute('href').split('/').pop()).toLowerCase();
+          if(tgt===cur)a.classList.add('active');
         });
+      })();
 
-        upLayer = L.geoJSON(gUp, {
-          style: { color: '#fff', weight: 3, fillColor: '#fff', fillOpacity: .15 },
-          onEachFeature: (f, l) => {
-            const n = f.properties.Nom_alpage || '';
-            if (n)
-              l.bindTooltip(`<span>${n}</span>`, {
-                permanent: true,
-                className: 'alpLabel',
-                direction: 'center'
-              });
-          }
+     
+    </script>
+    
+    
+    
+    
+    
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ─── Carte & fonds ─────────────────────────────────────── */
+  const map = L.map('map', { center:[45.2, 6.4], zoom:8, zoomControl:false });
+  L.control.fullscreen({ position:'topleft' }).addTo(map);
+  L.control.scale({ imperial:false }).addTo(map);
+
+  /* fond satellite (Esri) */
+  const esri = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    { maxZoom:19, attribution:'© Esri | Maxar' }
+  ).addTo(map);
+
+  /* fond alternatif OpenStreetMap */
+  const osm  = L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    { maxZoom:19, attribution:'© OpenStreetMap' }
+  );
+
+  /* bouton de bascule */
+  L.control.layers(
+    { 'Satellite détaillé': esri, 'OpenStreetMap': osm },
+    null,
+    { position:'topright' }
+  ).addTo(map);
+
+  /* ─── Couleurs par massif ───────────────────────────────── */
+  const massifColors = {
+    'Belledone'           : '#1f78b4',
+    'Les Ecrins'          : '#e31a1c',
+    'Le Mercantour'       : '#33a02c',
+    'La Vanoise'          : '#6a3d9a',
+    'Le Mont Blanc'       : '#ff7f00',
+    'Les Bauges'          : '#a6cee3',
+    'Le Queyras'          : '#fb9a99',
+    'Pyrénées catalanes'  : '#b2df8a',
+    'Pyrénées Ariégeoises': '#999999'
+  };
+  const colOf   = m => massifColors[m] || '#444';
+  const radius  = z => Math.max(4, Math.min(9, z * 1.3 - 4));
+
+  /* ─── Clustering & couches dynamiques ───────────────────── */
+  const clusters = {};
+  const getCluster = m => clusters[m] ??=
+    L.markerClusterGroup({
+      spiderfyOnMaxZoom : false,
+      showCoverageOnHover: false,
+      maxClusterRadius  : 60,
+      iconCreateFunction: cl => {
+        const c = colOf(m);
+        const n = cl.getChildCount();
+        return L.divIcon({
+          className: 'marker-cluster',
+          html     : `<div style="background:${c}">${n > 1 ? '+'+n : 1}</div>`,
+          iconSize : L.point(40, 40)
         });
-
-        Object.values(clusters).forEach(c => map.addLayer(c));
-        map.fitBounds(pts.getBounds(), { maxZoom: 8 });
-        updateLayers();
-      });
-
-      function updateLayers() {
-        const z = map.getZoom();
-        pts.eachLayer(l => l.setRadius(radius(z)));
-        ptsLbl.eachLayer(l => l.setRadius(radius(z)));
-
-        if (z <= 6) {
-          Object.values(clusters).forEach(c => map.addLayer(c));
-          map.removeLayer(pts);
-          map.removeLayer(ptsLbl);
-          if (upLayer) map.removeLayer(upLayer);
-        } else if (z <= 9) {
-          Object.values(clusters).forEach(c => map.removeLayer(c));
-          map.addLayer(pts);
-          map.removeLayer(ptsLbl);
-          if (upLayer) map.removeLayer(upLayer);
-        } else if (z <= 12) {
-          Object.values(clusters).forEach(c => map.removeLayer(c));
-          map.removeLayer(pts);
-          map.addLayer(ptsLbl);
-          if (upLayer) map.removeLayer(upLayer);
-        } else {
-          Object.values(clusters).forEach(c => map.removeLayer(c));
-          map.removeLayer(pts);
-          map.removeLayer(ptsLbl);
-          if (upLayer) map.addLayer(upLayer);
-        }
       }
-      map.on('zoomend', updateLayers);
     });
-  </script>
-  
-  
-  
-  
- 
-  
-  
-  
 
+  const pts    = L.layerGroup();
+  const ptsLbl = L.layerGroup();
+  let   upLayer = null;
 
-<script>
-/* 1. Menu burger (mobile) */
-document.querySelector('.nav-toggle')
-        .addEventListener('click', () =>
-  document.querySelector('.nav-links').classList.toggle('open')
-);
+  Promise.all([
+    fetch('data/Point_alpage.geojson').then(r => r.json()),
+    fetch('data/UP_projet.geojson').then(r => r.json())
+  ]).then(([gPts, gUp]) => {
 
-/* 2. Ajout auto de la classe .active sur la page courante */
-(function(){
-  /* ex : "/persee/Suivi_GPS.html" → "Suivi_GPS.html" */
-  const current = location.pathname.split('/').pop().toLowerCase() || 'index.html';
-  document.querySelectorAll('.persee-navbar .nav-links a').forEach(a=>{
-    const target = a.getAttribute('href').split('/').pop().toLowerCase();
-    if (target === current) a.classList.add('active');
+    /* ---- points alpages ---- */
+    gPts.features.forEach(f => {
+      const n  = f.properties.Nom_alpage || '';
+      const m  = f.properties.Massif     || '';
+      const col= colOf(m);
+      const [lon, lat] = f.geometry.coordinates;
+      const ll = L.latLng(lat, lon);
+
+      /* marqueurs cluster */
+      getCluster(m).addLayer(
+        L.circleMarker(ll,{
+          radius:6,color:'#fff',weight:1.4,
+          fillColor:col,fillOpacity:.9
+        })
+      );
+
+      /* marqueurs simples */
+      pts.addLayer(
+        L.circleMarker(ll,{
+          radius:radius(map.getZoom()),color:'#fff',weight:1.2,
+          fillColor:col,fillOpacity:.9
+        })
+      );
+
+      /* marqueurs avec labels permanents */
+      ptsLbl.addLayer(
+        L.circleMarker(ll,{
+          radius:radius(map.getZoom()),color:'#fff',weight:1.2,
+          fillColor:col,fillOpacity:.9
+        }).bindTooltip(`<span>${n}</span>`,{
+          permanent:true,className:'alpLabel',
+          direction:'top',offset:[0,-8]
+        })
+      );
+    });
+
+    /* ---- polygones unités pastorales ---- */
+    upLayer = L.geoJSON(gUp,{
+      style:{ color:'#fff', weight:3, fillColor:'#fff', fillOpacity:.15 },
+      onEachFeature:(f,l)=>{
+        const n=f.properties.Nom_alpage||'';
+        if(n) l.bindTooltip(`<span>${n}</span>`,{
+          permanent:true,className:'alpLabel',direction:'center'
+        });
+      }
+    });
+
+    /* ajout initial + zoom sur l’ensemble */
+    Object.values(clusters).forEach(c => map.addLayer(c));
+    map.fitBounds(pts.getBounds(),{ maxZoom:8 });
+    updateLayers();
   });
-})();
+
+  /* ---- gestion de l’affichage selon le zoom ---- */
+  function updateLayers(){
+    const z = map.getZoom();
+    pts   .eachLayer(l => l.setRadius(radius(z)));
+    ptsLbl.eachLayer(l => l.setRadius(radius(z)));
+
+    if(z <= 6){
+      Object.values(clusters).forEach(c => map.addLayer(c));
+      map.removeLayer(pts); map.removeLayer(ptsLbl); upLayer && map.removeLayer(upLayer);
+    }else if(z <= 9){
+      Object.values(clusters).forEach(c => map.removeLayer(c));
+      map.addLayer(pts);     map.removeLayer(ptsLbl); upLayer && map.removeLayer(upLayer);
+    }else if(z <= 12){
+      Object.values(clusters).forEach(c => map.removeLayer(c));
+      map.removeLayer(pts);  map.addLayer(ptsLbl);    upLayer && map.removeLayer(upLayer);
+    }else{
+      Object.values(clusters).forEach(c => map.removeLayer(c));
+      map.removeLayer(pts);  map.removeLayer(ptsLbl); upLayer && map.addLayer(upLayer);
+    }
+  }
+  map.on('zoomend', updateLayers);
+});
 </script>
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-</body>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </body>
 </html>

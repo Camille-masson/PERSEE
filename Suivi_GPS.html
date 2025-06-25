@@ -193,15 +193,26 @@
   @media(max-width:900px){:root{--gap:64px;--pad:32px;--arrow-size:38px}.analysis-block{flex-direction:column;text-align:center}.analysis-text{margin-left:0}}
   @media(max-width:600px){:root{--gap:48px;--pad:24px}body{font-size:15px}.hero h1{font-size:2rem}.analysis-text h3{font-size:1.6rem}}
 
-  /* FOOTER – version définitive */
-footer{
-  background:#005f99;
-  color:#fff;
-  text-align:center;
-  padding:20px;
-  margin-top:40px;
-  font-size:.9rem;
-}
+  /* ------------------------------------------------------------------
+     FOOTER (correctif : finesse + centrage vertical & horizontal)
+  ------------------------------------------------------------------ */
+  footer{
+    background:#005f99;
+    color:#fff;
+    text-align:center;
+    /* padding haut/bas plus léger                       ↓ ↓ */
+    padding:12px 0;
+    margin-top:40px;
+    font-size:.9rem;
+
+    /* centrage vertical en cas de multi-lignes éventuelles */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  /* on annule la marge héritée des <p> du document */
+  footer p{margin:0;}
+
   
   .env-section { background: var(--bg); }   /* gris clair identique au slider */
   /* ─── AUCUNE animation de couleur ─────────────────────────── */
@@ -313,7 +324,7 @@ footer{
           <img src="images/DSC_0014.JPG" class="zoomable" data-caption="Collier GPS (catlog)" alt="Collier GPS"/>
         </div>
         <div class="analysis-text">
-          <h3>1/ Déplacements</h3>
+          <h3>1. Déplacements</h3>
           <p>Le déplacement des brebis est suivi grâce à des colliers équipés de GPS programmés pour une acquisition toutes les 2 minutes. L’autonomie de la batterie permet de suivre le 
           déplacement de l’animal pendant 3 à 4 mois. Il n’y a pas d’intervention à prévoir pendant la saison en estive. Il n’y a pas de transmission des données en temps réel. Avec 6 à 8 animaux équipés,
           il est possible de bien représenter les déplacements d’un troupeau ovin conduit.  La méthode a été testée avec succès sur plusieurs alpages depuis trois ou quatre ans.</p>
@@ -326,7 +337,7 @@ footer{
            <img src="images/Image_3.jpg" class="zoomable" data-caption="" alt="Collier GPS"/>
         </div>
         <div class="analysis-text">
-          <h3>2/ Comportement</h3>
+          <h3>2. Comportement</h3>
           <p>Un modèle de Markov caché distingue trois états : repos, déplacement, pâturage. Les localisations correspondantes sont analysées heure par heure sur toute la saison.</p>
         </div>
       </div>
@@ -340,7 +351,7 @@ footer{
           
         </div>
         <div class="analysis-text">
-          <h3>3/ Chargement</h3>
+          <h3>3. Chargement</h3>
           <p>L’agrégation à l’échelle du troupeau fournit des informations sur le chargement (en nombre d’animaux par unité de surface et par unité de temps). La charge pastorale peut aussi être estimée par comportement et par habitat. </p>
         </div>
       </div>
@@ -372,7 +383,9 @@ footer{
 
 
 <!-- ===== FOOTER ===== -->
-<footer><p>&copy; 2025 PERSEE — Tous droits réservés.</p></footer>
+<footer>
+  <p>&copy;&nbsp;2025&nbsp;PERSEE&nbsp;—&nbsp;Tous droits réservés.</p>
+</footer>
 
 <!-- ===== LIGHTBOX (structure) ===== -->
 <div id="lightbox">

@@ -192,17 +192,117 @@
   @media(max-width:1200px){:root{--img-w:540px;--pad:40px}}
   @media(max-width:600px){:root{--gap:48px;--pad:24px}body{font-size:15px}.hero h1{font-size:2rem}.analysis-text h3{font-size:1.6rem}}
 
- footer {
-  background-color: #005f99;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+ /* ------------------------------------------------------------------
+     FOOTER (correctif : finesse + centrage vertical & horizontal)
+  ------------------------------------------------------------------ */
+  footer{
+    background:#005f99;
+    color:#fff;
+    text-align:center;
+    /* padding haut/bas plus léger                       ↓ ↓ */
+    padding:12px 0;
+    margin-top:40px;
+    font-size:.9rem;
+
+    /* centrage vertical en cas de multi-lignes éventuelles */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  /* on annule la marge héritée des <p> du document */
+  footer p{margin:0;}
+  
+  
+  
+  
+ /* =========================================================
+   TITRES – gabarit commun (taille + petit trait décoratif)
+========================================================= */
+
+/* -------- Titres de section (H2) -------- */
+.section-title,
+.alpage-section h2{
+  font-size:2.8rem;        /* taille “grosse” */
+  text-align:center;
+  position:relative;
+  margin-bottom:1.6rem;    /* écart sous le titre */
+  color:var(--accent);
+}
+.section-title::after,
+.alpage-section h2::after{
+  content:"";
+  position:absolute;
+  left:50%; transform:translateX(-50%);
+  bottom:-10px;            /* place le filet sous le texte */
+  width:60px; height:4px;
+  background:var(--accent);
+  border-radius:2px;
 }
 
-footer p {
-  font-size: 0.9rem;
+/* -------- Titres des blocs (H3) -------- */
+.analysis-text h3{
+  font-size:2rem;          /* taille “moyenne” */
+  margin-bottom:1rem;
+  position:relative;
+  color:var(--accent);
 }
+.analysis-text h3::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:-8px;     /* filet aligné à gauche du texte */
+  width:40px; height:4px;
+  background:var(--accent);
+  border-radius:2px;
+}
+}
+  
+  
+  
+  
+  
+  /* =======================================================
+   Correctifs finaux « Identité des estives » (25 / 06 / 2025)
+======================================================= */
+
+/* 1.   Pas de petit filet sous le Titre principal  */
+.alpage-section h2::after{ display:none!important; }
+
+/* 2.   Slider plus près du titre                   */
+.alpage-section .slider{ margin-top:24px; }        /* 40 px → 24 px */
+
+/* 3.   Corps de texte sous chaque H3 : même taille
+       que sur la page « Méthodes » (20 px ≈ 1.25 rem)         */
+.analysis-text p{
+  font-size:1.25rem;
+  line-height:1.55;
+  text-align:justify;
+}
+  
+  
+  
+  /* ==========================================================
+   Correctif 26-06-2025 – Identité des estives
+   1.   Supprime le filet sous « Carte d’identité »
+   2.   Rapproche le slider du titre
+   3.   Force l’image à gauche dans tous les blocs
+========================================================== */
+
+/* 1 ▸ titre principal sans pseudo-élément */
+.alpage-section h2::after{
+  content:none !important;      /* plus de filet */
+}
+
+/* 2 ▸ slider plus proche du titre */
+.alpage-section .slider{
+  margin-top:12px;              /* 24 px → 12 px */
+}
+
+/* 3 ▸ ordre des blocs : image à gauche, texte à droite */
+.analysis-block.reverse{
+  flex-direction:row !important; /* annule row-reverse */
+}
+  
+  
   </style>
 </head>
 
@@ -328,11 +428,10 @@ footer p {
     </div><!-- /.section-content -->
   </section>
 
-  <!-- ======== FOOTER ======== -->
-  <footer>
-    <p>&copy; 2025 PERSEE — Tous droits réservés.</p>
-  </footer>
-
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>&copy;&nbsp;2025&nbsp;PERSEE&nbsp;—&nbsp;Tous droits réservés.</p>
+</footer>
   <!-- ============================ LIGHTBOX ============================ -->
   <div id="lightbox">
     <span id="lightbox-close">&times;</span>

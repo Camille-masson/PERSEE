@@ -301,19 +301,31 @@ h2.section-title {
   object-fit:cover;
 }
   
-  /* ---------------------------------------------
-   6) PIED DE PAGE
-   --------------------------------------------- */
-footer {
-  background-color: #005f99;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-}
+   /* ------------------------------------------------------------------
+     FOOTER (correctif : finesse + centrage vertical & horizontal)
+  ------------------------------------------------------------------ */
+  footer{
+    background:#005f99;
+    color:#fff;
+    text-align:center;
+    /* padding haut/bas plus léger                       ↓ ↓ */
+    padding:12px 0;
+    margin-top:40px;
+    font-size:.9rem;
 
-footer p {
-  font-size: 0.9rem;
+    /* centrage vertical en cas de multi-lignes éventuelles */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  /* on annule la marge héritée des <p> du document */
+  footer p{margin:0;}
+  
+  
+  
+  /* --- Centrage du titre « Indicateurs » (et de tous .section-title) --- */
+.section-title{
+  text-align:center;   /* le tour est joué ! */
 }
   </style>
 </head>
@@ -370,7 +382,7 @@ footer p {
 <!-- ========== ANALYSES ========= -->
 <section class="section section-full analysis-section alpage-section" id="Estive X">
   <div class="section-content">
-    <h2 class="section-title">Indicateurs :</h2>
+    <h2 class="section-title">Indicateurs </h2>
 
     <div class="slider">
       <button class="slide-btn prev" aria-label="Précédent">&#10094;</button>
@@ -379,7 +391,10 @@ footer p {
       <div class="analysis-block">
         <div class="analysis-image">
           <div class="carousel-wrapper" id="car-traj">
-            <img src="images/trajectoire_reposs.png" class="zoomable behavior-img active" data-caption="Trajectoires – repos" alt="Trajectoires repos"/>
+            <img src="images/Trajectoire_repos.png"
+     class="zoomable behavior-img active"
+     data-caption="Trajectoires – repos"
+     alt="Trajectoires repos">
             <img src="images/trajectoire_deplacement.png" class="zoomable behavior-img" data-caption="Trajectoires – déplacement" alt="Trajectoires déplacement"/>
             <img src="images/trajectoire_paturage.png" class="zoomable behavior-img" data-caption="Trajectoires – pâturage" alt="Trajectoires pâturage"/>
           </div>
@@ -496,10 +511,10 @@ footer p {
 
 </section>
 
-<!-- ======== FOOTER ======== -->
-  <footer>
-    <p>&copy; 2025 PERSEE — Tous droits réservés.</p>
-  </footer>
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>&copy;&nbsp;2025&nbsp;PERSEE&nbsp;—&nbsp;Tous droits réservés.</p>
+</footer>
 
 
 <script>
