@@ -1,1293 +1,234 @@
- /* =============================================================================
-   styles.css
-   Mise en page complète pour le site PERSEE
-   ============================================================================= */
+/* ===========================================================================
+   styles.css  –  Mise en page du site PERSEE
+   =========================================================================== */
 
-/* ---------------------------------------------
-   1) IMPORT DE POLICE ET RÉINITIALISATION GLOBALE
-   --------------------------------------------- */
+/* 1 ▸ POLICE & RESET ****************************************************** */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* 2 ▸ VARIABLES GÉNÉRALES ************************************************* */
+:root{
+  --accent:#005f99;
+  --text-dark:#333;
+  --text-light:#444;
+  --bg-body:#fff;
+  --bg-light:#f5f5f5;
+  --nav-h:60px;            /* hauteur FIXE de la barre – à régler ici */
+}
+
+/* 3 ▸ TYPOGRAPHIE & COULEURS DE BASE ************************************** */
+body{
+  font-family:'Roboto',sans-serif;
+  color:var(--text-dark);
+  line-height:1.6;
+  background:var(--bg-body);
+  padding-top:var(--nav-h);       /* réserve la place de la navbar fixe */
+}
+
+h1,h2,h3{font-weight:700;color:var(--accent)}
+a{text-decoration:none;color:inherit}
+p{margin-bottom:1rem}
+
+/* 4 ▸ NAVBAR FIXE ********************************************************* */
+header{
+  position:fixed;top:0;left:0;
+  width:100%;height:var(--nav-h);
+  background:rgba(255,255,255,.98);
+  box-shadow:0 2px 4px rgba(0,0,0,.08);
+  z-index:1000;
 }
-
-/* ---------------------------------------------
-   2) TYPOGRAPHIE ET COULEURS DE BASE
-   --------------------------------------------- */
-body {
-  font-family: 'Roboto', sans-serif;
-  color: #333333;
-  line-height: 1.6;
-  background-color: #FFFFFF;
-  /* Espace en haut pour la navbar (60px) */
-  padding-top: 60px;
-}
-
-h1, h2, h3 {
-  font-weight: 700;
-  color: #005f99; /* bleu foncé pour les titres */
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-p {
-  margin-bottom: 1rem; /* espacement sous chaque paragraphe */
-}
-
-/* ---------------------------------------------
-   3) NAVBAR FIXE EN TÊTE
-   --------------------------------------------- */
-header {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  z-index: 1000;
-}
-
-.navbar {
-  max-width: 1200px;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* logo à gauche, menu à droite */
-  padding: 0 20px;
-}
-
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #005f99;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 30px; /* espace entre chaque lien */
-}
-
-.navbar li {
-  margin: 0;
-}
-
-.navbar a {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333333;
-  padding: 5px 0;
-  transition: color 0.2s ease-in-out;
-}
-
-.navbar a:hover,
-.navbar a.active {
-  color: #005f99;
-}
-
-/* ---------------------------------------------
-   4) HERO BANNER (BANNIÈRE PLEIN ÉCRAN)
-   --------------------------------------------- */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 100vh; /* pleine hauteur de la fenêtre */
-  background-image: url('../images/hero.jpg');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* calque foncé pour contraste */
-  z-index: 1;
-}
-
-.hero .hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #FFFFFF;
-  padding: 0 20px;
-}
-
-.hero .hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  color: #FFFFFF;
-}
-
-.hero .hero-content p {
-  font-size: 1.2rem;
-  color: #FFFFFF;
-}
-
-/* ---------------------------------------------
-   5) SECTIONS (COMPORTEMENT PAR DÉFAUT CENTRÉ)
-   --------------------------------------------- */
-.section {
-  padding: 60px 0;
-}
-
-.section-content {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;     /* centre vertical chaque bloc */
-  justify-content: center;
-  max-width: 1200px;       /* largeur max centrée */
-  margin: 0 auto;
-  padding: 0 20px;
-  gap: 40px;               /* espace entre image et texte */
-}
-
-/* Règles générales pour toutes les images de section */
-.section-content .image {
-  flex: 0 0 40%;           /* 40 % du conteneur */
-  max-width: 400px;        /* jamais plus large que 400 px */
-}
-
-.section-content .image img {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-}
-
-.section-content .text {
-  flex: 1 1 60%;           /* 60 % du conteneur pour le texte */
-}
-
-.section-content .text h2 {
-  font-size: 2rem;
-  color: #005f99;
-  margin-bottom: 1rem;
-}
-
-.section-content .text p {
-  font-size: 1rem;
-  color: #444444;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-/* ---------------------------------------------
-   6) PIED DE PAGE
-   --------------------------------------------- */
-footer {
-  background-color: #005f99;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-}
-
-footer p {
-  font-size: 0.9rem;
-}
-
-/* ---------------------------------------------
-   7) PAGE “Suivi” (body class="suivi")
-   --------------------------------------------- */
-
-/* Fond gris pleine largeur pour chaque “section-full” */
-.suivi .section.section-full {
-  width: 100%;
-  background-color: #f5f5f5;
-  padding: 80px 0;
-}
-
-/* Conteneur interne centré pour chaque “section-full” */
-.suivi .section-full .section-content {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;      /* centre vertical par défaut */
-  justify-content: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  gap: 40px;
-}
-
-/* === 1ᵉʳ ENCADRE “Carte d’identité” (bloc 1) === */
-.suivi .section-full:nth-of-type(1) .section-content {
-  flex-direction: row;      /* image à gauche, texte à droite */
-}
-.suivi .section-full:nth-of-type(1) .section-content .image img {
-  max-height: 120px !important;
-  width: auto !important;
-  border-radius: 8px;
-  display: block;
-}
-.suivi .section-full:nth-of-type(1) .section-content .image {
-  flex: 0 0 auto;           /* largeur auto selon l’image */
-  margin-right: 20px;       /* espace à droite de l’image */
-}
-.suivi .section-full:nth-of-type(1) .section-content .text {
-  flex: 1 1 auto;           /* texte prend tout le reste */
-}
-
-/* === 2ᵉʳ ENCADRE “Carrousel Rouanette” (bloc 2) === */
-/* (visuellement 2ᵉ, mais référencé comme nth-of-type(2)) */
-.suivi .section-full:nth-of-type(2) .section-content {
-  flex-direction: row;      /* texte à gauche, carrousel à droite */
-}
-/* Carrousel 5 images Rouanette */
-.fixed-image-wrapper {
-  position: sticky;
-  top: 60px;
-  width: 100%;
-  height: 80vh;             /* 80 % du viewport */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* Empilement des 5 images */
-.fixed-image-wrapper .behavior-img {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;
-  display: block;
-}
-.fixed-image-wrapper .behavior-img.active {
-  opacity: 1;
-}
-/* Texte bloc 2 (à gauche) */
-.suivi .section-full:nth-of-type(2) .section-content .text {
-  flex: 1 1 35%;
-  padding-right: 20px;
-}
-
-/* 2ᵉ bis – paragraphe descriptif sous le carrousel */
-.alpage-caption {
-  max-width: 800px;        /* largeur max du paragraphe */
-  margin: 20px auto;       /* centrage + marge en haut */
-  padding: 0 20px;         /* petite marge horizontale */
-  font-size: 1rem;
-  color: #444444;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-/* === 3ᵉʳ SECTION “Analyse des déplacements” (bloc 3 visuel) === */
-.analysis-section .section-content {
-  display: flex;
-  flex-direction: column;
-  gap: 60px; /* espace vertical entre chaque encart */
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Structure d’un bloc “analysis-block” – desktop */
-.analysis-section .analysis-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Image à gauche (45 %), texte à droite (50 %) */
-.analysis-section .analysis-block .analysis-image {
-  flex: 0 0 45%;
-}
-.analysis-section .analysis-block .analysis-text {
-  flex: 0 0 50%;
-}
-
-/* Inversion (texte à gauche, image à droite) */
-.analysis-section .analysis-block.reverse {
-  flex-direction: row-reverse;
-}
-
-/* Style des images dans “Analyse” */
-.analysis-section .analysis-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-}
-
-/* Style des titres/paragraphe dans “Analyse” */
-.analysis-section .analysis-text h3 {
-  font-size: 1.5rem;
-  color: #005f99;
-  margin-bottom: 0.5rem;
-}
-.analysis-section .analysis-text p {
-  font-size: 1rem;
-  color: #444444;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-/* ---------------------------------------------
-   8) AJUSTEMENTS D’ESPACEMENT ENTRE ENCADRE 3 ET 4
-   (dans “Suivi des déplacements” uniquement)
-   --------------------------------------------- */
-.suivi .section-full:nth-of-type(3) {
-  padding: 60px 0 20px;  /* 60 px en haut, 20 px en bas */
-}
-.suivi .section-full:nth-of-type(4) {
-  padding: 20px 0 80px;  /* 20 px en haut, 80 px en bas */
-}
-
-/* ---------------------------------------------
-   9) CARROUSEL 3 IMAGES “Parc de nuit” (bloc 2)
-   --------------------------------------------- */
-.fixed-image-wrapper.carousel-3 {
-  position: sticky;
-  top: 60px;            /* sous la navbar */
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fixed-image-wrapper.carousel-3 .behavior-img {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;
-  display: block;
-}
-.fixed-image-wrapper.carousel-3 .behavior-img.active {
-  opacity: 1;
-}
-
-/* ---------------------------------------------
-   10) ADAPTATION MOBILE (ÉCRANS ≤ 768px)
-   --------------------------------------------- */
-@media (max-width: 768px) {
-  .hero .hero-content h1 {
-    font-size: 2.2rem;
-  }
-  .hero .hero-content p {
-    font-size: 1rem;
-  }
-
-  /* Toutes les .section-content passent en colonne */
-  .section-content {
-    flex-direction: column !important;
-    padding: 40px 10px;
-  }
-  .section-content .image,
-  .section-content .text {
-    flex: 1 1 100%;
-    max-width: none;
-  }
-
-  /* Pour les sections-full “suivi” en colonne également */
-  .suivi .section-full .section-content {
-    flex-direction: column !important;
-    padding: 40px 10px;
-  }
-  .suivi .section-full .section-content .image,
-  .suivi .section-full .section-content .text {
-    flex: 1 1 100%;
-    max-width: none;
-  }
-
-  /* Carrousels deviennent relatifs en mobile */
-  .fixed-image-wrapper {
-    position: relative;
-    top: auto;
-    height: auto;
-    margin-bottom: 20px;
-  }
-  .fixed-image-wrapper .behavior-img {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  /* Analyse des déplacements : chaque bloc en colonne */
-  .analysis-section .analysis-block {
-    flex-direction: column !important;
-    gap: 20px;
-  }
-  .analysis-section .analysis-block.reverse {
-    flex-direction: column !important;
-  }
-  .analysis-section .analysis-image,
-  .analysis-section .analysis-text {
-    flex: 1 1 100%;
-  }
-
-  header {
-    height: 55px;
-  }
-  .navbar .logo {
-    font-size: 1.3rem;
-  }
-  .navbar li {
-    margin-left: 15px;
-  }
-}
-
-/* ---------------------------------------------
-   11) LIGHTBOX (pour agrandir les images au clic)
-   --------------------------------------------- */
-/* Overlay pleine page, caché par défaut */
-#lightbox {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-#lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 8px;
-}
-
-/* Croix « × » pour fermer */
-#lightbox-close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2rem;
-  color: #FFFFFF;
-  cursor: pointer;
-  user-select: none;
-}
-/* =============================================================================
-   styles.css
-   Mise en page complète pour le site PERSEE
-   ============================================================================= */
-
-/* ---------------------------------------------
-   1) IMPORT DE POLICE ET RÉINITIALISATION GLOBALE
-   --------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* ---------------------------------------------
-   2) TYPOGRAPHIE ET COULEURS DE BASE
-   --------------------------------------------- */
-body {
-  font-family: 'Roboto', sans-serif;
-  color: #333333;
-  line-height: 1.6;
-  background-color: #FFFFFF;
-  /* Espace en haut pour la navbar (60px) */
-  padding-top: 60px;
-}
-
-h1, h2, h3 {
-  font-weight: 700;
-  color: #005f99; /* bleu foncé pour les titres */
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-p {
-  margin-bottom: 1rem; /* espacement sous chaque paragraphe */
-}
-
-/* ---------------------------------------------
-   3) NAVBAR FIXE EN TÊTE
-   --------------------------------------------- */
-header {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  z-index: 1000;
-}
-
-.navbar {
-  max-width: 1200px;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* logo à gauche, menu à droite */
-  padding: 0 20px;
-}
-
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #005f99;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 30px; /* espace entre chaque lien */
-}
-
-.navbar li {
-  margin: 0;
-}
-
-.navbar a {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333333;
-  padding: 5px 0;
-  transition: color 0.2s ease-in-out;
-}
-
-.navbar a:hover,
-.navbar a.active {
-  color: #005f99;
-}
-
-/* ---------------------------------------------
-   4) HERO BANNER (BANNIÈRE PLEIN ÉCRAN)
-   --------------------------------------------- */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 100vh; /* pleine hauteur de la fenêtre */
-  background-image: url('../images/hero.jpg');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* calque foncé pour contraste */
-  z-index: 1;
-}
-
-.hero .hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #FFFFFF;
-  padding: 0 20px;
-}
-
-.hero .hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  color: #FFFFFF;
-}
-
-.hero .hero-content p {
-  font-size: 1.2rem;
-  color: #FFFFFF;
-}
-
-/* ---------------------------------------------
-   5) SECTIONS (COMPORTEMENT PAR DÉFAUT CENTRÉ)
-   --------------------------------------------- */
-.section {
-  padding: 60px 0;
-}
-
-.section-content {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;     /* centre vertical chaque bloc */
-  justify-content: center;
-  max-width: 1200px;       /* largeur max centrée */
-  margin: 0 auto;
-  padding: 0 20px;
-  gap: 40px;               /* espace entre image et texte */
-}
-
-/* Règles générales pour toutes les images de section */
-.section-content .image {
-  flex: 0 0 40%;           /* 40 % du conteneur */
-  max-width: 400px;        /* jamais plus large que 400 px */
-}
-
-.section-content .image img {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-}
-
-.section-content .text {
-  flex: 1 1 60%;           /* 60 % du conteneur pour le texte */
-}
-
-.section-content .text h2 {
-  font-size: 2rem;
-  color: #005f99;
-  margin-bottom: 1rem;
-}
-
-.section-content .text p {
-  font-size: 1rem;
-  color: #444444;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-/* ---------------------------------------------
-   6) PIED DE PAGE
-   --------------------------------------------- */
-footer {
-  background-color: #005f99;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-}
-
-footer p {
-  font-size: 0.9rem;
-}
-
-/* ---------------------------------------------
-   7) PAGE “Suivi” (body class="suivi")
-   --------------------------------------------- */
-
-/* Fond gris pleine largeur pour chaque “section-full” */
-.suivi .section.section-full {
-  width: 100%;
-  background-color: #f5f5f5;
-  padding: 80px 0;
-}
-
-/* Conteneur interne centré pour chaque “section-full” */
-.suivi .section-full .section-content {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;      /* centre vertical par défaut */
-  justify-content: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  gap: 40px;
-}
-
-/* === 1ᵉʳ ENCADRE “Carte d’identité” (bloc 1) === */
-.suivi .section-full:nth-of-type(1) .section-content {
-  flex-direction: row;      /* image à gauche, texte à droite */
-}
-.suivi .section-full:nth-of-type(1) .section-content .image img {
-  max-height: 120px !important;
-  width: auto !important;
-  border-radius: 8px;
-  display: block;
-}
-.suivi .section-full:nth-of-type(1) .section-content .image {
-  flex: 0 0 auto;           /* largeur auto selon l’image */
-  margin-right: 20px;       /* espace à droite de l’image */
-}
-.suivi .section-full:nth-of-type(1) .section-content .text {
-  flex: 1 1 auto;           /* texte prend tout le reste */
-}
-
-/* === 2ᵉʳ ENCADRE “Carrousel Rouanette” (bloc 2) === */
-/* (visuellement 2ᵉ, mais référencé comme nth-of-type(2)) */
-.suivi .section-full:nth-of-type(2) .section-content {
-  flex-direction: row;      /* texte à gauche, carrousel à droite */
-}
-/* Carrousel 5 images Rouanette */
-.fixed-image-wrapper {
-  position: sticky;
-  top: 60px;
-  width: 100%;
-  height: 80vh;             /* 80 % du viewport */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* Empilement des 5 images */
-.fixed-image-wrapper .behavior-img {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;
-  display: block;
-}
-.fixed-image-wrapper .behavior-img.active {
-  opacity: 1;
-}
-/* Texte bloc 2 (à gauche) */
-.suivi .section-full:nth-of-type(2) .section-content .text {
-  flex: 1 1 35%;
-  padding-right: 20px;
-}
-
-/* 2ᵉ bis – paragraphe descriptif sous le carrousel */
-.alpage-caption {
-  max-width: 800px;        /* largeur max du paragraphe */
-  margin: 20px auto;       /* centrage + marge en haut */
-  padding: 0 20px;         /* petite marge horizontale */
-  font-size: 1rem;
-  color: #444444;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-/* === 3ᵉʳ SECTION “Analyse des déplacements” (bloc 3 visuel) === */
-.analysis-section .section-content {
-  display: flex;
-  flex-direction: column;
-  gap: 60px; /* espace vertical entre chaque encart */
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Structure d’un bloc “analysis-block” – desktop */
-.analysis-section .analysis-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Image à gauche (45 %), texte à droite (50 %) */
-.analysis-section .analysis-block .analysis-image {
-  flex: 0 0 45%;
-}
-.analysis-section .analysis-block .analysis-text {
-  flex: 0 0 50%;
-}
-
-/* Inversion (texte à gauche, image à droite) */
-.analysis-section .analysis-block.reverse {
-  flex-direction: row-reverse;
-}
-
-/* Style des images dans “Analyse” */
-.analysis-section .analysis-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-}
-
-/* Style des titres/paragraphe dans “Analyse” */
-.analysis-section .analysis-text h3 {
-  font-size: 1.5rem;
-  color: #005f99;
-  margin-bottom: 0.5rem;
-}
-.analysis-section .analysis-text p {
-  font-size: 1rem;
-  color: #444444;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-/* ---------------------------------------------
-   8) AJUSTEMENTS D’ESPACEMENT ENTRE ENCADRE 3 ET 4
-   (dans “Suivi des déplacements” uniquement)
-   --------------------------------------------- */
-.suivi .section-full:nth-of-type(3) {
-  padding: 60px 0 20px;  /* 60 px en haut, 20 px en bas */
-}
-.suivi .section-full:nth-of-type(4) {
-  padding: 20px 0 80px;  /* 20 px en haut, 80 px en bas */
-}
-
-/* ---------------------------------------------
-   9) CARROUSEL 3 IMAGES “Parc de nuit” (bloc 2)
-   --------------------------------------------- */
-.fixed-image-wrapper.carousel-3 {
-  position: sticky;
-  top: 60px;            /* sous la navbar */
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fixed-image-wrapper.carousel-3 .behavior-img {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;
-  display: block;
-}
-.fixed-image-wrapper.carousel-3 .behavior-img.active {
-  opacity: 1;
-}
-
-/* ---------------------------------------------
-   10) ADAPTATION MOBILE (ÉCRANS ≤ 768px)
-   --------------------------------------------- */
-@media (max-width: 768px) {
-  .hero .hero-content h1 {
-    font-size: 2.2rem;
-  }
-  .hero .hero-content p {
-    font-size: 1rem;
-  }
-
-  /* Toutes les .section-content passent en colonne */
-  .section-content {
-    flex-direction: column !important;
-    padding: 40px 10px;
-  }
-  .section-content .image,
-  .section-content .text {
-    flex: 1 1 100%;
-    max-width: none;
-  }
-
-  /* Pour les sections-full “suivi” en colonne également */
-  .suivi .section-full .section-content {
-    flex-direction: column !important;
-    padding: 40px 10px;
-  }
-  .suivi .section-full .section-content .image,
-  .suivi .section-full .section-content .text {
-    flex: 1 1 100%;
-    max-width: none;
-  }
-
-  /* Carrousels deviennent relatifs en mobile */
-  .fixed-image-wrapper {
-    position: relative;
-    top: auto;
-    height: auto;
-    margin-bottom: 20px;
-  }
-  .fixed-image-wrapper .behavior-img {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  /* Analyse des déplacements : chaque bloc en colonne */
-  .analysis-section .analysis-block {
-    flex-direction: column !important;
-    gap: 20px;
-  }
-  .analysis-section .analysis-block.reverse {
-    flex-direction: column !important;
-  }
-  .analysis-section .analysis-image,
-  .analysis-section .analysis-text {
-    flex: 1 1 100%;
-  }
-
-  header {
-    height: 55px;
-  }
-  .navbar .logo {
-    font-size: 1.3rem;
-  }
-  .navbar li {
-    margin-left: 15px;
-  }
-}
-
-/* ---------------------------------------------
-   11) LIGHTBOX (pour agrandir les images au clic)
-   --------------------------------------------- */
-/* Overlay pleine page, caché par défaut */
-#lightbox {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-#lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 8px;
-}
-
-/* Croix « × » pour fermer */
-#lightbox-close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2rem;
-  color: #FFFFFF;
-  cursor: pointer;
-  user-select: none;
-}
-
-
-
-
-
-
-
-
-
-/* -------------------------------------------------------------------
-   Partie “Analyse des déplacements” (à insérer dans styles.css)
-   ------------------------------------------------------------------- */
-.analysis-section .section-content {
-  display: flex;
-  flex-direction: column;
-  gap: 60px; /* espace vertical entre chaque encart */
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Structure d’un bloc “analysis-block” – desktop */
-.analysis-section .analysis-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Image à gauche (45%), texte à droite (50%) */
-.analysis-section .analysis-block .analysis-image {
-  flex: 0 0 45%;
-}
-.analysis-section .analysis-block .analysis-text {
-  flex: 0 0 50%;
-}
-
-/* Inversion pour .reverse (texte à gauche, image à droite) */
-.analysis-section .analysis-block.reverse {
-  flex-direction: row-reverse;
-}
-
-/* Style des images dans “Analyse” */
-.analysis-section .analysis-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-}
-
-/* Style des titres/paragraphe dans “Analyse” */
-.analysis-section .analysis-text h3 {
-  font-size: 1.5rem;
-  color: #005f99;
-  margin-bottom: 0.5rem;
-}
-.analysis-section .analysis-text p {
-  font-size: 1rem;
-  color: #444444;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-/* 3 images carousel “Parc de nuit” (utilisé dans bloc 2) */
-.fixed-image-wrapper.carousel-3 {
-  position: sticky;
-  top: 60px;            /* sous la navbar */
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fixed-image-wrapper.carousel-3 .behavior-img {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;
-  display: block;
-}
-.fixed-image-wrapper.carousel-3 .behavior-img.active {
-  opacity: 1;
-}
-
-
-
-/* ================================================================
-   Correctifs spécifiques au 2ᵉ bloc “Utilisation par parc de nuit”
-   ================================================================ */
-
-/* ===========================================================
-   Carrousel 3 images – “Parc de nuit” (bloc 2) – version finale
-   =========================================================== */
-
-/* On garde l’alignement du texte avec le haut de l’image */
-.analysis-section .analysis-block:nth-of-type(2) {
-  align-items: flex-start;
-}
-
-/* Le conteneur redevient sticky pour rester fixe dans le viewport */
-.analysis-section .analysis-block:nth-of-type(2) .carousel-3 {
-  position: sticky;      /* fixe pendant le scroll */
-  top: 60px;             /* juste sous la barre de navigation */
-  width: 100%;           /* même largeur que les autres images */
-  height: 60vh;          /* hauteur semblable au bloc 3 */
-}
-
-/* On empile les 3 images les unes sur les autres */
-.analysis-section .analysis-block:nth-of-type(2) .carousel-3 .behavior-img {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 8px;
-}
-
-/* Celle qui est active (ou la première par défaut) est visible */
-.analysis-section
-  .analysis-block:nth-of-type(2)
-  .carousel-3
-  .behavior-img.active,
-.analysis-section
-  .analysis-block:nth-of-type(2)
-  .carousel-3
-  .behavior-img:first-child {
-  opacity: 1;
-}
-
-
-
-/* -------------------------------------------------------------
-   Bloc 2 – on réduit la hauteur du conteneur sticky (=> moins de
-   vide avant le bloc 3) tout en conservant l’effet de carrousel
-   ------------------------------------------------------------- */
-@media (min-width: 769px) {           /* seulement desktop/tablette */
-  .analysis-section .analysis-block:nth-of-type(2) .carousel-3 {
-    height: 42vh;     /* au lieu de 60 vh : ajuste si besoin (35–45) */
-  }
-}
-
-/* On peut aussi resserrer légèrement l’écart vertical général
-   entre les blocs de la section “Analyse” */
-.analysis-section .section-content {
-  gap: 40px;          /* ex-60 px → 40 px */
-}
-
-
-
-/* ---------------------------------------------------------------
-   Ajustement final de l’espacement bloc 2 ↔ bloc 3 (desktop)
-   --------------------------------------------------------------- */
-@media (min-width: 769px) {
-  /* Hauteur plus faible pour le conteneur sticky : 
-     environ la hauteur réelle de l’image */
-  .analysis-section .analysis-block:nth-of-type(2) .carousel-3 {
-    height: 380px;   /* essaye 360–400 px si tu veux affiner */
-  }
-
-  /* On remet le gap vertical global à 40 px 
-     (déjà appliqué, mais on s’assure qu’il n’est pas écrasé) */
-  .analysis-section .section-content {
-    gap: 40px;
-  }
-}
-
-
-
-/* ============================================================
-   Section “Présence du troupeau selon la ressource” – styling
-   ============================================================ */
-.resource-section .section-content {
-  flex-direction: column;      /* texte puis image l’un sous l’autre */
-  align-items: center;         /* centre horizontalement */
-  gap: 20px;                   /* espace texte / image */
-  text-align: center;          /* texte centré */
-}
-
-.resource-section .text {
-  max-width: 800px;            /* colonne de lecture confortable */
-}
-
-.resource-section .text h3 {
-  font-size: 1.5rem;
-  color: #005f99;
-  margin-bottom: 0.5rem;
-}
-
-.resource-section .resource-image {
-  width: 100%;
-  max-width: 1200px;           /* même largeur “max” que le reste du site */
-}
-
-.resource-section .resource-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-}
-
-
-
-
-
-
-
-/*--------------------------------------------------------------
-  HOTFIX – Bloc 1 « Carte d’identité »
-  -> on réduit la hauteur du carrousel Rouanette (desktop)
-  --------------------------------------------------------------*/
-@media (min-width: 769px) {          /* ≥ tablette paysage / desktop */
-  #wrapper-rouanette {
-    height: 800px;      /* ajuste 380-450 px selon la hauteur de la carte */
-    aspect-ratio: auto; /* on neutralise le 80vh d’origine               */
-  }
-}
-
-
-
-
-/* ===========================================================
-   PUCE / DOTS pour carrousels
-   =========================================================== */
-.carousel-dots{
-  position:absolute;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:8px;
-  background:rgba(255,255,255,.6);
-  padding:4px 10px;
-  border-radius:14px;
-}
-.carousel-dots .dot{
-  width:12px;height:12px;
-  border:2px solid #555;
-  border-radius:50%;
-  background:transparent;
-  cursor:pointer;
-}
-.carousel-dots .dot.active{
-  background:#555;
-}
-
-/* ========== BULLES (même look que page d’accueil) ========== */
-.bubble {
-  background: var(--clr-bg-light);          /* #f9fbff   */
-  border: 1px solid var(--clr-bubble-border); /* #dfe7f3 */
-  border-radius: var(--radius-lg);          /* 18 px     */
-  box-shadow: 0 2px 8px rgba(0,0,0,.05);
-  margin: 60px auto;                        /* espace vertical régulier */
-  max-width: 1200px;
-  padding: 40px 50px;
-}
-
-/* ========== CAROUSEL : puces “pilule” ========== */
-.carousel-dots{
-  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
-  display:flex;gap:10px;
-  padding:4px 14px;
-  background:rgba(240,240,240,.9);          /* gris clair opaque */
-  border-radius:24px;                       /* pilule */
-}
-.carousel-dots .dot{
-  width:13px;height:13px;
-  border:2px solid #555;
-  border-radius:50%;
-  background:transparent;
-  transition:background .2s;
-  cursor:pointer;
-}
-.carousel-dots .dot.active{background:#005f99;}  /* bleu rempli pour l’actif */
-
-
-
-/* ========== NAVBAR unifiée ========== */
 .navbar{
+  max-width:1200px;height:100%;
+  margin:0 auto;
   display:flex;align-items:center;justify-content:space-between;
-  padding:1.2rem 2rem;background:#fff;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-  position:sticky;top:0;z-index:1000;
+  padding:0 20px;
+}
+.navbar .logo{font-size:1.5rem;color:var(--accent)}
+.navbar ul{list-style:none;display:flex;gap:30px}
+.navbar a{font-size:1rem;font-weight:500;padding:5px 0;transition:color .2s}
+.navbar a:hover,
+.navbar a.active{color:var(--accent)}
+
+/* 5 ▸ HERO *************************************************************** */
+.hero{
+  position:relative;width:100%;height:100vh;
+  background:url('../images/hero.jpg') center/cover no-repeat;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(0,0,0,.4);
+}
+.hero .hero-content{
+  position:relative;z-index:1;text-align:center;color:#fff;padding:0 20px;
+}
+.hero h1{font-size:3rem;margin-bottom:.5rem}
+
+/* 6 ▸ SECTIONS GÉNÉRIQUES *********************************************** */
+.section{padding:60px 0}
+.section-content{
+  max-width:1200px;margin:0 auto;padding:0 20px;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:40px;
+}
+.section-content .image{flex:0 0 40%;max-width:400px}
+.section-content .image img{width:100%;border-radius:8px;display:block}
+.section-content .text{flex:1 1 60%}
+.section-content .text h2{font-size:2rem;margin-bottom:1rem}
+.section-content .text p{color:var(--text-light);text-align:justify}
+
+/* 7 ▸ FOOTER ************************************************************* */
+footer{
+  background:var(--accent);color:#fff;text-align:center;padding:20px;margin-top:40px
+}
+footer p{font-size:.9rem}
+
+/* 8 ▸ PAGE “SUIVI” (spécifique) ****************************************** */
+body.suivi .section-full{
+  width:100%;background:var(--bg-light);padding:80px 0
+}
+body.suivi .section-full .section-content{gap:40px}
+
+/* Carte d’identité (bloc 1) */
+body.suivi .section-full:nth-of-type(1) .section-content{flex-direction:row}
+body.suivi .section-full:nth-of-type(1) img{max-height:120px;width:auto}
+
+/* Carrousel Rouanette (bloc 2 – 5 images) */
+.fixed-image-wrapper{
+  position:sticky;top:var(--nav-h);
+  width:100%;height:80vh;
+  display:flex;align-items:center;justify-content:center
+}
+.fixed-image-wrapper .behavior-img{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:80%;opacity:0;border-radius:8px;transition:opacity .3s
+}
+.fixed-image-wrapper .behavior-img.active{opacity:1}
+body.suivi .section-full:nth-of-type(2) .text{flex:1 1 35%;padding-right:20px}
+
+/* Analyse des déplacements (blocs multiples) */
+.analysis-section .section-content{flex-direction:column;gap:60px}
+.analysis-block{display:flex;align-items:center;gap:20px}
+.analysis-block .analysis-image{flex:0 0 45%}
+.analysis-block .analysis-text{flex:0 0 50%}
+.analysis-block.reverse{flex-direction:row-reverse}
+.analysis-text h3{font-size:1.5rem;margin-bottom:.5rem}
+.analysis-text p{text-align:justify;color:var(--text-light)}
+
+/* Carrousel 3 images “Parc de nuit” (bloc 2) */
+.carousel-3{comp:dummy}      /* garde-place : même règles que fixed-image-wrapper */
+
+/* 9 ▸ LIGHTBOX *********************************************************** */
+#lightbox{
+  position:fixed;inset:0;background:rgba(0,0,0,.8);
+  display:none;align-items:center;justify-content:center;z-index:2000
+}
+#lightbox img{max-width:90%;max-height:90%;border-radius:8px}
+#lightbox-close{
+  position:absolute;top:20px;right:30px;font-size:2rem;color:#fff;
+  cursor:pointer;user-select:none
+}
+
+/* 10 ▸ RESPONSIVE ≤ 768 px ********************************************** */
+@media (max-width:768px){
+  .hero h1{font-size:2.2rem}.hero p{font-size:1rem}
+  .section-content{flex-direction:column;padding:40px 10px}
+  .section-content .image,.section-content .text{flex:1 1 100%;max-width:none}
+  /* carrousels deviennent “simples” */
+  .fixed-image-wrapper{position:relative;height:auto;margin-bottom:20px}
+  .fixed-image-wrapper .behavior-img{position:relative;left:auto;transform:none;width:100%;margin-bottom:10px}
+  /* analyse en colonne */
+  .analysis-block,.analysis-block.reverse{flex-direction:column}
+  header{height:55px}               /* si tu réduis la nav sur mobile */
+}
+
+/* =======================================================================
+   FIN
+   ======================================================================= */
+ /* ========= NAVBAR PERSEE (uniforme sur tout le site) ========= */
+:root{
+  --nav-bg: #ffffff;
+  --nav-accent: #005f99;
+  --nav-link-hover: rgba(0,0,0,.08);
+}
+
+.persee-navbar{
+  height: 56px;
+  display:flex;
+  align-items:center;
+  padding: 0 1.25rem;
+  background: var(--nav-bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  position: sticky;           /* reste visible au défilement */
+  top:0; z-index: 2000;
 }
 
 /* logo */
-.logo{font-weight:800;font-size:1.5rem;color:#005f99}
-
-/* liste des liens */
-.nav-links{display:flex;gap:1.6rem;list-style:none;font-weight:600}
-
-/* styles des ancres */
-.nav-links a{padding:.25rem .5rem;border-radius:.25rem;
-  transition:background .25s;color:#333}
-.nav-links a:hover,
-.nav-links a.active{background:rgba(0,95,153,.08);color:#005f99}
-
-/* ----- burger pour <768 px ----- */
-.nav-toggle{
-  display:none;background:none;border:0;font-size:1.9rem;cursor:pointer
+.persee-navbar .logo{
+  font: 800 1.35rem/1 'Inter',sans-serif;
+  color: var(--nav-accent);
+  text-decoration:none;
+  margin-right:auto;
 }
 
-/* affichage mobile */
-@media (max-width:768px){
-  .nav-toggle{display:block}
-  .nav-links{
-    position:absolute;right:0;top:60px;         /* sous la barre */
-    flex-direction:column;align-items:flex-start;
-    background:#fff;width:220px;max-height:0;overflow:hidden;
-    box-shadow:0 8px 16px rgba(0,0,0,.08);
-    transition:max-height .35s ease;
+/* liste */
+.persee-navbar .nav-links{
+  display:flex; gap:1.3rem;
+  list-style:none;
+  margin:0; padding:0;
+}
+
+/* liens */
+.persee-navbar .nav-links a{
+  display:block;
+  padding:.35rem .7rem;
+  font:600 1rem/1 'Inter',sans-serif;
+  text-decoration:none; color:#222;
+  border-radius:6px;
+  transition:background .25s;
+}
+.persee-navbar .nav-links a:hover{
+  background:var(--nav-link-hover);
+}
+
+/* lien actif — ajouté en JS */
+.persee-navbar .nav-links a.active{
+  background:rgba(0,95,153,.12);
+  color:var(--nav-accent);
+}
+
+/* ---------- burger (mobile) ---------- */
+.nav-toggle{
+  display:none;               /* masqué sur desktop */
+  flex-direction:column;
+  gap:4px;
+  background:none; border:none;
+  cursor:pointer;
+  margin-left:1rem;
+}
+.nav-toggle span{
+  width:22px; height:3px;
+  background:#333; border-radius:2px;
+}
+
+/* mobile : affiche le burger, cache les liens */
+@media(max-width:768px){
+  .nav-toggle{ display:flex; }
+  .persee-navbar .nav-links{
+    position:absolute;
+    right:0; top:56px;
+    flex-direction:column;
+    background:var(--nav-bg);
+    width:100%;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    box-shadow:0 4px 10px rgba(0,0,0,.06);
   }
-  .nav-links.open{max-height:500px;}            /* menu déplié */
+  .persee-navbar .nav-links.open{
+    max-height:260px;          /* assez pour 4 liens */
+  }
+  .persee-navbar .nav-links li{
+    border-bottom:1px solid rgba(0,0,0,.05);
+  }
 }

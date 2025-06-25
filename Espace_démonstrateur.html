@@ -1,602 +1,717 @@
+<!-- Full HTML with updated light‑box arrows & JS  → 2025‑06‑24 -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PERSEE – Suivi d’alpage</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PERSEE – Suivi d’alpage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+  
+  <style>
+  :root{
+    --accent:#005f99;
+    --bg:#f1f3f6;
+    --radius:18px;
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+    --gap:80px;
+    --pad:48px;
+    --img-w:700px;
+    --arrow-size:44px;
+  }
+  /* RESET & TYPO */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',Arial,Helvetica,sans-serif;font-size:17px;line-height:1.75;background:var(--bg);color:#222}
+  img,video{display:block;max-width:100%;height:auto}
+  a{text-decoration:none;color:inherit}
+  h1,h2,h3,h4{font-weight:800;line-height:1.25;color:var(--accent)}
+  p{margin-top:1rem}
 
-<!-- police Inter -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-<!-- ============== STYLES INTÉGRÉS ============== -->
-<style>
+ /* ========= NAVBAR PERSEE (uniforme sur tout le site) ========= */
 :root{
-  --accent:#005f99;
-  --bg:#f1f3f6;
-  --radius:18px;
-  --shadow:0 8px 24px rgba(0,0,0,.08);
-  --gap:80px;
-  --pad:48px;
-  --img-w:700px;
-  /* slider */
-  --arrow-size:44px;
+  --nav-bg: #ffffff;
+  --nav-accent: #005f99;
+  --nav-link-hover: rgba(0,0,0,.08);
 }
 
-/********************************** RESET & TYPO *********************************/
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Inter',Arial,Helvetica,sans-serif;
-  font-size:17px;line-height:1.75;background:var(--bg);color:#222;
-}
-img,video{display:block;max-width:100%;height:auto}
-a{text-decoration:none;color:inherit}
-h1,h2,h3,h4{font-weight:800;line-height:1.25;color:var(--accent)}
-p{margin-top:1rem}
-
- /* ============================ NAVBAR ============================ */
-    .navbar{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:1.2rem 2rem;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);
-      position:sticky;top:0;z-index:1000;
-    }
-    .navbar .logo{font-weight:800;font-size:1.5rem;color:var(--accent)}
-    .navbar ul{display:flex;gap:1.6rem;list-style:none;font-weight:600}
-    .navbar a{padding:.25rem .5rem;border-radius:.25rem;transition:background .25s}
-    .navbar a:hover,.navbar a.active{background:rgba(0,95,153,.08)}
-
-/************************************** HERO **************************************/
-.hero{
-  height:60vh;display:flex;align-items:center;justify-content:center;
-  background:url('images/hero.jpg') center/cover no-repeat;
-  position:relative;color:#fff;text-align:center;
-}
-.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
-.hero-content{position:relative;z-index:1}
-.hero h1{font-size:3rem;margin-bottom:.8rem}
-@media(max-width:768px){.hero{height:45vh}.hero h1{font-size:2.4rem}}
-
-/************************************ SECTIONS ************************************/
-.section{padding:4rem 0}
-.section-full .section-content{max-width:1240px;margin:0 auto;padding:0 1.5rem}
-
-/********************************** SELECTEUR *************************************/
-.text label{font-weight:600;margin-right:.5rem}
-select{font-size:1rem;padding:.55rem 1rem;border-radius:.5rem;border:1px solid #ccc}
-
-/******************************** ANALYSE BLOCKS *********************************/
-.analysis-section{background:var(--bg)}
-.analysis-block{
-  display:flex;gap:var(--pad);align-items:center;
-  background:#fff;border-radius:var(--radius);padding:var(--pad);
-  box-shadow:var(--shadow);margin-top:var(--gap);
-  transition:transform .25s,box-shadow .25s;
-}
-.analysis-block:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.12)}
-.analysis-block.reverse{flex-direction:row-reverse}
-
-.analysis-image{
-  flex:0 0 var(--img-w);max-width:var(--img-w);
-  aspect-ratio:4/3;position:relative;border-radius:var(--radius);overflow:hidden;
-}
-.analysis-text h3{font-size:2rem;margin-bottom:1rem;position:relative}
-.analysis-text h3::after{content:"";position:absolute;left:0;bottom:-8px;width:40px;height:4px;background:var(--accent);border-radius:2px}
-
-/********************************* CAROUSELS **************************************/
-.carousel-wrapper{position:relative;width:100%;height:100%;cursor:pointer}
-.carousel-wrapper>.behavior-img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity .35s;
-}
-.carousel-wrapper>.active{opacity:1}
-.carousel-dots{
-  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
-  display:flex;gap:8px;background:rgba(255,255,255,.7);
-  padding:4px 10px;border-radius:14px;backdrop-filter:blur(4px);
-}
-.carousel-dots .dot{
-  width:12px;height:12px;border:2px solid #555;border-radius:50%;
-  background:transparent;cursor:pointer;transition:background .2s;
-}
-.carousel-dots .dot.active{background:#555}
-
-/*********************************** LIGHTBOX ************************************/
-#lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:2000}
-#lightbox img{max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
-#lightbox-close{position:absolute;top:20px;right:28px;font-size:42px;color:#fff;cursor:pointer;user-select:none}
-
-/************************************ SLIDER *************************************/
-.slider{position:relative;overflow:visible;margin-top:var(--gap)}
-
-.slider .analysis-block{
-  position:absolute;top:0;left:0;width:100%;
-  transition:transform .6s ease,opacity .6s ease;
-  opacity:0;transform:translateX(100%);
-  pointer-events:none; /* évite les clics hors carte active */
-  display:flex !important; /* toujours flex, masqué par opacity */
-}
-.slider .analysis-block[data-status="active"]{opacity:1;transform:translateX(0);pointer-events:auto}
-.slider .analysis-block[data-status="before"]{opacity:0;transform:translateX(-100%)}
-.slider .analysis-block[data-status="after"]{opacity:0;transform:translateX(100%)}
-
-.slide-btn{
-  position:absolute;z-index:50;top:50%;transform:translateY(-50%);
-  width:var(--arrow-size);height:var(--arrow-size);
-  display:flex;align-items:center;justify-content:center;
-  font-size:32px;line-height:1;
-  background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:50%;
-  cursor:pointer;transition:background .25s;
-}
-.slide-btn:hover{background:rgba(0,0,0,.55)}
-.slide-btn.prev{left:8px}
-.slide-btn.next{right:8px}
-@media(max-width:900px){
-  :root{--arrow-size:38px;}
-  .slide-btn.prev{left:4px}.slide-btn.next{right:4px}
+.persee-navbar{
+  height: 56px;
+  display:flex;
+  align-items:center;
+  padding: 0 1.25rem;
+  background: var(--nav-bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  position: sticky;           /* reste visible au défilement */
+  top:0; z-index: 2000;
 }
 
-/******************************** RESPONSIVE *************************************/
-@media(max-width:1200px){:root{--img-w:540px;--pad:40px}}
-@media(max-width:900px){
-  :root{--gap:64px}
-  .analysis-block,.analysis-block.reverse{flex-direction:column;text-align:center}
-  .analysis-image{max-width:100%;flex:none}
-}
-@media(max-width:600px){
-  :root{--gap:48px;--pad:32px}
-  body{font-size:15px}
-  .hero h1{font-size:2rem}
-  .analysis-text h3{font-size:1.6rem}
+/* logo */
+.persee-navbar .logo{
+  font: 800 1.35rem/1 'Inter',sans-serif;
+  color: var(--nav-accent);
+  text-decoration:none;
+  margin-right:auto;
 }
 
-.hidden{display:none}
-
-
-
-
-/* ─── Ajustements « hero » ───────────────────────────────── */
-.hero{
-  height:100vh;           /* plein écran */
+/* liste */
+.persee-navbar .nav-links{
+  display:flex; gap:1.3rem;
+  list-style:none;
+  margin:0; padding:0;
 }
 
-.hero h1,
-.hero p{
-  color:#fff !important;  /* texte blanc (écrase la couleur accent) */
+/* liens */
+.persee-navbar .nav-links a{
+  display:block;
+  padding:.35rem .7rem;
+  font:600 1rem/1 'Inter',sans-serif;
+  text-decoration:none; color:#222;
+  border-radius:6px;
+  transition:background .25s;
+}
+.persee-navbar .nav-links a:hover{
+  background:var(--nav-link-hover);
 }
 
-
-/* ─── Titre de section ─────────────────── */
-.section-title{
-  text-align:center;
-  font-size:2rem;
-  margin:0;               /* aucun espace supplémentaire */
+/* lien actif — ajouté en JS */
+.persee-navbar .nav-links a.active{
+  background:rgba(0,95,153,.12);
+  color:var(--nav-accent);
 }
 
-/* ─── On remonte un peu le slider ──────── */
-.analysis-section .slider{
-  margin-top:40px;        /* au lieu du gros 80 px par défaut   */
+/* ---------- burger (mobile) ---------- */
+.nav-toggle{
+  display:none;               /* masqué sur desktop */
+  flex-direction:column;
+  gap:4px;
+  background:none; border:none;
+  cursor:pointer;
+  margin-left:1rem;
+}
+.nav-toggle span{
+  width:22px; height:3px;
+  background:#333; border-radius:2px;
 }
 
-/* on neutralise toute marge interne aux cartes dans le slider */
-.slider .analysis-block{ margin-top:0 !important; }
-
-
-
-
-
-
-
-
-
-/* ========== Flèches hors de la carte ========== */
-:root{
-  --arrow-size:44px;   /* diamètre du bouton            */
-  --card-pad:48px;     /* même padding que .analysis-block */
+/* mobile : affiche le burger, cache les liens */
+@media(max-width:768px){
+  .nav-toggle{ display:flex; }
+  .persee-navbar .nav-links{
+    position:absolute;
+    right:0; top:56px;
+    flex-direction:column;
+    background:var(--nav-bg);
+    width:100%;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    box-shadow:0 4px 10px rgba(0,0,0,.06);
+  }
+  .persee-navbar .nav-links.open{
+    max-height:260px;          /* assez pour 4 liens */
+  }
+  .persee-navbar .nav-links li{
+    border-bottom:1px solid rgba(0,0,0,.05);
+  }
 }
 
-.analysis-section .slider{ overflow:visible; }   /* pour laisser dépasser les flèches */
+  /* HERO */
+  .hero{height:100vh;display:flex;align-items:center;justify-content:center;background:url('images/hero.jpg') center/cover no-repeat;position:relative;text-align:center;color:#fff}
+  .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+  .hero-content{position:relative;z-index:1}
+  .hero h1{font-size:3rem;margin-bottom:.8rem}
+  @media(max-width:768px){.hero{height:45vh}.hero h1{font-size:2.4rem}}
 
-.slider .slide-btn{
-  position:absolute; z-index:50;
-  top:50%; transform:translateY(-50%);
-  width:var(--arrow-size); height:var(--arrow-size);
-  display:flex; align-items:center; justify-content:center;
-  font-size:32px; line-height:1;
-  background:rgba(0,0,0,.35); color:#fff;
-  border:none; border-radius:50%;
-  cursor:pointer; transition:background .25s;
+  /* SECTIONS */
+  .section{padding:4rem 0}
+  .section-full .section-content{max-width:1240px;margin:0 auto;padding:0 1.5rem}
+
+  /* SELECTEUR */
+  .text label{font-weight:600;margin-right:.5rem}
+  select{font-size:1rem;padding:.55rem 1rem;border-radius:.5rem;border:1px solid #ccc}
+
+  /* ANALYSIS BLOCKS */
+  .analysis-section{background:var(--bg)}
+  .analysis-block{display:flex;gap:var(--pad);align-items:center;background:#fff;border-radius:var(--radius);padding:var(--pad);box-shadow:var(--shadow);margin-top:var(--gap);transition:transform .25s,box-shadow .25s}
+  .analysis-block:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.12)}
+  .analysis-image{flex:0 0 var(--img-w);max-width:var(--img-w);aspect-ratio:4/3;position:relative;border-radius:var(--radius);overflow:hidden}
+  .analysis-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); /* ombre douce */
+}
+  .analysis-image > img {width: 100%;height: 100%;object-fit: cover;border-radius: inherit;}
+  .analysis-text{margin-left:auto}
+  .analysis-text h3{font-size:2rem;margin-bottom:1rem;position:relative}
+  .analysis-text h3::after{content:"";position:absolute;left:0;bottom:-8px;width:40px;height:4px;background:var(--accent);border-radius:2px}
+
+  /* CAROUSEL DANS CARTES */
+  .carousel-wrapper{position:relative;width:100%;height:100%}
+  .carousel-wrapper>.behavior-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+  .carousel-wrapper>.active{opacity:1}
+  .carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:rgba(255,255,255,.7);padding:4px 10px;border-radius:14px;backdrop-filter:blur(4px)}
+  .carousel-dots .dot{width:12px;height:12px;border:2px solid #555;border-radius:50%;background:transparent;cursor:pointer;transition:background .2s}
+  .carousel-dots .dot.active{background:#555}
+
+  /* LIGHTBOX (nouveau : flèches internes) */
+  #lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);z-index:3000}
+  #lightbox img{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.45)}
+  #lightbox-close{position:absolute;top:24px;right:34px;font-size:48px;font-weight:700;color:#fff;cursor:pointer}
+  .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);font-size:52px;line-height:1;color:#fff;background:rgba(0,0,0,.35);padding:10px 18px;border-radius:50%;cursor:pointer;user-select:none;transition:background .25s}
+  .lb-arrow:hover{background:rgba(0,0,0,.55)}
+  #lb-prev{left:34px}
+  #lb-next{right:34px}
+
+  /* SLIDER PRINCIPAL */
+  .slider{position:relative;overflow:visible;margin-top:40px}
+  .slider .analysis-block{position:absolute;top:0;left:0;width:100%;margin-top:0!important;transition:transform .6s ease,opacity .6s ease;pointer-events:none;opacity:0}
+  .slider .analysis-block[data-status="active"]{opacity:1;transform:translateX(0);pointer-events:auto;z-index:3}
+  .slider .analysis-block[data-status="before"],
+  .slider .analysis-block[data-status="after"]{opacity:.35;transform:scale(.9);z-index:2}
+  @media(min-width:900px){
+    .slider .analysis-block[data-status="before"]{transform:translateX(-40%) scale(.9)}
+    .slider .analysis-block[data-status="after"]{transform:translateX(40%) scale(.9)}
+  }
+  .slide-btn{position:absolute;top:50%;transform:translateY(-50%);width:var(--arrow-size);height:var(--arrow-size);display:flex;align-items:center;justify-content:center;font-size:32px;background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:50%;cursor:pointer;transition:background .25s;z-index:50}
+  .slide-btn:hover{background:rgba(0,0,0,.55)}
+  .slide-btn.prev{left:calc(-0.5*var(--arrow-size) - var(--pad))}
+  .slide-btn.next{right:calc(-0.5*var(--arrow-size) - var(--pad))}
+
+  /* CAPTION */
+  .caption{position:absolute;left:0;right:0;bottom:0;padding:10px 14px;font-size:.95rem;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);color:#fff;border-bottom-left-radius:inherit;border-bottom-right-radius:inherit;opacity:0;transition:opacity .3s}
+  .analysis-image:hover .caption,.carousel-wrapper:hover .caption{opacity:1}
+
+  /* RESPONSIVE */
+  @media(max-width:1200px){:root{--img-w:540px;--pad:40px}}
+  @media(max-width:900px){:root{--gap:64px;--pad:32px;--arrow-size:38px}.analysis-block{flex-direction:column;text-align:center}.analysis-text{margin-left:0}}
+  @media(max-width:600px){:root{--gap:48px;--pad:24px}body{font-size:15px}.hero h1{font-size:2rem}.analysis-text h3{font-size:1.6rem}}
+  .hidden{display:none}
+  
+  
+  
+  #lb-prev, #lb-next {
+  display: none;
+  cursor: pointer;
+  font-size: 2rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 10px;
+  z-index: 10;
+  user-select: none;
+}
+#lb-prev { left: 10px; }
+#lb-next { right: 10px; }
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: .8rem;
+  color: #fff; /* <--- Ajoute cette ligne */
 }
 
-.slider .slide-btn.prev{
-  left:calc(-0.5 * var(--arrow-size) - var(--card-pad));
-}
-.slider .slide-btn.next{
-  right:calc(-0.5 * var(--arrow-size) - var(--card-pad));
-}
-
-.slider .slide-btn:hover{ background:rgba(0,0,0,.55); }
-
-@media(max-width:900px){
-  :root{ --arrow-size:38px; --card-pad:32px; }
+h2.section-title {
+  font-size: 2.4rem;
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+  padding-bottom: 0.5rem;
 }
 
 
-
-
-
-/* ——— Légende qui s’affiche au sur-vol ou dans le carousel ——— */
-.caption{
-  position:absolute;inset:auto 0 0 0;          /* collée en bas */
-  padding:10px 14px;
-  font-size:.95rem;
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(4px);
-  color:#fff;
-  border-bottom-left-radius:inherit;
-  border-bottom-right-radius:inherit;
-  opacity:0;                                   /* cachée par défaut */
-  transition:opacity .3s;
+ /* ─── Barre séparatrice esthétique ───────────────────────────── */
+.divider-fade{
+  height:3px;                          /* épaisseur visible           */
+  border:0;                            /* on neutralise <hr> par défaut */
+  width:100%;                          /* prend la largeur du conteneur */
+  background:var(--accent);            /* bleu foncé de ta charte       */
+  margin:110px 0 70px;                 /* espace avant / après          */
+  
+  /* Astuce : on “masque” progressivement les 5 % extrêmes */
+  -webkit-mask:linear-gradient(90deg,
+               transparent   0%, 
+               #000          40%,
+               #000         60%,
+               transparent 100%);
+          mask:linear-gradient(90deg,
+               transparent   0%, 
+               #000          40%,
+               #000         60%,
+               transparent 100%);
+  /* (les 5 % aux extrémités deviennent transparents → fondu) */
+  opacity:.4;                          /* ajuste l’intensité             */
+  border-radius:1.5px;                 /* léger arrondi, optionnel       */
 }
-.analysis-image:hover .caption{opacity:1}       /* pour les images “simples” */
-.carousel-wrapper .caption{opacity:1}           /* toujours visible en carousel */
+  
+  
+  
+  .divider-fade{
+  /* … (dégradé mask déjà présent) … */
+  margin: 20px 0 40px;   /* ↙ rapproché de 50 px environ */
+}
+  
+  
+  
+  
+  
+/* largeur cohérente pour toute la section croisement */
+.cross-section .section-content{
+  max-width:1240px;     /* même conteneur que le slider du haut */
+  margin:0 auto;
+  padding:0 1rem;       /* petit padding latéral */
+  text-align:center;    /* tout centré */
+}
 
-/* légende cachée par défaut… */
-.carousel-wrapper .caption{opacity:0}
+/* bloc vertical */
+.cross-block{
+  margin:var(--gap) 0;
+}
 
-/* …et qui apparaît quand on survole le carousel */
-.carousel-wrapper:hover .caption{opacity:1}
+/*** TITRES ***/
+.cross-block h3{
+  font-size:1.8rem;
+  margin-bottom:.5rem;
+  position:relative;
+}
+.cross-block h3::after{
+  content:"";
+  display:block;
+  width:48px;
+  height:4px;
+  margin:6px auto 0;
+  background:var(--accent);
+  border-radius:2px;
+}
 
+/*** PARAGRAPHE ***/
+.cross-block p{
+  max-width:780px;      /* limite confort de lecture */
+  margin:0 auto 1.6rem;
+  font-size:1.02rem;
+  line-height:1.6;
+}
 
-
-
-/* ===== Section “croisement” ===== */
-.cross-block{margin-top:var(--gap)}                /* même rythme vertical que le reste */
-.full-image{
-  margin-top:2rem;
+/*** IMAGE TOUTE LARGEUR DU CONTENEUR ***/
+.cross-block img{
+  display:block;
+  width:100%;          /* prend toute la colonne (1240-padding) */
   border-radius:var(--radius);
-  overflow:hidden;
   box-shadow:var(--shadow);
+  object-fit:cover;
 }
-.full-image img{display:block;width:100%;height:auto}
+  
+  /* ---------------------------------------------
+   6) PIED DE PAGE
+   --------------------------------------------- */
+footer {
+  background-color: #005f99;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
 
-
-
-</style>
+footer p {
+  font-size: 0.9rem;
+}
+  </style>
 </head>
-
 <body>
+<!-- ▸ NAVBAR PERSEE ───────────────────────────────────────── -->
+<nav class="persee-navbar">
+  <a class="logo" href="index.html">PERSEE</a>
 
-<!-- =========== NAVBAR =========== -->
-<header>
-  <nav class="navbar">
-    <a href="index.html" class="logo">PERSEE</a>
-    <ul>
-      <li><a href="index.html" class="active">Le projet</a></li>
-      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-      <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
-      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-      <li><a href="equipe.html">Équipe</a></li>
-    </ul>
-  </nav>
-</header>
+  <!-- burger -->
+  <button class="nav-toggle" aria-label="Ouvrir / fermer le menu">
+    <span></span><span></span><span></span>
+  </button>
 
+  <!-- liens -->
+  <ul class="nav-links">
+    <li><a href="index.html">Le projet</a></li>
+    <li><a href="Suivi_GPS.html">Méthodes</a></li>
+    <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
+    <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+  </ul>
+</nav>
+<!-- ────────────────────────────────────────────────────────── -->
 
-
-
-
-
-<!-- =========== HERO =========== -->
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-content">
-    <h1>Suivi des différents alpages</h1>
-    <p>Présentation détaillée de chaque alpage</p>
+    <h1>Espace démonstrateur</h1>
+    <p>Présentation des indicateurs</p>
   </div>
 </section>
 
-<!-- =========== SELECTEUR =========== -->
+
+
+<!-- ===== LIGHTBOX HTML (ajout flèches) ===== -->
+<div id="lightbox">
+  <span id="lightbox-close">&times;</span>
+  <span class="lb-arrow" id="lb-prev">&#10094;</span>
+  <img id="lightbox-img" alt="zoom"/>
+  <span class="lb-arrow" id="lb-next">&#10095;</span>
+</div>
+
+<!-- ========== SELECTEUR ========= -->
 <section class="section section-full">
   <div class="section-content text" style="text-align:center">
-    <label for="alp_select">Choisissez un alpage :</label>
+    <label for="alp_select">Choisissez une estive :</label>
     <select id="alp_select">
-      <option value="rouanette" selected>Alpage de Rouanette</option>
-      <option value="autre_alpage1">Autre Alpage 1</option>
-      <option value="autre_alpage2">Autre Alpage 2</option>
+      <option value="Estive X" selected>Estive X</option>
+      <option value="Estive Y">Estive Y</option>
+      <option value="Estive Z">Estive Z</option>
     </select>
   </div>
 </section>
 
-<!-- =========== ANALYSES =========== -->
-<section class="section section-full analysis-section alpage-section" id="rouanette">
+<!-- ========== ANALYSES ========= -->
+<section class="section section-full analysis-section alpage-section" id="Estive X">
   <div class="section-content">
+    <h2 class="section-title">Indicateurs :</h2>
 
-    <!-- ——— Titre de la section ——— -->
-    <h2 class="section-title">Indicateurs : estive démonstratrice</h2>
-
-    <!-- ——— Slider de blocs ——— -->
     <div class="slider">
-
-      <!-- flèche précédente -->
       <button class="slide-btn prev" aria-label="Précédent">&#10094;</button>
 
-      <!-- ========= Bloc 1 ========= -->
+      <!-- Bloc 1 -->
       <div class="analysis-block">
         <div class="analysis-image">
-          <div class="carousel-wrapper" id="car-bloc5">
-            <img src="images/Chargement_total.png"        class="zoomable behavior-img active" data-caption="Chargement – total"        alt="Chargement total">
-            <img src="images/Chargement_repos.png"        class="zoomable behavior-img"        data-caption="Chargement – repos"        alt="Chargement repos">
-            <img src="images/Chargement_deplacement.png"  class="zoomable behavior-img"        data-caption="Chargement – déplacement"  alt="Chargement déplacement">
-            <img src="images/Chargement_paturage.png"     class="zoomable behavior-img"        data-caption="Chargement – pâturage"     alt="Chargement pâturage">
+          <div class="carousel-wrapper" id="car-traj">
+            <img src="images/trajectoire_reposs.png" class="zoomable behavior-img active" data-caption="Trajectoires – repos" alt="Trajectoires repos"/>
+            <img src="images/trajectoire_deplacement.png" class="zoomable behavior-img" data-caption="Trajectoires – déplacement" alt="Trajectoires déplacement"/>
+            <img src="images/trajectoire_paturage.png" class="zoomable behavior-img" data-caption="Trajectoires – pâturage" alt="Trajectoires pâturage"/>
           </div>
         </div>
         <div class="analysis-text">
-          <h3>Chargement</h3>
-          <p>L’agrégation à l’échelle du troupeau des données recueillies par animal fournit des informations sur le chargement (en nombre d’animaux par unité de surface et par unité de temps).
-          La charge pastorale peut être estimée par comportement. Typiquement, il est proposé une restitution cartographique du chargement par jour à une échelle spatiale de 10m.</p>
+          <h3>Trajectoires par comportements</h3>
+          <p></p>
         </div>
       </div>
 
-      <!-- ========= Bloc 2 ========= -->
-      <div class="analysis-block reverse">
+      <!-- Bloc 2 -->
+      <div class="analysis-block">
         <div class="analysis-image">
-          <div class="carousel-wrapper" id="wrapper-carrousel-parc">
-            <img src="images/Chargement_explo.png"              class="zoomable behavior-img active" data-caption="Surface explorée" alt="Parc 1">
-            <img src="images/Chargement_quartier_juin.png"      class="zoomable behavior-img"        data-caption="Quartier de Juin" alt="Parc 2">
-            <img src="images/Chargement_quartier_juillet.png"   class="zoomable behavior-img"        data-caption="Quartier de Juillet" alt="Parc 3">
-            <img src="images/Chargement_quartier_aout.png"      class="zoomable behavior-img"        data-caption="Quartier d'Aout" alt="Parc 4">
-            <img src="images/Chargement_quartier_septembre.png" class="zoomable behavior-img"        data-caption="Quartier de Septembre" alt="Parc 5">
+          <div class="carousel-wrapper" id="car-distance">
+            <img src="images/plot_dist_deniv_1.jpeg" class="zoomable behavior-img active" data-caption="Distance et Dénivelé année 2022" alt="Distance totale"/>
+            <img src="images/plot_dist_deniv_2.jpeg" class="zoomable behavior-img" data-caption="Distance et Dénivelé année 2023" alt="Dénivelé total"/>
+            <img src="images/plot_dist_deniv_3.jpeg" class="zoomable behavior-img" data-caption="Distance et Dénivelé année 2024" alt="Dénivelé total"/>
           </div>
         </div>
         <div class="analysis-text">
-          <h3>Chargement par quartier</h3>
-          <p>(texte)</p>
+          <h3>Distance et dénivelé parcourus</h3>
+          <p></p>
         </div>
       </div>
 
-      <!-- ========= Bloc 3 ========= -->
+      <!-- Bloc 3 -->
       <div class="analysis-block">
         <div class="analysis-image">
-          <img src="images/Nombre_de_jour_paturee.png" class="zoomable" alt="Nombre de jours pâturés">
+          <img src="images/Chargement_total.png" class="zoomable" data-caption="Chargement – total" alt="Chargement total"/>
         </div>
         <div class="analysis-text">
-          <h3>Analyses du schéma de pâturage</h3>
-          <p>(texte)…</p>
+          <h3>Chargement total</h3>
+          <p></p>
         </div>
       </div>
 
-      <!-- flèche suivante -->
+      <!-- Bloc 4 -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          <div class="carousel-wrapper" id="car-load-behaviors">
+            <img src="images/Chargement_repos.png" class="zoomable behavior-img active" data-caption="Chargement – repos" alt="Chargement repos"/>
+            <img src="images/Chargement_deplacement.png" class="zoomable behavior-img" data-caption="Chargement – déplacement" alt="Chargement déplacement"/>
+            <img src="images/Chargement_paturage.png" class="zoomable behavior-img" data-caption="Chargement – pâturage" alt="Chargement pâturage"/>
+          </div>
+        </div>
+        <div class="analysis-text">
+          <h3>Chargement par comportements</h3>
+          <p></p>
+        </div>
+      </div>
+
+     <!-- ========= Bloc 5 : Chargement par quartiers ========= -->
+<div class="analysis-block">
+  <div class="analysis-image">
+    <div class="carousel-wrapper" id="car-quartiers">
+      <img src="images/Chargement_explo.png" class="zoomable behavior-img active" data-caption="Surface explorée" alt="Surface explorée"/>
+      <img src="images/Chargement_quartier_juin.png" class="zoomable behavior-img" data-caption="Quartier – juin" alt="Quartier juin"/>
+      <img src="images/Chargement_quartier_juillet.png" class="zoomable behavior-img" data-caption="Quartier – juillet" alt="Quartier juillet"/>
+      <img src="images/Chargement_quartier_aout.png" class="zoomable behavior-img" data-caption="Quartier – août" alt="Quartier août"/>
+      <img src="images/Chargement_quartier_septembre.png" class="zoomable behavior-img" data-caption="Quartier – septembre" alt="Quartier septembre"/>
+    </div>
+  </div>
+  <div class="analysis-text">
+    <h3>Chargement par quartier</h3>
+    <p>Découpage basé sur l'identification du parc de nuit utilisé chaque jour.</p>
+  </div>
+</div>
+
+
+
+      <!-- Bloc 6 -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          <img src="images/Nombre_de_jour_paturee.png" class="zoomable" data-caption="Nombre de jours pâturés" alt="Nombre de jours pâturés"/>
+        </div>
+        <div class="analysis-text">
+          <h3>Schéma de pâturage</h3>
+          <p>Nombre d'occurrences où le pixel a été utilisé en pâturage.</p>
+        </div>
+      </div>
+
       <button class="slide-btn next" aria-label="Suivant">&#10095;</button>
-
-    </div><!-- /.slider -->
-
-  </div><!-- /.section-content -->
+    </div>
+  </div>
 </section>
 
 
+<!-- ▸ Séparateur entre les deux grandes parties -->
+<div class="section-content">
+  <hr class="divider-fade">
+</div>
 
 
-<!-- ===== CROISEMENT DES INDICATEURS ===== -->
+
+
+
+<!-- ========== CROISEMENTS ========= -->
 <section class="section section-full analysis-section cross-section">
   <div class="section-content">
+    <h2 class="section-title">Croisement avec les données biophysiques</h2>
 
-    <h2 class="section-title">Croisement des indicateurs avec les variables environnementales</h2>
+  <div class="cross-block">
+  <h3>Chargement et végétation</h3>
+  <p>Taux de chargement associé à chacun des habitats pastoraux aux cours de la saison d’estive.</p>
+  <img src="images/comparaison_habitat.png" alt="Chargement & végétation">
+</div>
 
-    <!-- ── Bloc 1 ── -->
-    <div class="cross-block">
-      <h3>Chargement et végétation</h3>
-      <p>Croisement … (quelques lignes d’explication sur la manière dont les cartes de chargement sont confrontées à la hauteur ou à la qualité de la végétation).</p>
+<div class="cross-block">
+  <h3>Présence du troupeau et phénologie</h3>
+  <p>Description du rapprochement entre les positions GPS et les phases de pousse de l’herbe.</p>
+  <img src="images/pheno.png" alt="Présence & phénologie">
+</div> 
 
-      <div class="full-image">
-        <img src="images/comparaison_habitat.png" alt="Carte croisant chargement et végétation">
-      </div>
-    </div>
 
-    <!-- ── Bloc 2 ── -->
-    <div class="cross-block">
-      <h3>Présence du troupeau et phénologie</h3>
-      <p>Croisement … (description du rapprochement entre les positions GPS du troupeau et les phases de pousse de l’herbe issues de l’imagerie satellite).</p>
-
-      <div class="full-image">
-        <img src="images/pheno.png" alt="Carte croisant présence du troupeau et phénologie">
-      </div>
-    </div>
-
-  </div><!-- /.section-content -->
 </section>
 
+<!-- ======== FOOTER ======== -->
+  <footer>
+    <p>&copy; 2025 PERSEE — Tous droits réservés.</p>
+  </footer>
 
-
-
-
-
-
-
-
-
-
-<!-- =========== FOOTER =========== -->
-<footer><p>&copy; 2025 PERSEE — Tous droits réservés.</p></footer>
-
-<!-- =========== LIGHTBOX =========== -->
-<div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img" alt=""></div>
 
 <script>
-/*──────────────────── 1. LIGHT-BOX (zoom plein écran) ───────────────────*/
-(function(){
-  const lb      = document.getElementById('lightbox');
-  const lbImg   = document.getElementById('lightbox-img');
-  const closeLb = document.getElementById('lightbox-close');
+/*************************** 1. LIGHT‑BOX ***************************/
 
-  let lbGroup = [];          // images du carousel courant
-  let lbIdx   = 0;           // index dans le groupe
+  // Lightbox
+  (function(){
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const closeLb = document.getElementById('lightbox-close');
+    const btnNext = document.getElementById('lb-next');
+    const btnPrev = document.getElementById('lb-prev');
+    let lbGroup = [], lbIdx = 0;
 
-  function openLB(img){
-    const wrap = img.closest('.carousel-wrapper');
-    lbGroup = wrap ? [...wrap.querySelectorAll('.behavior-img')] : [img];
-    lbIdx   = lbGroup.indexOf(img);
-    lbImg.src = lbGroup[lbIdx].src;
-    lb.style.display = 'flex';
-  }
-  function closeLB(){ lb.style.display='none'; }
-  function navLB(dir){
-    if(lbGroup.length<=1) return;
-    lbIdx = (lbIdx + dir + lbGroup.length)%lbGroup.length;
-    lbImg.src = lbGroup[lbIdx].src;
-  }
+    document.querySelectorAll('.zoomable').forEach(img => {
+      img.addEventListener('click', () => {
+        const wrap = img.closest('.carousel-wrapper');
+        if (wrap) {
+          lbGroup = [...wrap.querySelectorAll('.behavior-img')];
+          lbIdx = lbGroup.indexOf(img);
+          btnNext.style.display = btnPrev.style.display = 'block';
+        } else {
+          lbGroup = [img];
+          lbIdx = 0;
+          btnNext.style.display = btnPrev.style.display = 'none';
+        }
 
-  /* click sur ttes les images zoomables */
-  document.querySelectorAll('.zoomable').forEach(im=>{
-    im.addEventListener('click',()=>openLB(im));
-  });
+        lbImg.src = lbGroup[lbIdx].src;
+        lb.style.display = 'flex';
+      });
+    });
 
-  /* fermetures */
-  closeLb.addEventListener('click',closeLB);
-  lb.addEventListener('click',e=>{if(e.target.id==='lightbox')closeLB();});
+    btnNext.addEventListener('click', () => navigate(1));
+    btnPrev.addEventListener('click', () => navigate(-1));
+    closeLb.addEventListener('click', () => lb.style.display = 'none');
 
-  /* navigation souris / clavier / tactile */
-  lb.addEventListener('wheel',e=>{e.preventDefault();navLB(e.deltaY>0?1:-1);});
-  let touchX=0;
-  lb.addEventListener('touchstart',e=>touchX=e.touches[0].clientX,{passive:true});
-  lb.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-touchX;
-    if(Math.abs(dx)<40) return;
-    navLB(dx<0?1:-1);
-  });
-  window.addEventListener('keydown',e=>{
-    if(lb.style.display!=='flex') return;
-    if(e.key==='ArrowRight') navLB(1);
-    else if(e.key==='ArrowLeft') navLB(-1);
-    else if(e.key==='Escape')    closeLB();
-  });
-})();
+    function navigate(dir) {
+      lbIdx = (lbIdx + dir + lbGroup.length) % lbGroup.length;
+      lbImg.src = lbGroup[lbIdx].src;
+    }
 
-/*──────────────────── 2. CAROUSEL d’images avec légende ─────────────────*/
-function initCarousel(wrapId){
-  const wrap=document.getElementById(wrapId);
-  if(!wrap) return;
+    // Défilement à la molette dans la lightbox
+lb.addEventListener('wheel', e => {
+  if (lbGroup.length <= 1) return;
+  e.preventDefault();
+  const dir = e.deltaY > 0 ? 1 : -1;
+  navigate(dir);
+}, { passive: false });
 
-  const items=[...wrap.querySelectorAll('.behavior-img')];
-  if(items.length<=1) return;          // pas de carousel si une seule img
+    window.addEventListener('keydown', e => {
+      if (lb.style.display !== 'flex') return;
+      if (e.key === 'ArrowRight' && lbGroup.length > 1) navigate(1);
+      if (e.key === 'ArrowLeft' && lbGroup.length > 1) navigate(-1);
+      if (e.key === 'Escape') lb.style.display = 'none';
+    });
+  })();
 
-  /* — légende (caption) — */
-  const cap=document.createElement('div');
-  cap.className='caption';
+
+/*********************** 2. CAROUSEL (images internes) ************************/
+function initCarousel(wrap) {
+  const items = [...wrap.querySelectorAll('.behavior-img')];
+  if (items.length <= 1) return;
+  const cap = document.createElement('div');
+  cap.className = 'caption';
   cap.textContent = items[0].dataset.caption || items[0].alt || '';
   wrap.appendChild(cap);
+  const dots = document.createElement('div');
+  dots.className = 'carousel-dots';
+  wrap.appendChild(dots);
+  let idx = 0;
 
-  /* — bullets — */
-  const dots=document.createElement('div');
-  dots.className='carousel-dots';
-  items.forEach((_,i)=>{
-    const d=document.createElement('span');
-    d.className='dot'+(i?'':' active');
-    d.onclick = ()=>{idx=i;update();};
+  items.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => {
+      idx = i;
+      update();
+    };
     dots.appendChild(d);
   });
-  wrap.appendChild(dots);
 
-  let idx=0;
-
-  /* — défilement souris / tactile — */
-  wrap.addEventListener('wheel',e=>{
-    e.preventDefault();
-    idx=(idx+(e.deltaY>0?1:-1)+items.length)%items.length;
-    update();
-  });
-  let sx=0;
-  wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-  wrap.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-sx;
-    if(Math.abs(dx)<40) return;
-    idx=(idx+(dx<0?1:-1)+items.length)%items.length;
-    update();
-  });
-
-  function update(){
-    items.forEach((im,i)=>{
-      const active = (i===idx);
-      im.classList.toggle('active',active);
-      if(im.tagName==='VIDEO'){ active?im.play():im.pause(); }
-    });
-    dots.childNodes.forEach((d,i)=>d.classList.toggle('active',i===idx));
+  function update() {
+    items.forEach((im, i) => im.classList.toggle('active', i === idx));
+    [...dots.childNodes].forEach((d, i) => d.classList.toggle('active', i === idx));
     cap.textContent = items[idx].dataset.caption || items[idx].alt || '';
   }
+
+  wrap.addEventListener('wheel', e => {
+    e.preventDefault();
+    idx = (idx + (e.deltaY > 0 ? 1 : -1) + items.length) % items.length;
+    update();
+  });
+  let sx = 0;
+  wrap.addEventListener('touchstart', e => sx = e.touches[0].clientX, { passive: true });
+  wrap.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) < 40) return;
+    idx = (idx + (dx < 0 ? 1 : -1) + items.length) % items.length;
+    update();
+  });
+
   update();
 }
+document.querySelectorAll('.carousel-wrapper').forEach(initCarousel);
 
-/* init des carousels existants */
-['car-bloc5','wrapper-carrousel-parc'].forEach(initCarousel);
+/********************** 3. CAPTION pour images simples ************************/
+document.querySelectorAll('.analysis-image>img.zoomable:not(.behavior-img)').forEach(img => {
+  if (img.parentElement.querySelector('.caption')) return;
+  const c = document.createElement('div');
+  c.className = 'caption';
+  c.textContent = img.dataset.caption || img.alt || '';
+  img.parentElement.appendChild(c);
+});
 
-/*──────────────────── 3. CAPTION pour images “simples” ──────────────────*/
-document.querySelectorAll('.analysis-image > img.zoomable:not(.behavior-img)')
-  .forEach(img=>{
-    const parent=img.parentElement;
-    if(parent.querySelector('.caption')) return;
-    const c=document.createElement('div');
-    c.className='caption';
-    c.textContent = img.dataset.caption || img.alt || '';
-    parent.appendChild(c);
-  });
-
-/*──────────────────── 4. SLIDER de blocs (inchangé) ─────────────────────*/
-document.querySelectorAll('.slider').forEach(initSlider);
-
+/************************ 4. SLIDER PRINCIPAL *********************************/
 function initSlider(slider){
-  const cards=[...slider.querySelectorAll('.analysis-block')];
+  const cards = [...slider.querySelectorAll('.analysis-block')];
   if(!cards.length) return;
+  let idx = 0;
 
-  let idx=0;
-  slider.style.minHeight='200px';
+  /* ----- ➊ on fige la hauteur maximale ----- */
+  const maxH = Math.max(...cards.map(c => c.getBoundingClientRect().height));
+  slider.style.height = maxH + 'px';
 
+  /* états avant / après / actif */
   function setStates(){
-    cards.forEach((c,i)=>{
-      if(i===idx)      c.dataset.status='active';
-      else if(i<idx)   c.dataset.status='before';
-      else             c.dataset.status='after';
+    cards.forEach((card,i)=>{
+      const diff = (i - idx + cards.length) % cards.length;
+      card.dataset.status =
+        diff === 0   ? 'active' :
+        diff === 1   ? 'after'  :
+        diff === cards.length-1 ? 'before' : '';
     });
-    updateHeight();
   }
-  function updateHeight(){
-    const h=cards[idx].getBoundingClientRect().height;
-    if(h) slider.style.height=h+'px';
-  }
-  function move(d){
-    idx=(idx+d+cards.length)%cards.length;
-    setStates();
-  }
+  function move(d){ idx = (idx+d+cards.length)%cards.length; setStates(); }
 
-  /* attente chargement images pour hauteur dynamique */
-  cards.forEach(card=>{
-    card.querySelectorAll('img').forEach(img=>{
-      if(!img.complete){
-        img.addEventListener('load',updateHeight,{once:true});
-        img.addEventListener('error',updateHeight,{once:true});
-      }
-    });
-  });
-
-  slider.querySelector('.slide-btn.prev').addEventListener('click',()=>move(-1));
-  slider.querySelector('.slide-btn.next').addEventListener('click',()=>move(1));
+  slider.querySelector('.slide-btn.prev').onclick = ()=>move(-1);
+  slider.querySelector('.slide-btn.next').onclick = ()=>move(1);
   window.addEventListener('keydown',e=>{
+    if(document.getElementById('lightbox').style.display==='flex') return;
     if(e.key==='ArrowLeft')  move(-1);
     if(e.key==='ArrowRight') move(1);
   });
-  window.addEventListener('resize',updateHeight);
-  window.addEventListener('load',updateHeight);
 
   setStates();
 }
+document.querySelectorAll('.slider').forEach(initSlider);
 
-/*──────────────────── 5. SÉLECTEUR d’alpage (inchangé) ───────────────────*/
-(function(){
-  const sel=document.getElementById('alp_select');
-  if(!sel) return;
-  sel.addEventListener('change',()=>{
-    document.querySelectorAll('.alpage-section').forEach(s=>s.classList.add('hidden'));
-    const sec=document.getElementById(sel.value);
-    if(sec) sec.classList.remove('hidden');
+/************************ 5. Sélecteur d’alpage ********************************/
+(function () {
+  const sel = document.getElementById('alp_select');
+  if (!sel) return;
+  sel.addEventListener('change', () => {
+    document.querySelectorAll('.alpage-section').forEach(s => s.classList.add('hidden'));
+    const sec = document.getElementById(sel.value);
+    if (sec) sec.classList.remove('hidden');
   });
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+/* 1.  Burger -------------------------------------------------- */
+document
+  .querySelector('.nav-toggle')
+  .addEventListener('click', () =>
+    document.querySelector('.nav-links').classList.toggle('open')
+  );
+
+/* 2.  Lien actif automatique ---------------------------------- */
+(function () {
+  /* nom du fichier courant (décodé + en minuscules)            */
+  const current = decodeURIComponent(
+                    location.pathname.split('/').pop() || 'index.html'
+                  ).toLowerCase();
+
+  document.querySelectorAll('.persee-navbar .nav-links a').forEach(link => {
+    const target = decodeURIComponent(
+                     link.getAttribute('href').split('/').pop()
+                   ).toLowerCase();
+
+    if (target === current) link.classList.add('active');
+  });
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
+
+
+
 </body>
 </html>

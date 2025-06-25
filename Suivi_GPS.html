@@ -1,629 +1,495 @@
+<!-- PERSEE – Suivi GPS (SCRIPT 1 adapté, révision centrage bas) – 2025‑06‑25 -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PERSEE – Suivi GPS</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"/>
 
+  <!--
+    Feuille de style : gabarit ORIGINE + sections verticales centrées (env‑section)
+  -->
   <style>
-    :root{
-      --accent:#005f99;
-      --bg-light:#f2f6ff;
-      --rad:18px;
-    }
+  :root{
+    --accent:#005f99;
+    --bg:#f1f3f6;
+    --radius:18px;
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+    --gap:80px;
+    --pad:48px;
+    --img-w:700px;          /* largeur uniforme du slider */
+    --arrow-size:44px;
+  }
+  /* RESET & TYPO */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',Arial,Helvetica,sans-serif;font-size:17px;line-height:1.75;background:var(--bg);color:#222}
+  img,video{display:block;max-width:100%;height:auto}
+  a{text-decoration:none;color:inherit}
+  h1,h2,h3,h4{font-weight:800;line-height:1.25;color:var(--accent)}
+  p{margin-top:1rem;text-align:justify}
 
-    /* ——— INTRO collier ——— */
-    .gps-intro{
-      position:relative; z-index:3;
-      margin:-90px auto 120px;     /* 120 px ↓ d’air demandé */
-      max-width:1180px; display:grid; gap:34px;
-      grid-template-columns:320px 1fr;
-      background:var(--bg-light); border-radius:var(--rad);
-      padding:42px 50px 36px; box-shadow:0 4px 14px rgba(0,0,0,.06);
-    }
-    .gps-intro img {
-      width:100%; border-radius:12px; object-fit:cover;
-    }
-    .gps-intro h2 {
-      margin:0 0 14px; color:var(--accent); font-size:2rem;
-    }
-    .gps-intro p {
-      margin:0; font-size:1.05rem; line-height:1.72; color:#334;
-      text-align: justify; /* ← justifier le texte dans l’intro */
-    }
-
-    /* ——— SECTION générique ——— */
-    section.gps-block {
-      background:#f8faff; padding:60px 0; /* rapprocher les blocs */
-    }
-    .wrap {
-      max-width:1180px; margin:0 auto; padding:0 24px;
-      display:grid; gap:40px 60px; align-items:center; /* gap vertical réduit */
-      grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-    }
-    .gps-block h3 {
-      margin:0 0 14px; color:var(--accent); font-size:2.3rem;
-    }
-    .gps-block p {
-      margin:0; font-size:1.05rem; line-height:1.72; color:#334;
-      text-align: justify; /* ← justifier le texte dans les blocs GPS */
-    }
-
-    /* ——— carrousel ——— */
-    .carousel {
-      position:relative; border-radius:var(--rad); overflow:hidden;
-      box-shadow:0 4px 14px rgba(0,0,0,.12);
-    }
-    .carousel img {
-      width:100%; height:auto; display:none; object-fit:cover;
-    }
-    .carousel img.active {
-      display:block;
-    }
-
-    .dots {
-      position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
-      display:flex; gap:10px; background:rgba(255,255,255,.65);
-      padding:6px 18px; border-radius:50px;
-    }
-    .dots span {
-      width:14px; height:14px; border:2px solid #555; border-radius:50%;
-      background:transparent; cursor:pointer;
-    }
-    .dots span.active {
-      background:#555;
-    }
-
-    /* inversion visuelle pour alterner */
-    .rev>.wrap { direction:rtl; }
-    .rev>.wrap>* { direction:ltr; }
-
-    @media(max-width:768px){
-      .gps-intro { grid-template-columns:1fr; margin:-60px 16px 90px; }
-      .wrap { gap:30px; }
-      section.gps-block { padding:40px 0 50px; }
-      .rev>.wrap { direction:ltr; }
-    }
-
-    /* ——— SECTION données environnementales ——— */
-    .env-section {
-      background:#fff; padding:70px 24px 80px;
-    }
-    .env-section .center-text {
-      max-width:760px; margin:0 auto 40px; text-align:center;
-    }
-    .env-section h2 {
-      margin:0 0 18px; color:var(--accent); font-size:2.4rem;
-    }
-    .env-section p {
-      margin:0; font-size:1.1rem; line-height:1.7; color:#334;
-      text-align: justify; /* ← justifier le texte dans la section environnement */
-    }
-
-    .env-photos {
-      display:flex; gap:6px; max-width:1180px; margin:0 auto;
-    }
-    .env-photos img {
-      flex:1 1 0; width:100%; height:280px; object-fit:cover;
-    }
-    .env-photos img:first-child {
-      border-top-left-radius:var(--rad); border-bottom-left-radius:var(--rad);
-    }
-    .env-photos img:last-child {
-      border-top-right-radius:var(--rad); border-bottom-right-radius:var(--rad);
-    }
-
-    /* Responsive */
-    @media(max-width:768px){
-      .env-photos { flex-direction:column; height:auto; }
-      .env-photos img { height:200px; }
-    }
-    
-    
-    
-    
-    /* =============================================================
-   ENV-PHOTOS – plein format, coins arrondis, ombre
-   (remplace les anciennes règles si elles existent)
-================================================================ */
-.env-photos{
-  display:block;                 /* plus de flex : une seule image */
-  max-width:1180px;
-  margin:0 auto;                 /* centrage horizontal            */
+  /* ========= NAVBAR PERSEE (uniforme sur tout le site) ========= */
+:root{
+  --nav-bg: #ffffff;
+  --nav-accent: #005f99;
+  --nav-link-hover: rgba(0,0,0,.08);
 }
 
-.env-photos img{
-  width:100%;                    /* toute la largeur disponible    */
-  height:auto;                   /* ratio naturel → plus de coupe  */
-  border-radius:var(--rad);      /* mêmes coins que partout        */
-  box-shadow:0 4px 14px rgba(0,0,0,.12);  /* même ombrage          */
-  display:block;                 /* enlève le petit espace du inline-block */
+.persee-navbar{
+  height: 56px;
+  display:flex;
+  align-items:center;
+  padding: 0 1.25rem;
+  background: var(--nav-bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  position: sticky;           /* reste visible au défilement */
+  top:0; z-index: 2000;
 }
 
-/* mobile : si tu veux limiter la hauteur sur petits écrans, dé-commente
+/* logo */
+.persee-navbar .logo{
+  font: 800 1.35rem/1 'Inter',sans-serif;
+  color: var(--nav-accent);
+  text-decoration:none;
+  margin-right:auto;
+}
+
+/* liste */
+.persee-navbar .nav-links{
+  display:flex; gap:1.3rem;
+  list-style:none;
+  margin:0; padding:0;
+}
+
+/* liens */
+.persee-navbar .nav-links a{
+  display:block;
+  padding:.35rem .7rem;
+  font:600 1rem/1 'Inter',sans-serif;
+  text-decoration:none; color:#222;
+  border-radius:6px;
+  transition:background .25s;
+}
+.persee-navbar .nav-links a:hover{
+  background:var(--nav-link-hover);
+}
+
+/* lien actif — ajouté en JS */
+.persee-navbar .nav-links a.active{
+  background:rgba(0,95,153,.12);
+  color:var(--nav-accent);
+}
+
+/* ---------- burger (mobile) ---------- */
+.nav-toggle{
+  display:none;               /* masqué sur desktop */
+  flex-direction:column;
+  gap:4px;
+  background:none; border:none;
+  cursor:pointer;
+  margin-left:1rem;
+}
+.nav-toggle span{
+  width:22px; height:3px;
+  background:#333; border-radius:2px;
+}
+
+/* mobile : affiche le burger, cache les liens */
 @media(max-width:768px){
-  .env-photos img{ max-height:260px; object-fit:cover; }
-}
-*/
-
-
-
-/* ░░░ Réduction des 3 visuels pleine-largeur ░░░ */
-@media (min-width: 769px){      /* seulement sur les écrans larges */
-  .env-photos img{
-    width: 90%;                 /* ↔ passe de 100 % à 90 %          */
-    max-width: 900px;           /* limite haute (facultatif)        */
-    margin: 0 auto;             /* centre l’image                   */
+  .nav-toggle{ display:flex; }
+  .persee-navbar .nav-links{
+    position:absolute;
+    right:0; top:56px;
+    flex-direction:column;
+    background:var(--nav-bg);
+    width:100%;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    box-shadow:0 4px 10px rgba(0,0,0,.06);
+  }
+  .persee-navbar .nav-links.open{
+    max-height:260px;          /* assez pour 4 liens */
+  }
+  .persee-navbar .nav-links li{
+    border-bottom:1px solid rgba(0,0,0,.05);
   }
 }
 
+  /* HERO */
+  .hero{height:100vh;display:flex;align-items:center;justify-content:center;background:url('images/hero.jpg') center/cover no-repeat;position:relative;text-align:center;color:#fff}
+  .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+  .hero-content{position:relative;z-index:1}
+  .hero h1{font-size:3rem;margin-bottom:.8rem;color:#fff}
+  @media(max-width:768px){.hero{height:45vh}.hero h1{font-size:2.4rem}}
 
+  /* SECTIONS GÉNÉRIQUES */
+  .section{padding:4rem 0}
+  .section-full .section-content{max-width:1240px;margin:0 auto;padding:0 1.5rem}
 
-/* ██████ LIGHT-BOX plein écran ██████ */
-#lightbox{
-  position:fixed; inset:0;                     /* couvre tout l’écran    */
-  background:rgba(0,0,0,.9);
-  display:none; align-items:center; justify-content:center;
-  z-index:1000;
-}
-#lightbox img{
-  max-width:90vw; max-height:90vh;             /* marge autour de l’image */
-  border-radius:12px;                          /* coins doux comme ailleurs */
-  box-shadow:0 4px 24px rgba(0,0,0,.45);
-}
-#lightbox .close, #lightbox .prev, #lightbox .next{
-  position:absolute; top:50%; transform:translateY(-50%);
-  font-size:52px; line-height:1; color:#fff; cursor:pointer;
-  user-select:none;
-}
-#lightbox .close{ top:30px; right:40px; transform:none; }
-#lightbox .prev{ left:40px; }
-#lightbox .next{ right:40px; }
-#lightbox .disabled{ opacity:.25; pointer-events:none; }
+  /* ANALYSIS BLOCKS (slider) */
+  .analysis-section{background:var(--bg)}
+  .analysis-block{display:flex;gap:var(--pad);align-items:center;background:#fff;border-radius:var(--radius);padding:var(--pad);box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+  .analysis-block:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.12)}
+  .analysis-image{flex:0 0 var(--img-w);max-width:var(--img-w);aspect-ratio:4/3;position:relative;border-radius:var(--radius);overflow:hidden}
+  .analysis-image>img,.analysis-image>.carousel-wrapper{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+  .analysis-image>img{box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .analysis-text{margin-left:auto}
+  .analysis-text h3{font-size:2rem;margin-bottom:1rem;position:relative}
+  .analysis-text h3::after{content:"";position:absolute;left:0;bottom:-8px;width:40px;height:4px;background:var(--accent);border-radius:2px}
 
-/* petit confort visuel */
-img.zoomable{ cursor:zoom-in; }
+  /* CAROUSEL interne */
+  .carousel-wrapper{position:relative;width:100%;height:100%}
+  .carousel-wrapper>.behavior-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+  .carousel-wrapper>.active{opacity:1}
+  .carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:rgba(255,255,255,.7);padding:4px 10px;border-radius:14px;backdrop-filter:blur(4px)}
+  .carousel-dots .dot{width:12px;height:12px;border:2px solid #555;border-radius:50%;background:transparent;cursor:pointer;transition:background .2s}
+  .carousel-dots .dot.active{background:#555}
 
+  /* LIGHT‑BOX */
+  #lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);z-index:3000}
+  #lightbox img{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.45)}
+  #lightbox-close{position:absolute;top:24px;right:34px;font-size:48px;font-weight:700;color:#fff;cursor:pointer}
+  .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);font-size:52px;line-height:1;color:#fff;background:rgba(0,0,0,.35);padding:10px 18px;border-radius:50%;cursor:pointer;user-select:none;transition:background .25s}
+  .lb-arrow:hover{background:rgba(0,0,0,.55)}
+  #lb-prev{left:34px}
+  #lb-next{right:34px}
 
+  /* SLIDER PRINCIPAL */
+  .slider{position:relative;overflow:visible;margin-top:40px}
+  .slider .analysis-block{position:absolute;top:0;left:0;width:100%;margin-top:0!important;transition:transform .6s ease,opacity .6s ease;pointer-events:none;opacity:0}
+  .slider .analysis-block[data-status="active"]{opacity:1;transform:translateX(0);pointer-events:auto;z-index:3}
+  .slider .analysis-block[data-status="before"],
+  .slider .analysis-block[data-status="after"]{opacity:.35;transform:scale(.9);z-index:2}
+  @media(min-width:900px){
+    .slider .analysis-block[data-status="before"]{transform:translateX(-40%) scale(.9)}
+    .slider .analysis-block[data-status="after"]{transform:translateX(40%) scale(.9)}
+  }
+  .slide-btn{position:absolute;top:50%;transform:translateY(-50%);width:var(--arrow-size);height:var(--arrow-size);display:flex;align-items:center;justify-content:center;font-size:32px;background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:50%;cursor:pointer;transition:background .25s;z-index:50}
+  .slide-btn:hover{background:rgba(0,0,0,.55)}
+  .slide-btn.prev{left:calc(-0.5*var(--arrow-size) - var(--pad))}
+  .slide-btn.next{right:calc(-0.5*var(--arrow-size) - var(--pad))}
 
+  /* CAPTION */
+  .caption{position:absolute;left:0;right:0;bottom:0;padding:10px 14px;font-size:.95rem;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);color:#fff;border-bottom-left-radius:inherit;border-bottom-right-radius:inherit;opacity:0;transition:opacity .3s}
+  .analysis-image:hover .caption,.carousel-wrapper:hover .caption{opacity:1}
 
+  /* VERTICAL ENV‑SECTIONS (centrées) */
+  .env-section{background:#fff;padding:70px 24px 80px}
+  .center-text{max-width:760px;margin:0 auto 40px;text-align:center}
+  .env-section h2{margin:0 0 18px;font-size:2.4rem}
+  .env-section p{font-size:1.1rem;line-height:1.7}
+  .env-photos{display:block;max-width:1180px;margin:0 auto}
+  .env-photos img{width:100%;border-radius:var(--radius);box-shadow:var(--shadow)}
 
-/* ██████ TITRE INTERACTIF SUR IMAGE ██████ */
-.img-wrap{                       /* conteneur créé en JS */
-  position:relative;
-}
+  /* DIVIDER */
+  .divider-fade{height:3px;border:0;width:100%;background:var(--accent);margin:30px 0 70px;-webkit-mask:linear-gradient(90deg,transparent 0%,#000 40%,#000 60%,transparent 100%);mask:linear-gradient(90deg,transparent 0%,#000 40%,#000 60%,transparent 100%);opacity:.4;border-radius:1.5px}
 
-.img-wrap img{                   /* l’image elle-même  */
-  display:block; width:100%; height:auto;
-}
+  /* RESPONSIVE */
+  @media(max-width:1200px){:root{--img-w:540px;--pad:40px}}
+  @media(max-width:900px){:root{--gap:64px;--pad:32px;--arrow-size:38px}.analysis-block{flex-direction:column;text-align:center}.analysis-text{margin-left:0}}
+  @media(max-width:600px){:root{--gap:48px;--pad:24px}body{font-size:15px}.hero h1{font-size:2rem}.analysis-text h3{font-size:1.6rem}}
 
-.img-wrap::after{                /* fond sombre toujours présent */
-  content:"";
-  position:absolute; left:0; right:0; bottom:0;
-  height:42px;
-  background:rgba(0,0,0,.45);
-}
-
-.img-wrap .caption{              /* le titre qui glisse */
-  position:absolute; left:0; right:0; bottom:0;
-  padding:10px 14px 6px;
-  font-size:1rem; font-weight:600;
+  /* FOOTER – version définitive */
+footer{
+  background:#005f99;
   color:#fff;
-  transform:translateY(100%);    /* caché sous le bord */
-  opacity:0;
-  transition:transform .35s ease, opacity .35s ease;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+  font-size:.9rem;
 }
+  
+  .env-section { background: var(--bg); }   /* gris clair identique au slider */
+  /* ─── AUCUNE animation de couleur ─────────────────────────── */
+.navbar a,
+.slide-btn,
+.lb-arrow            { transition: none !important; }
+  
+  
+  /* ─── Uniformisation des fonds : même gris clair partout ─── */
+.env-section          { background: var(--bg) !important; }
 
-.img-wrap:hover .caption{
-  transform:translateY(0);       /* remonte dans la bande */
-  opacity:1;
+
+
+
+
+/* ─── Titre centré au-dessus du carrousel ─────────────── */
+.section-title{
+  font-size: 2.4rem;     /* même hauteur que les autres H2 */
+  margin-bottom: 1.5rem; /* espace sous le titre */
+  color: var(--accent);  /* bleu de la charte */
 }
+/* supprime explicitement tout filet éventuel */
+.section-title::after{ display:none !important; }
 
 
 
-
-
-
-/* ░░░ Carrousel : on ne montre que la diapo active ░░░ */
-.carousel .img-wrap{ display:none; }      /* toutes cachées par défaut      */
-.carousel .img-wrap.active{ display:block; } /* la diapo courante s’affiche */
-
-/* ░░░ Large image pleine largeur (env-photos) ░░░ */
-@media (min-width:769px){
-  .env-photos .img-wrap{                  /* l’enveloppe prend la même taille
-                                             que l’image (90 % / 900 px)    */
-    width:90%;
-    max-width:900px;
-    margin:0 auto;
-  }
-  .env-photos .img-wrap img{ width:100%; }/* l’image occupe toute l’enveloppe */
-}
-
-
-
-/* ███ LÉGENDE — cachée par défaut, visible au survol ███ */
-.img-wrap .caption{
-  position:absolute; left:0; right:0; bottom:0;
-  padding:10px 14px 6px;
-  font-size:1rem; font-weight:600; color:#fff;
-  background:rgba(0,0,0,.55);             /* même fond que l’overlay */
-  transform:translateY(100%); opacity:0;
-  transition:transform .35s ease, opacity .35s ease;
-  pointer-events:none;                    /* clics toujours sur l’image */
-}
-
-/* uniquement si l’appareil sait « hover » */
-@media (hover:hover){
-  .img-wrap:hover .caption{
-    transform:translateY(0);
-    opacity:1;
-  }
-}
-
-
-
-/* ███ Coins du bas toujours arrondis ███ */
-.img-wrap{                      /* l’enveloppe prend le rayon */
-  border-radius:var(--rad);
-  overflow:hidden;              /* masque tout débordement    */
-}
-
-/* la bande sombre suit la courbure */
-.img-wrap::after{
-  border-bottom-left-radius:var(--rad);
-  border-bottom-right-radius:var(--rad);
-}
-
-/* ─── on efface complètement la barre grise ─── */
-.img-wrap::after{ content:none !important; }
-
-/* ─── conteneur des grandes photos (env-photos) ─── */
-.env-photos .img-wrap{
-  border-radius:var(--rad);                 /* mêmes coins qu’ailleurs   */
-  overflow:hidden;                          /* rien ne déborde           */
-  box-shadow:0 4px 14px rgba(0,0,0,.12);    /* ombre douce identique     */
-}
-
-/* largeur réduite à 90 % (max 900 px) sur desktop */
-@media (min-width:769px){
-  .env-photos .img-wrap{
-    width:90%; max-width:900px; margin:0 auto;
-  }
-}
-
-/* ─── TYPO GLOBALE (propre, sans !important) ─── */
-
-/* Titres */
-.gps-intro h2,
-.gps-block  h3,
-.env-section h2{
-  font-size:2rem;
-  line-height:1.3;
-}
-
-/* Paragraphes & puces – tous les contextes textes du site */
-.gps-intro  p, .gps-intro  li,
-.gps-block  p, .gps-block  li,
-.env-section p, .env-section li,
-footer      p, footer      li{
+/* Corps de texte : plus gros & justifié (versions actuelles des blocs) */
+.analysis-text p,
+.center-text  p,
+.center-text  ul li{
+  font-size:1.25rem;
+  line-height:1.45;
   text-align:justify;
-  font-size:1.35rem;
-  line-height:1.55;
+}
+  
+ /* ➊ dimensions de référence */
+:root{
+  --img-h: 525px;   /* hauteur fixe du cadre image  (700 × 525 = 4/3) */
+  --img-w: 700px;   /* largeur maxi                           */
 }
 
+/* ➋ conteneur image : hauteur fixe, largeur ajustée en JS */
+.analysis-image{
+  height: var(--img-h);
+  flex: 0 0 auto;               /* ► laisse la JS décider de la largeur   */
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
 
-
-
-
-
-
- /* ============================ NAVBAR ============================ */
-    .navbar{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:1.2rem 2rem;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);
-      position:sticky;top:0;z-index:1000;
-    }
-    .navbar .logo{font-weight:800;font-size:1.5rem;color:var(--accent)}
-    .navbar ul{display:flex;gap:1.6rem;list-style:none;font-weight:600}
-    .navbar a{padding:.25rem .5rem;border-radius:.25rem;transition:background .25s}
-    .navbar a:hover,.navbar a.active{background:rgba(0,95,153,.08)}
-
-
+/* ➌ image ou carrousel = 100 % du cadre, affichée entière */
+.analysis-image>img,
+.analysis-image>.carousel-wrapper{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;          /* pas de rognage – on voit tout          */
+  border-radius: inherit;
+}
 
 
   </style>
 </head>
-<!-- ░░░ Light-box ░░░ (ajout) -->
-<div id="lightbox">
-  <span class="close">&times;</span>
-  <span class="prev">&#10094;</span>
-  <img src="" alt="image agrandie">
-  <span class="next">&#10095;</span>
+<body>
+<!-- ▸ NAVBAR PERSEE ───────────────────────────────────────── -->
+<nav class="persee-navbar">
+  <a class="logo" href="index.html">PERSEE</a>
+
+  <!-- burger -->
+  <button class="nav-toggle" aria-label="Ouvrir / fermer le menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- liens -->
+  <ul class="nav-links">
+    <li><a href="index.html">Le projet</a></li>
+    <li><a href="Suivi_GPS.html">Méthodes</a></li>
+    <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
+    <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+  </ul>
+</nav>
+<!-- ────────────────────────────────────────────────────────── -->
+
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Méthodes</h1>
+    <p>Du collier GPS aux indicateurs</p>
+  </div>
+</section>
+
+<!-- ===== SLIDER (3 blocs) ===== -->
+<section class="section section-full analysis-section">
+  <div class="section-content">
+    
+     <!-- Titre centré sous le carrousel -->
+<div class="section-content" style="text-align:center;margin-top:40px;">
+  <h2 class="section-title">Traitement&nbsp;GPS</h2>
 </div>
-<body class="suivi">
 
- <!-- =========== NAVBAR =========== -->
-<header>
-  <nav class="navbar">
-    <a href="index.html" class="logo">PERSEE</a>
-    <ul>
-      <li><a href="index.html" class="active">Le projet</a></li>
-      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-      <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
-      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-      <li><a href="equipe.html">Équipe</a></li>
-    </ul>
-  </nav>
-</header>
+    <div class="slider">
+      <button class="slide-btn prev" aria-label="Précédent">&#10094;</button>
+     
 
-
-  <!-- ░ HERO ░ (identique au HTML 1) -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Méthode de suivi des déplacements en estive</h1>
-      <p>Du collier GPS aux indicateurs</p>
-    </div>
-  </section>
-
-  <!-- ░ INTRO (collier) ░ -->
-  <section class="gps-intro">
-    <img src="images/Image_collier_mouton.png" alt="Pose d’un collier GPS">
-    <div>
-      <h2>Déplacements</h2>
-      <p>
-       Il est réalisé grâce à des colliers équipés de GPS programmés pour une acquisition toutes les 2 minutes. 
-       L’autonomie de la batterie permet de suivre le déplacement de l’animal pendant 3 à 4 mois. 
-       Il n’y a pas d’intervention à prévoir pendant la saison en estive. Il n’y a pas de transmission des données en temps réel. Avec 6 à 8 animaux équipés, 
-       il est possible de bien représenter les déplacements d’un troupeau ovin conduit.  La méthode a été testée avec succès sur plusieurs alpages depuis trois ou quatre ans.
-      </p>
-    </div>
-  </section>
-
-  <!-- ░ BLOC 1 ░ texte gauche / carrousel droite -->
-  <section class="gps-block">
-    <div class="wrap">
-      <div>
-        <h3>Comportement</h3>
-        <p>
-          L’analyse des données GPS - par modèle de Markov caché - permet de déterminer trois comportements 
-          : repos, déplacement, pâturage. Le temps passé dans l’un ou l’autre de ces trois états et les localisations 
-          correspondantes sont analysés heure par heure pendant toute la saison.
-        </p>
+      <!-- Bloc 1 -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          <img src="images/DSC_0014.JPG" class="zoomable" data-caption="Collier GPS (catlog)" alt="Collier GPS"/>
+        </div>
+        <div class="analysis-text">
+          <h3>1/ Déplacements</h3>
+          <p>Le déplacement des brebis est suivi grâce à des colliers équipés de GPS programmés pour une acquisition toutes les 2 minutes. L’autonomie de la batterie permet de suivre le 
+          déplacement de l’animal pendant 3 à 4 mois. Il n’y a pas d’intervention à prévoir pendant la saison en estive. Il n’y a pas de transmission des données en temps réel. Avec 6 à 8 animaux équipés,
+          il est possible de bien représenter les déplacements d’un troupeau ovin conduit.  La méthode a été testée avec succès sur plusieurs alpages depuis trois ou quatre ans.</p>
+        </div>
       </div>
 
-      <div class="carousel" id="car-etat">
-        <img src="images/trajectoire_reposs.png" class="active" alt="Trajéctoires repos">
-        <img src="images/trajectoire_deplacement.png" alt="Trajéctoires déplacements">
-        <img src="images/trajectoire_paturage.png" alt="Trajéctoires pâturage">
-        <div class="dots"></div>
+      <!-- Bloc 2 -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+           <img src="images/Image_3.jpg" class="zoomable" data-caption="" alt="Collier GPS"/>
+        </div>
+        <div class="analysis-text">
+          <h3>2/ Comportement</h3>
+          <p>Un modèle de Markov caché distingue trois états : repos, déplacement, pâturage. Les localisations correspondantes sont analysées heure par heure sur toute la saison.</p>
+        </div>
       </div>
+
+      <!-- Bloc 3 -->
+      <div class="analysis-block">
+        <div class="analysis-image">
+          
+            <img src="images/projet_1.jpg" class="zoomable " data-caption="Distance & dénivelé 2022" alt="Distance 2022"/>
+            
+          
+        </div>
+        <div class="analysis-text">
+          <h3>3/ Chargement</h3>
+          <p>L’agrégation à l’échelle du troupeau fournit des informations sur le chargement (en nombre d’animaux par unité de surface et par unité de temps). La charge pastorale peut aussi être estimée par comportement et par habitat. </p>
+        </div>
+      </div>
+
+      <button class="slide-btn next" aria-label="Suivant">&#10095;</button>
     </div>
-  </section>
-
-  <!-- ░ BLOC 2 ░ carrousel gauche / texte droite -->
-  <section class="gps-block"><!-- carousel à gauche (pas de classe rev) -->
-    <div class="wrap">
-      <div class="carousel" id="car-tc">
-        <img src="images/plot_dist_deniv_1.jpeg" class="active" alt=" Distance et Dénivelé 2022">
-        <img src="images/plot_dist_deniv_2.jpeg" alt="Distance et Dénivelé 2023">
-        <img src="images/plot_dist_deniv_3.jpeg" alt="Distance et Dénivelé 2024">
-        <div class="dots"></div>
-      </div>
-
-      <div>
-        <h3>Distance et dénivelé parcourus</h3>
-        <p>
-         Le suivi GPS haute fréquence permet d’obtenir des trajectoires très précises,
-         ce qui rend possible le calcul de la distance et du dénivelé parcourus par les 
-         brebis équipées. Ces données peuvent servir de base pour estimer la dépense énergétique,
-         à mettre en relation avec les pratiques pastorales.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ░ SECTION Croisement données environnementales ░ -->
-<section class="env-section">
-  <div class="center-text">
-    <h2>Indicateurs</h2>
-    <p>
-      Les informations sur les déplacements, les comportements et les chargements sont croisées avec d’autres données 
-      (enneigement saisonnier, carte d’habitats, phénologie de la végétation, fréquentation humaine etc). Il en résulte 
-      un ensemble d’indicateurs permettant de caractériser finement les modalités de la conduite en estive, ses variations au cours 
-      de la saison et entre années, ses liens avec différents niveaux de biodiversités (habitat, espèces, populations).
-    </p>
-  </div>
-
-  <!-- ─── 1 seule photo pleine largeur ─── -->
-  <div class="env-photos">
-    <img src="images/methode_schema.png"
-         alt="Schéma des indicateurs">
   </div>
 </section>
 
+<!-- ===== DIVIDER ===== -->
+<div class="section-content"><hr class="divider-fade"></div>
 
-
-<!-- ░ Méthode ndvi ░ -->
+<!-- ===== ENV‑SECTIONS centrées ===== -->
+<section class="env-section">
+  <div class="center-text">
+    <h2>Indicateurs de la conduite</h2>
+    <p>Les informations dérivées des suivis GPS sont résumées par un ensemble d’indicateurs qui caractérisent les modalités de la conduite en estive, ses variations au cours de la saison et entre années. Ces informations sont fournies à une résolution spatiale de 10 m à un pas de temps horaire.</p>
+  </div>
+  <div class="env-photos"><img src="images/methode_schema.png" alt="Schéma des indicateurs"></div>
+</section>
 
 <section class="env-section">
   <div class="center-text">
-    <h2>La phénologie</h2>
-    <p>
-      L'IRG (...), est une mesure du vert des feuilles obtenus par satéllite. Et permet de caractérisé la végétation a la fois
-      en productivité en se base sur l'intensité de vert, mais également de comprendre ca phénologie avec la caractérisation des 
-      différentes phases. 
-    </p>
+    <h2>Pour aller plus loin</h2>
+    <p>Les indicateurs de la conduite sont entrecroisés avec les informations portant sur la topographie de l’estive, les infrastructures et les points d’abreuvement, l’enneigement saisonnier, les conditions météorologiques de l’été, la répartition des végétations pastorales et leur cycle de développement saisonnier (phénologie).</p>
   </div>
-
-  <!-- ─── 1 seule photo pleine largeur ─── -->
-  <div class="env-photos">
-    <img src="images/Figure_NDVI.png"
-         alt="Schéma de caractérisation de la phénologie a partir de l'IRG">
-  </div>
+  <div class="env-photos"><img src="images/Figure_NDVI_SMOD.png" alt="Phénologie"></div>
 </section>
 
 
+<!-- ===== FOOTER ===== -->
+<footer><p>&copy; 2025 PERSEE — Tous droits réservés.</p></footer>
 
+<!-- ===== LIGHTBOX (structure) ===== -->
+<div id="lightbox">
+  <span id="lightbox-close">&times;</span>
+  <span class="lb-arrow" id="lb-prev">&#10094;</span>
+  <img id="lightbox-img" alt="zoom"/>
+  <span class="lb-arrow" id="lb-next">&#10095;</span>
+</div>
 
-
-
-<!-- ░ Méthode ndvi ░ -->
-
-<section class="env-section">
-  <div class="center-text">
-    <h2>L'enneigement sur l'alpage</h2>
-    <p>
-      Le SMOD (Snow Melting Out Day) est une mesure du statut enneigé ou non d’un pixel,
-      dérivée d’observations satellitaires. Il permet d’obtenir la date de déneigement de 
-      chaque pixel de l’alpage et d’identifier à la fois la précocité (ou non) du printemps ainsi 
-      que le schéma de déneigement, en distinguant les zones qui se dégagent tôt de celles qui se dégagent tard.
-    </p>
-  </div>
-
-  <!-- ─── 1 seule photo pleine largeur ─── -->
-  <div class="env-photos">
-    <img src="images/Figure_SMOD.png"
-         alt="Schéma de caractérisation de l'état enneigement de l'éstive">
-  </div>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-  <footer class="site-footer">
-    <p>© 2025 PERSEE — tous droits réservés.</p>
-  </footer>
-
-  <!-- █████████ SCRIPTS carrousels █████████ -->
+<!-- ============ SCRIPTS ============ -->
 <script>
-document.addEventListener('DOMContentLoaded',()=>{
+/************************* LIGHT‑BOX *************************/
+(function(){
+  const lb=document.getElementById('lightbox');
+  const lbImg=document.getElementById('lightbox-img');
+  const btnPrev=document.getElementById('lb-prev');
+  const btnNext=document.getElementById('lb-next');
+  const btnClose=document.getElementById('lightbox-close');
+  let lbGroup=[],lbIdx=0;
 
-/* =====================================================
-   0. EMBALLAGE DES IMAGES + CAPTION
-===================================================== */
-document.querySelectorAll('.carousel img, .env-photos img').forEach(img=>{
-  if(img.parentElement.classList.contains('img-wrap')) return; // déjà fait
-
-  const wrap = document.createElement('div');
-  wrap.className = 'img-wrap';
-  img.parentNode.insertBefore(wrap, img);
-  wrap.appendChild(img);
-
-  const capTxt = img.dataset.caption || img.alt || "";
-  const cap    = document.createElement('span');
-  cap.className = 'caption';
-  cap.textContent = capTxt;
-  wrap.appendChild(cap);
-});
-
-/* =====================================================
-   1. CARROUSELS
-===================================================== */
-function initCarousel(id){
-  const box  = document.getElementById(id);
-  if(!box) return;
-
-  const wraps   = [...box.querySelectorAll('.img-wrap')];
-  const dotsBox = box.querySelector('.dots');
-  let idx = 0;
-
-  wraps.forEach((_,i)=>{
-    const dot = document.createElement('span');
-    dot.onclick = ()=>{ idx=i; update(); };
-    dotsBox.appendChild(dot);
-  });
-  const dots = [...dotsBox.children];
-
-  box.addEventListener('wheel',e=>{
-    e.preventDefault();
-    idx = (idx + (e.deltaY>0?1:-1) + wraps.length) % wraps.length;
-    update();
-  });
-
-  let startX = 0;
-  box.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
-  box.addEventListener('touchend',e=>{
-    const dx = e.changedTouches[0].clientX - startX;
-    if(Math.abs(dx) < 40) return;
-    idx = (idx + (dx<0?1:-1) + wraps.length) % wraps.length;
-    update();
-  });
-
-  function update(){
-    wraps.forEach((w,i)=>w.classList.toggle('active',i===idx));
-    dots .forEach((d,i)=>d.classList.toggle('active',i===idx));
+  document.querySelectorAll('.zoomable').forEach(img=>img.addEventListener('click',()=>openLB(img)));
+  function openLB(img){
+    const wrap=img.closest('.carousel-wrapper');
+    if(wrap){lbGroup=[...wrap.querySelectorAll('.behavior-img')];lbIdx=lbGroup.indexOf(img);btnPrev.style.display=btnNext.style.display='block';}
+    else{lbGroup=[img];lbIdx=0;btnPrev.style.display=btnNext.style.display='none';}
+    lbImg.src=lbGroup[lbIdx].src;lb.style.display='flex';
   }
+  function close(){lb.style.display='none';}
+  function nav(d){lbIdx=(lbIdx+d+lbGroup.length)%lbGroup.length;lbImg.src=lbGroup[lbIdx].src;}
+  btnPrev.onclick=()=>nav(-1);btnNext.onclick=()=>nav(1);btnClose.onclick=close;lb.onclick=e=>{if(e.target.id==='lightbox')close();};
+  lb.addEventListener('wheel',e=>{if(lbGroup.length<=1)return;e.preventDefault();nav(e.deltaY>0?1:-1);},{passive:false});
+  let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)<40)return;nav(dx<0?1:-1);});
+  window.addEventListener('keydown',e=>{if(lb.style.display!=='flex')return;if(e.key==='ArrowRight'&&lbGroup.length>1)nav(1);if(e.key==='ArrowLeft'&&lbGroup.length>1)nav(-1);if(e.key==='Escape')close();});
+})();
+
+/************************* CAROUSEL interne *************************/
+function initCarousel(wrap){
+  const items=[...wrap.querySelectorAll('.behavior-img')];if(items.length<=1)return;
+  const cap=document.createElement('div');cap.className='caption';cap.textContent=items[0].dataset.caption||items[0].alt||'';wrap.appendChild(cap);
+  const dots=document.createElement('div');dots.className='carousel-dots';wrap.appendChild(dots);
+  let idx=0;items.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>{idx=i;update();};dots.appendChild(d);});
+  function update(){items.forEach((im,i)=>im.classList.toggle('active',i===idx));[...dots.childNodes].forEach((d,i)=>d.classList.toggle('active',i===idx));cap.textContent=items[idx].dataset.caption||items[idx].alt||'';}
+  wrap.addEventListener('wheel',e=>{e.preventDefault();idx=(idx+(e.deltaY>0?1:-1)+items.length)%items.length;update();},{passive:false});
+  let sx=0;wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)<40)return;idx=(idx+(dx<0?1:-1)+items.length)%items.length;update();});
   update();
 }
-['car-etat','car-tc'].forEach(initCarousel);
+document.querySelectorAll('.carousel-wrapper').forEach(initCarousel);
 
-/* =====================================================
-   2. LIGHT-BOX
-===================================================== */
-const lb        = document.getElementById('lightbox');
-const lbImg     = lb.querySelector('img');
-const btnPrev   = lb.querySelector('.prev');
-const btnNext   = lb.querySelector('.next');
-const btnClose  = lb.querySelector('.close');
+/**************** CAPTION pour images simples *****************/
+document.querySelectorAll('.analysis-image>img.zoomable:not(.behavior-img)').forEach(img=>{if(img.parentElement.querySelector('.caption'))return;const c=document.createElement('div');c.className='caption';c.textContent=img.dataset.caption||img.alt||'';img.parentElement.appendChild(c);});
 
-let gallery = [];
-let gIdx    = 0;
-
-document.querySelectorAll('.carousel img, .env-photos img').forEach(img=>{
-  img.classList.add('zoomable');
-  img.addEventListener('click',()=>openLightbox(img));
-});
-
-function openLightbox(clickedImg){
-  const car = clickedImg.closest('.carousel');
-  gallery   = car ? [...car.querySelectorAll('.img-wrap img')] : [clickedImg];
-  gIdx      = gallery.indexOf(clickedImg);
-  showImg();
-  lb.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-function showImg(){ lbImg.src = gallery[gIdx].src; }
-
-btnPrev.onclick = ()=>{ gIdx = (gIdx-1+gallery.length)%gallery.length; showImg(); };
-btnNext.onclick = ()=>{ gIdx = (gIdx+1)           %gallery.length;     showImg(); };
-
-function closeLightbox(){
-  lb.style.display='none';
-  document.body.style.overflow='';
-}
-btnClose.onclick = closeLightbox;
-lb.addEventListener('click',e=>{ if(e.target===lb) closeLightbox(); });
-
-lb.addEventListener('wheel',e=>{
-  e.preventDefault();
-  (e.deltaY>0 ? btnNext : btnPrev).click();
-});
-
-document.addEventListener('keydown',e=>{
-  if(lb.style.display!=='flex') return;
-  if(e.key==='Escape')    closeLightbox();
-  if(e.key==='ArrowLeft') btnPrev.click();
-  if(e.key==='ArrowRight')btnNext.click();
-});
-
-}); /* fin DOMContentLoaded */
+/************************ SLIDER PRINCIPAL *************************/
+(function(){const slider=document.querySelector('.slider');if(!slider)return;const cards=[...slider.querySelectorAll('.analysis-block')];let idx=0;const maxH=Math.max(...cards.map(c=>c.getBoundingClientRect().height));slider.style.height=maxH+'px';function setStates(){cards.forEach((card,i)=>{const diff=(i-idx+cards.length)%cards.length;card.dataset.status=diff===0?'active':diff===1?'after':diff===cards.length-1?'before':'';});}
+  function move(d){idx=(idx  +d+cards.length)%cards.length;setStates();}
+  slider.querySelector('.slide-btn.prev').onclick=()=>move(-1);
+  slider.querySelector('.slide-btn.next').onclick=()=>move(1);
+  window.addEventListener('keydown',e=>{if(document.getElementById('lightbox').style.display==='flex')return;if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);});
+  setStates();})();
 </script>
 
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+/* ---------- Ajuste la largeur de .analysis-image selon le format réel ---------- */
+(function(){
+  const maxW = parseInt(getComputedStyle(document.documentElement)
+                        .getPropertyValue('--img-w')) || 700;
+  const h    = parseInt(getComputedStyle(document.documentElement)
+                        .getPropertyValue('--img-h')) || 525;
+
+  document.querySelectorAll('.analysis-image > img').forEach(img=>{
+    if (img.complete) resize();          // déjà chargée
+    else img.onload = resize;            // chargée plus tard
+
+    function resize(){
+      const ratio   = img.naturalWidth / img.naturalHeight;
+      const newW    = Math.min(maxW, Math.round(ratio * h));
+
+      const frame   = img.parentElement;
+      frame.style.width      = newW + 'px';
+      frame.style.flexBasis  = newW + 'px';
+    }
+  });
+})();
+</script>
+
+
+
+
+<script>
+/* 1. Menu burger (mobile) */
+document.querySelector('.nav-toggle')
+        .addEventListener('click', () =>
+  document.querySelector('.nav-links').classList.toggle('open')
+);
+
+/* 2. Ajout auto de la classe .active sur la page courante */
+(function(){
+  /* ex : "/persee/Suivi_GPS.html" → "Suivi_GPS.html" */
+  const current = location.pathname.split('/').pop().toLowerCase() || 'index.html';
+  document.querySelectorAll('.persee-navbar .nav-links a').forEach(a=>{
+    const target = a.getAttribute('href').split('/').pop().toLowerCase();
+    if (target === current) a.classList.add('active');
+  });
+})();
+</script>
+
+
 </body>
 </html>

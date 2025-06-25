@@ -34,30 +34,7 @@
       color: #333;
     }
 
-     <!-- ======================= HEADER / NAVBAR ======================= -->
-  < <!-- ░ HEADER ░ -->
-  <header>
-    <nav class="navbar">
-      <a href="index.html" class="logo">PERSEE</a>
-      <ul>
-        <li><a href="index.html">Le projet</a></li>
-        <li><a class="active" href="Suivi_GPS.html">Méthode</a></li>
-        <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
-        <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-        <li><a href="equipe.html">Équipe</a></li>
-      </ul>
-    </nav>
-  </header>
-
-   
-  <!-- ======================= HERO ========================= -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Suivi des différents alpages</h1>
-      <p>Présentation détaillée de chaque alpage</p>
-    </div>
-  </section>
-
+     
 
     /* ======== SECTION BASIQUES ======== */
     section.section {
@@ -262,11 +239,7 @@
       filter: grayscale(20%);
     }
 
-    <!-- ======== FOOTER ======== -->
-  <footer class="site-footer">
-    <p>© 2025 PERSEE – Tous droits réservés.</p>
-  </footer>
-  
+
   
   
   /* -- MISE EN FORME COMMUNE AUX 3 ENCARTS --------------------------- */
@@ -379,6 +352,265 @@
   font-size: 1.8rem;          /* taille inchangée                    */
 }
   
+  
+  
+  /* Google Font (Inter) – ajoute-le une seule fois dans le <head> */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+/* variables utiles (couleur d’accent) */
+:root{
+  --accent:#005f99;
+}
+
+/* ========= NAVBAR PERSEE (uniforme sur tout le site) ========= */
+:root{
+  --nav-bg: #ffffff;
+  --nav-accent: #005f99;
+  --nav-link-hover: rgba(0,0,0,.08);
+}
+
+.persee-navbar{
+  height: 56px;
+  display:flex;
+  align-items:center;
+  padding: 0 1.25rem;
+  background: var(--nav-bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  position: sticky;           /* reste visible au défilement */
+  top:0; z-index: 2000;
+}
+
+/* logo */
+.persee-navbar .logo{
+  font: 800 1.35rem/1 'Inter',sans-serif;
+  color: var(--nav-accent);
+  text-decoration:none;
+  margin-right:auto;
+}
+
+/* liste */
+.persee-navbar .nav-links{
+  display:flex; gap:1.3rem;
+  list-style:none;
+  margin:0; padding:0;
+}
+
+/* liens */
+.persee-navbar .nav-links a{
+  display:block;
+  padding:.35rem .7rem;
+  font:600 1rem/1 'Inter',sans-serif;
+  text-decoration:none; color:#222;
+  border-radius:6px;
+  transition:background .25s;
+}
+.persee-navbar .nav-links a:hover{
+  background:var(--nav-link-hover);
+}
+
+/* lien actif — ajouté en JS */
+.persee-navbar .nav-links a.active{
+  background:rgba(0,95,153,.12);
+  color:var(--nav-accent);
+}
+
+/* ---------- burger (mobile) ---------- */
+.nav-toggle{
+  display:none;               /* masqué sur desktop */
+  flex-direction:column;
+  gap:4px;
+  background:none; border:none;
+  cursor:pointer;
+  margin-left:1rem;
+}
+.nav-toggle span{
+  width:22px; height:3px;
+  background:#333; border-radius:2px;
+}
+
+/* mobile : affiche le burger, cache les liens */
+@media(max-width:768px){
+  .nav-toggle{ display:flex; }
+  .persee-navbar .nav-links{
+    position:absolute;
+    right:0; top:56px;
+    flex-direction:column;
+    background:var(--nav-bg);
+    width:100%;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    box-shadow:0 4px 10px rgba(0,0,0,.06);
+  }
+  .persee-navbar .nav-links.open{
+    max-height:260px;          /* assez pour 4 liens */
+  }
+  .persee-navbar .nav-links li{
+    border-bottom:1px solid rgba(0,0,0,.05);
+  }
+}
+  
+  
+  /* ──────────────────────────────────────────────────────────
+   ENCAR(T) « Contributeurs + Carte »
+   – image supprimée
+   – texte & titre centrés
+   – carte (#map) intégrée et prend toute la largeur
+─────────────────────────────────────────────────────────── */
+.project-contributors .content-grid{
+  display:flex;                 /* pile verticale sur mobile */
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:2rem 2.5rem;
+  gap:2rem;
+}
+
+.project-contributors .text h2{
+  font-size:2rem;
+  margin:0 0 1rem 0;
+}
+
+.project-contributors .text p{
+  max-width:780px;
+  margin:0 auto;
+}
+
+.project-contributors .image{display:none;}         /* on masque l’ancienne photo */
+
+/* la carte prendra tout l’encart */
+.project-contributors #map{
+  width:100%;
+  height:68vh;
+  margin:0;
+}
+  
+/* ─── Bandeau “Équipe” (nouvelle palette) ───────────────────────── */
+.team-banner{
+  background:#fff;                           /* même fond que les encarts */
+  border:1px solid var(--clr-bubble-border); /* liseré gris-bleuté        */
+  border-radius:var(--radius-lg);
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  max-width:1200px;
+  margin:var(--gap-section) auto 0 auto;
+  padding:36px 28px;
+  text-align:center;
+  color:#333;                                /* texte sombre, lisible     */
+}
+
+.team-banner h2{
+  margin:0 0 1rem 0;
+  font-size:1.9rem;
+  color:var(--clr-accent);                   /* bleu PERSEE pour le titre */
+}
+
+.team-banner ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+  font-size:1.2rem;
+  line-height:1.55;
+}
+
+.team-banner li+li{ margin-top:.6rem; }
+
+.team-banner strong{ color:#000; }           /* les intitulés ressortent  */
+  /* ─── Bandeau “Équipe” : fond bleuté identique aux autres blocs ─── */
+.team-banner{
+  background: var(--clr-bg-light);    /* #f9fbff, déjà défini dans :root */
+  border: 1px solid var(--clr-bubble-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  max-width: 1200px;
+  margin: var(--gap-section) auto 0 auto;
+  padding: 36px 28px;
+  text-align: center;
+  color: #333;
+}
+  /* ──────────────────────────────────────────────────────────
+   Partenaires  ➜  bandeau pleine largeur + logos uniformes
+─────────────────────────────────────────────────────────── */
+
+/* 1 ▸ le bloc occupe 100 % de la fenêtre, plus de bord arrondi */
+.partners-wrapper{
+  width:100%;
+  max-width:none;             /* plus de 1200 px « boîte »           */
+  margin:var(--gap-section) 0 0 0;   /* même écart vertical, mais plus d’auto */
+  padding:48px 8vw;           /* “8 vw” = marge latérale (%)         */
+  border-radius:0;            /* coins carrés → bandeau              */
+  background:var(--clr-bg-light);     /* même bleu clair que les autres encarts */
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+/* 2 ▸ Titre & texte toujours centrés (inchangés) */
+.partners-wrapper h2,
+.partners-wrapper p{ max-width:none; }
+
+/* 3 ▸ grille des logos : centrés, espacés, même taille */
+.partners-logos{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:40px;                   /* espace régulier entre logos         */
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+
+/* 4 ▸ chaque logo : largeur fixe, hauteur fixe, contenu contenu */
+.partners-logos img{
+  width:160px;                /* ← ajuste si besoin (même largeur)   */
+  height:100px;               /* ← même hauteur partout              */
+  object-fit:contain;         /* pas de déformation                  */
+  filter:grayscale(15%);      /* filtre doux inchangé                */
+}
+  /* ───────── Partners : couleur d’origine + sans espace avant le footer ───────── */
+.partners-wrapper{
+  background:#f5f5f5;            /* gris clair “d’origine”                */
+  margin: var(--gap-section) 0 0 0;  /* marge en haut, 0 en bas            */
+}
+
+/* le footer vient immédiatement, donc on lui enlève son écart supérieur */
+footer{ margin-top:0; }
+
+
+/* ─── Logos partenaires : même hauteur visuelle ───────────── */
+.partners-logos img{
+  height:90px;               /* hauteur identique pour tous  (ajuste si besoin) */
+  width:auto;                /* largeur libre, respecte les proportions          */
+  object-fit:contain;        /* on ne déforme pas l’image                        */
+  filter:grayscale(15%);
+}
+
+
+/* 1 – remet le bloc à sa place dans le flux */
+.project-intro{
+  margin: 0 auto;            /* plus de marge négative */
+  transform: translateY(-40px);   /* même chevauchement, mais visuel seulement */
+}
+
+/* 2 – évite qu’un autre chevauchement réapparaisse un jour */
+.hero{ overflow:hidden; }    /* on cache tout ce qui dépasse dans la hero */
+
+
+
+
+
+
+
+/* 1. la barre reste collée en haut même quand on scrolle */
+.persee-navbar{
+  position: fixed;   /* au lieu de sticky             */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
+}
+
+
+
+
+
+
   </style>
 </head>
 
@@ -388,52 +620,27 @@
 
 
 
-
-
-
-<script>
-/* ===== 1.   menu burger ===== */
-document.querySelector('.nav-toggle')
-        .addEventListener('click', () =>
-  document.querySelector('.nav-links').classList.toggle('open')
-);
-
-/* ===== 2.   lien <a> actif automatiquement ===== */
-(function () {
-  const page = location.pathname.split('/').pop().toLowerCase() || 'index.html';
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    const target = a.getAttribute('href').split('/').pop().toLowerCase();
-    if (target === page) a.classList.add('active');
-  });
-})();
-</script>
-
-
-
-
 <body>
-  <!-- navbar.html  — à inclure par copie/coller
-     ou en SSI / PHP / template, selon ton workflow -->
-<header>
-  <nav class="navbar">
-    <a href="index.html" class="logo">PERSEE</a>
+<!-- ▸ NAVBAR PERSEE ───────────────────────────────────────── -->
+<nav class="persee-navbar">
+  <a class="logo" href="index.html">PERSEE</a>
 
-    <button class="nav-toggle" aria-label="Ouvrir/fermer le menu">
-      &#9776;
-    </button>
+  <!-- burger -->
+  <button class="nav-toggle" aria-label="Ouvrir / fermer le menu">
+    <span></span><span></span><span></span>
+  </button>
 
-    <ul class="nav-links">
-      <li><a href="index.html">Le projet</a></li>
-      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-      <li><a href="Carte_d_identité_des_estives.html">Carte d’identité des estives</a></li>
-      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-      <li><a href="equipe.html">Équipe</a></li>
-    </ul>
-  </nav>
-</header>
+  <!-- liens -->
+  <ul class="nav-links">
+    <li><a href="index.html">Le projet</a></li>
+    <li><a href="Suivi_GPS.html">Méthodes</a></li>
+    <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
+    <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+  </ul>
+</nav>
 
   <!-- ======================= HERO ========================= -->
-  <section class="hero">
+  <section class="hero" style="background-image:url('images/hero.jpg')">
     <div class="hero-content">
       <h1>PERSEE</h1>
       <p>Pastoralisme Et biodiveRsités dans le Socio-Écosystème Estive </p>
@@ -477,50 +684,57 @@ document.querySelector('.nav-toggle')
     </div>
   </section>
   
-  <!-- ======== SECTION 3 : Qui contribue à PERSEE ? ======== -->
+<!-- ===== SECTION : Contributeurs + Carte ===== -->
 <section class="section project-contributors">
   <div class="content-grid">
-    <!-- Texte -->
+
+    <!-- Texte centré -->
     <div class="text">
       <h2>Qui contribue à PERSEE&nbsp;?</h2>
-
       <p>
-        Le projet <strong>PERSEE</strong> est le fruit d’une coopération entre le
-        <strong>CNRS</strong> et l’<strong>OFB</strong>. Il se déploie actuellement
-        dans une dizaine d’estives réparties dans les Alpes et les Pyrénées
-        françaises. Les actions du projet sont mises en œuvre grâce à une
-        étroite collaboration avec la profession agricole (groupements pastoraux,
-        éleveurs et bergers) et les gestionnaires d’espaces protégés
-        (Parcs nationaux, parcs régionaux, réserves naturelles).
-        D’autres sites candidats peuvent rejoindre le dispositif.
+        Le projet PERSEE est une coopération entre le CNRS et l’OFB. Il se déploie actuellement dans une dizaine
+        d’estives réparties dans les Alpes et les Pyrénées françaises. Les actions du projet sont mises en œuvre grâce à
+        une étroite collaboration la profession agricole (groupements pastoraux, éleveurs et bergers) et les gestionnaires 
+        d’espaces protégés (Parcs Nationaux, parcs régionaux, réserves naturelles). D’autres sites candidats peuvent rejoindre le dispositif.
+        <!-- texte inchangé -->
       </p>
     </div>
 
-    <!-- Image – remplace src si tu as une photo adaptée -->
-    <div class="image">
-      <img src="images/image2.jpg"
-           alt="Éleveurs, bergers et scientifiques en estive">
-    </div>
+    <!-- Carte interactive directement dans l’encart -->
+    <div id="map"></div>
+
   </div>
 </section>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
- <section class="section estives-map">
-  <!-- (on SUPPRIME totalement l’attribut style) -->
-  <h2 class="map-title">Un réseau d’estives</h2>
-  <div id="map"></div>
+
+
+
+
+
+
+
+
+<!-- ========== BANDEAU ÉQUIPE ========== -->
+<section class="team-banner">
+  <h2>L’équipe PERSEE</h2>
+
+  <ul>
+    <li><strong>Coordination du projet :</strong> Philippe Choler&nbsp;(CNRS) &amp; Mathieu Garel&nbsp;(OFB)</li>
+    <li><strong>Chargée de mission :</strong> Marion Janel</li>
+    <li><strong>Ingénieur écologue :</strong> Camille Masson</li>
+  </ul>
 </section>
+
+
+
+
+
+
+
+
+
+
+
 
   <!-- ======== SECTION 4 : Partenaires ======== -->
   <section class="section partners-wrapper">
@@ -708,5 +922,48 @@ document.querySelector('.nav-toggle')
       map.on('zoomend', updateLayers);
     });
   </script>
+  
+  
+  
+  
+ 
+  
+  
+  
+
+
+<script>
+/* 1. Menu burger (mobile) */
+document.querySelector('.nav-toggle')
+        .addEventListener('click', () =>
+  document.querySelector('.nav-links').classList.toggle('open')
+);
+
+/* 2. Ajout auto de la classe .active sur la page courante */
+(function(){
+  /* ex : "/persee/Suivi_GPS.html" → "Suivi_GPS.html" */
+  const current = location.pathname.split('/').pop().toLowerCase() || 'index.html';
+  document.querySelectorAll('.persee-navbar .nav-links a').forEach(a=>{
+    const target = a.getAttribute('href').split('/').pop().toLowerCase();
+    if (target === current) a.classList.add('active');
+  });
+})();
+</script>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </body>
 </html>

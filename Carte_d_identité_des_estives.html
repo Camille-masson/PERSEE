@@ -13,766 +13,482 @@
 
   <!-- =========================== STYLE INTERNE =========================== -->
   <style>
-  
-  
- /* ─── NAVBAR compacte & bords collés ─────────────────────────────── */
-
-/* hauteur + fine : 48 px, paddings réduits */
-.navbar{
-  height:48px;                 /* ← au lieu de 60 px                      */
-  padding:0 1.25rem;           /* moins d’air interne                    */
-  box-shadow:0 1px 4px rgba(0,0,0,.06);
-}
-
-/* on vire la largeur max qui re-centrait tout */
-.navbar,                       /* barre complète  */
-.navbar > *{                  /* tous ses enfants */
-  max-width:none !important;
-}
-
-/* logo PERSEE collé à gauche ; les liens poussés à droite */
-.navbar .logo{
-  margin-right:auto;           /* pousse le <ul> vers la droite */
-  font-size:1.35rem;           /* un peu + compact               */
-}
-
-/* la liste reste à droite, espacements réduits */
-.navbar ul{
-  gap:1.2rem;                  /* ancien 1.6rem → 1.2rem          */
-}
-
-/* liens actifs en gris doux */
-.navbar a.active{
-  background:rgba(0,0,0,.08);
-  border-radius:4px;
-}
-
-/* petit bonus : lien > état “hover” identique pour la souris */
-.navbar a:hover{
-  background:rgba(0,0,0,.08);
-}
-
-
-/* ───────────────────────── HERO PLEIN ÉCRAN ───────────────────────── */
-.hero{position:relative;height:100vh;           /* ← modif : 100 vh */
-      background:center/cover no-repeat;
-      display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
-.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
-.hero-content{position:relative;z-index:1;padding:2rem 1rem}
-.hero h1{font-size:3rem;margin-bottom:.8rem}
-.hero p{font-size:1.4rem;font-weight:300}
-@media(max-width:768px){
-  .hero{height:75vh}       /* ← option mobile si tu veux voir le contenu */
-  .hero h1{font-size:2.3rem}
-  .hero p{font-size:1.15rem}
-}
-  
-/* juste APRES le bloc .hero existant */
-.hero h1{
-  color:#fff;            /* blanc */
-}
-
-/* si ton accent (#005f99) revient ailleurs, ajoute !important */
-.hero h1{
-  color:#fff !important;
-}  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    /* ======================== VARIABLES RAPIDES ======================== */
-    :root{
-      /* mise à l’échelle rapide de l’ensemble du thème */
-      --gap:80px;          /* espace vertical entre cartes            */
-      --pad:48px;          /* padding interne des cartes               */
-      --img-w:700px;       /* largeur image sur desktop                */
-      --accent:#005f99;    /* couleur de la charte PERSEE              */
-      --radius:18px;       /* rayon d’angle homogène                   */
-      --shadow:0 10px 28px rgba(0,0,0,.08);
-    }
-
-    /* ============================ RESET BASIQUE ============================ */
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Inter',Arial,Helvetica,sans-serif;
-      font-size:17px;line-height:1.75;
-      background:#f1f3f6;color:#222;
-    }
-    img{display:block;max-width:100%;height:auto}
-    a{text-decoration:none;color:inherit}
-    h1,h2,h3,h4,h5{font-weight:800;line-height:1.25;color:var(--accent)}
-    p{margin-top:1rem}
-
-    /* ============================ NAVBAR ============================ */
-    .navbar{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:1.2rem 2rem;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);
-      position:sticky;top:0;z-index:1000;
-    }
-    .navbar .logo{font-weight:800;font-size:1.5rem;color:var(--accent)}
-    .navbar ul{display:flex;gap:1.6rem;list-style:none;font-weight:600}
-    .navbar a{padding:.25rem .5rem;border-radius:.25rem;transition:background .25s}
-    .navbar a:hover,.navbar a.active{background:rgba(0,95,153,.08)}
-
-    
-    /* ============================ SECTIONS ============================ */
-    .section{padding:4rem 0}
-    .section-full .section-content{max-width:1240px;margin:0 auto;padding:0 1.5rem}
-
-    /* ============================ FORM SELECT ============================ */
-    .text label{font-weight:600;margin-right:.5rem}
-    select{font-size:1rem;padding:.5rem 1rem;border-radius:.5rem;border:1px solid #ccc;min-width:200px}
-
-    /* ============================ CARTES D’ANALYSE ============================ */
-    .analysis-section{background:#f1f3f6}
-    .analysis-block{
-      display:flex;gap:var(--pad);align-items:center;
-      background:#fff;border-radius:var(--radius);padding:var(--pad);
-      box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;
-      margin-top:var(--gap);
-    }
-    .analysis-block:first-of-type{margin-top:0}
-    .analysis-block:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.1)}
-    .analysis-block.reverse{flex-direction:row-reverse}
-
-    .analysis-image{flex:0 0 var(--img-w);max-width:var(--img-w);position:relative;border-radius:var(--radius);overflow:hidden}
-    .analysis-image img{border-radius:inherit}
-
-    /* -------- Carrousel -------- */
-    .carousel-wrapper{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;cursor:pointer}
-    .carousel-wrapper img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
-    .carousel-wrapper img.active{opacity:1}
-    .carousel-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:10px;padding:6px 14px;background:rgba(255,255,255,.85);border-radius:1.5rem}
-    .carousel-dots .dot{width:14px;height:14px;border:2px solid #333;border-radius:50%;cursor:pointer;transition:background .25s}
-    .carousel-dots .dot.active{background:#333}
-
-    /* -------- Légende -------- */
-    .caption{position:absolute;inset:auto 0 0 0;padding:10px 14px;font-size:.95rem;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);color:#fff;border-bottom-left-radius:inherit;border-bottom-right-radius:inherit;opacity:0;transition:opacity .3s}
-    .analysis-image:hover .caption{opacity:1}
-
-/* Vidéos dans les carrousels : même positionnement que les images */
-.carousel-wrapper video.behavior-img{
-  position:absolute;          /* remplit tout le wrapper */
-  inset:0;
-  width:100%; height:100%;
-  object-fit:cover;           /* rogne comme un background-size:cover */
-  opacity:0;                  /* même transition que l'img */
-  transition:opacity .35s;
-}
-.carousel-wrapper video.behavior-img.active{
-  opacity:1;
-}
-    /* -------- Texte -------- */
-    .analysis-text h3{font-size:2rem;margin-bottom:1rem;position:relative}
-    .analysis-text h3::after{content:"";position:absolute;left:0;bottom:-8px;width:40px;height:4px;background:var(--accent);border-radius:2px}
-    .analysis-text p{font-size:1.25rem;color:#444;margin:0}
-
-    /* ============================ FOOTER ============================ */
-    footer{text-align:center;padding:2rem 1rem;background:#fff;margin-top:4rem;font-size:.95rem;color:#777}
-
-    /* ============================ RESPONSIVE < 1200 ============================ */
-    @media(max-width:1200px){:root{--img-w:540px;--pad:40px}}
-
-    /* ============================ RESPONSIVE < 900 ============================ */
-    @media(max-width:900px){:root{--gap:64px};.analysis-block{flex-direction:column;text-align:center}.analysis-block.reverse{flex-direction:column}.analysis-image{max-width:100%;flex:none}}
-
-    /* ============================ RESPONSIVE < 600 ============================ */
-    @media(max-width:600px){:root{--gap:48px;--pad:32px};body{font-size:15px}.hero h1{font-size:2.2rem}.hero p{font-size:1.2rem}.analysis-text h3{font-size:1.6rem}.analysis-text p{font-size:1.05rem}}
-    
-    
-    /* ───── slider des analysis-block ───── */
-.slider{position:relative}
-.slider .analysis-block{display:none}               /* tous cachés */
-.slider .analysis-block.active{display:flex}        /* seul actif */
-
-.slide-btn{
-  position:absolute;top:50%;transform:translateY(-50%);
-  background:rgba(0,0,0,.35);color:#fff;
-  border:none;font-size:34px;line-height:1;cursor:pointer;
-  padding:6px 12px;border-radius:50%;z-index:10;
-  transition:background .25s;
-}
-.slide-btn:hover{background:rgba(0,0,0,.55)}
-.slide-btn.prev{left:-20px}        /* recule d’un peu le bouton */
-.slide-btn.next{right:-20px}
-@media(max-width:900px){.slide-btn{font-size:28px}}
-    
-    /* juste après .analysis-section{background:#f1f3f6} … */
-.analysis-section{
-  background:#f1f3f6;
-  position:relative;   /* ← nouveau : référence pour les flèches */
-}
-.slide-btn.prev{left:600px;}   /* ou -24px, ajuste à ton goût */
-.slide-btn.next{right:600px;}    
-
-
-/* ▸ 1.a  — conteneur image : même ratio partout  ------------------------- */
-.analysis-image{
-  flex:0 0 var(--img-w);           /* largeur fixe desktop         */
-  max-width:var(--img-w);
-  aspect-ratio:4/3;                /* ← même hauteur pour tous     */
-  position:relative;
-  border-radius:var(--radius);
-  overflow:hidden;
-}
-
-/* les images & wrappers (carousel ou simple) remplissent 100 %  */
-.analysis-image img,
-.analysis-image > .carousel-wrapper{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-}
-
-/* ▸ 1.b  — légère anim’ entre les cartes  ------------------------------- */
-.slider .analysis-block{
-  opacity:0;
-  transform:translateX(40px);
-  transition:opacity .45s ease, transform .45s ease;
-}
-.slider .analysis-block.active{
-  opacity:1;
-  transform:none;
-  display:flex;                    /* déjà dans votre JS           */
-}
-
-/* ▸ 1.c  — (re)position des flèches : toujours 24 px hors de la carte ---- */
-.slide-btn.prev,
-.slide-btn.next{                   /* on enlève le left:600px etc. */
-  top:50%; transform:translateY(-50%);
-}
-.slide-btn.prev{ left:-24px; }
-.slide-btn.next{ right:-24px; }
-@media(max-width:900px){
-  .slide-btn.prev{ left:-12px; }
-  .slide-btn.next{ right:-12px; }
-}
-
-/* ► Tous les blocs à l’intérieur du slider ont la même marge   */
-.slider .analysis-block{
-  margin-top:0 !important;   /* on neutralise la règle first-of-type */
-}
-
-/* ► On redonne l’écart général au conteneur plutôt qu’aux cartes */
-.analysis-section .slider{
-  margin-top:var(--gap);      /* même valeur qu’avant (80 px) */
-}
-
-
-
-/* ── slider : on masque le débordement et on fixe la hauteur dynamiquement ── */
-.slider{
-  position:relative;
-  overflow:hidden;        /* pour cacher les cartes qui sortent du cadre */
-}
-
-/* ── toutes les cartes sont ABSOLUES dans le slider ── */
-.slider .analysis-block{
-  position:absolute; top:0; left:0; width:100%;
-  transition:transform .6s ease, opacity .6s ease;
-  opacity:0;                      /* état “caché” par défaut         */
-  transform:translateX(100%);     /* rangée à droite hors-champ      */
-  pointer-events:none;            /* évite de cliquer lors du slide  */
-}
-
-/* état selon l’attribut data-status (défini en JS) */
-.slider .analysis-block[data-status="active"]{
-  opacity:1; transform:translateX(0); pointer-events:auto;
-}
-.slider .analysis-block[data-status="before"]{
-  opacity:0; transform:translateX(-100%);   /* rangée à gauche        */
-}
-.slider .analysis-block[data-status="after"]{
-  opacity:0; transform:translateX(100%);    /* rangée à droite        */
-}
-
-/* remet l’affichage flex à toutes les cartes (sera de toute façon masqué par opacity) */
-.slider .analysis-block{display:flex !important;}
-
-
-
-
-
-
-
-
-/* ── 1.a  Angles : on propage vraiment le border-radius ─────────────────── */
-.analysis-image > .carousel-wrapper,
-.analysis-image > img{
-  border-radius:inherit;        /* hérite du radius du conteneur        */
-  overflow:hidden;              /* évite tout débordement d’image       */
-}
-
-/* ── 1.b  Boutons : on annule les “left:-24px” & co.  ───────────────────── */
-.slide-btn.prev,
-.slide-btn.next{
-  left:auto; right:auto;        /* on laisse le JS décider              */
-  pointer-events:auto;
-}
-
-/* largeur/hauteur un poil plus confortables */
-.slide-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center}
-
-/* ────── LIGHTBOX plein écran ─────────────────────────────────────────── */
-#lightbox{
-  position:fixed;               /* colle à la fenêtre, pas à la page    */
-  inset:0;                      /* top:0 right:0 bottom:0 left:0        */
-  display:none;                 /* masqué par défaut                    */
-  align-items:center;           /* centre l’image horizontalement       */
-  justify-content:center;       /* centre l’image verticalement         */
-  background:rgba(0,0,0,.8);    /* fond noir translucide                */
-  z-index:1000;                 /* au-dessus de tout le reste           */
-}
-
-#lightbox img{
-  max-width:90vw;               /* 90 % de la largeur viewport          */
-  max-height:90vh;              /* 90 % de la hauteur viewport          */
-  border-radius:8px;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);
-  object-fit:contain;
-}
-
-#lightbox-close{
-  position:absolute;
-  top:24px; right:24px;
-  font-size:42px;
-  color:#fff; cursor:pointer;
-  line-height:1;
-  user-select:none;
-}
-
-
-
-/* ====== SLIDER : structure & animation ================================== */
-.analysis-section .slider{
-  position:relative;
-  overflow:hidden;                 /* masque les cartes qui glissent */
-  margin-top:var(--gap);           /* même espace qu’avant            */
-}
-
-/* chaque carte ABSOLUE, animée gauche ↔ droite -------------------------- */
-.slider .analysis-block{
-  position:absolute; top:0; left:0; width:100%;
-  transition:transform .6s ease, opacity .6s ease;
-  opacity:0; transform:translateX(100%);
-  pointer-events:none;             /* pas de clics hors carte active  */
-}
-
-/* états (gérés en JS via data-status) */
-.slider .analysis-block[data-status="active"] {opacity:1; transform:translateX(0);  pointer-events:auto;}
-.slider .analysis-block[data-status="before"] {opacity:0; transform:translateX(-100%);}
-.slider .analysis-block[data-status="after"]  {opacity:0; transform:translateX(100%);}
-
-/* on neutralise les vieux display:none ---------------------------------- */
-.slider .analysis-block{display:flex !important;}
-
-/* ====== ANGLES parfaits ================================================= */
-.analysis-image{
-  flex:0 0 var(--img-w);
-  max-width:var(--img-w);
-  aspect-ratio:4/3;
-  position:relative;
-  border-radius:var(--radius);
-  overflow:hidden;                 /* coupe net tout débordement      */
-}
-.analysis-image img,
-.analysis-image > .carousel-wrapper{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  border-radius:inherit;           /* propage le radius               */
-}
-
-/* ====== FLÈCHES ========================================================= */
-.slide-btn{
-  position:absolute; z-index:20;
-  width:44px; height:44px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:32px; line-height:1;
-  background:rgba(0,0,0,.35); color:#fff; border:none;
-  border-radius:50%; cursor:pointer;
-  transition:background .25s;
-}
-.slide-btn:hover{background:rgba(0,0,0,.55);}
-/* ▸ flèches collées au bord du slider ----------------------------------- */
-.slide-btn{
-  position:absolute;
-  top:50%; transform:translateY(-50%);
-  width:44px; height:44px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:32px; line-height:1;
-  background:rgba(0,0,0,.35); color:#fff; border:none; border-radius:50%;
-  cursor:pointer; transition:background .25s;
-}
-
-.slide-btn.prev{ left:-24px; }   /* −24 px = moitié de leur largeur – 2 px d’air */
-.slide-btn.next{ right:-24px; }  /* (modifie la valeur si tu veux plus/moins d’écart) */
-
-@media (max-width:900px){         /* sur mobile, on colle un peu moins loin */
-  .slide-btn.prev{ left:-18px; }
-  .slide-btn.next{ right:-18px; }
-}
-
-.slide-btn:hover{ background:rgba(0,0,0,.55); }
-
-
-/* ==== FLÈCHES – position fixe à l’extérieur du bloc actif ============= */
-.slide-btn{
-  position:absolute;                /* référence : la <section> */
-  z-index:20;
-  width:44px; height:44px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:32px; line-height:1;
-  background:rgba(0,0,0,.35); color:#fff; border:none; border-radius:50%;
-  cursor:pointer; transition:background .25s;
-  top:50%; transform:translateY(-50%);
-}
-
-.slide-btn:hover{background:rgba(0,0,0,.55);}
-
-
-
-/* le conteneur .slider sert maintenant de référence aux flèches */
-.slider{position:relative;}
-
-/* mêmes dimensions mais positionnées *dans* le bloc */
-.slider .slide-btn{
-  position:absolute;                 /* ↳ référence : .slider */
-  top:50%; transform:translateY(-50%);
-  width:44px; height:44px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:32px; line-height:1;
-  background:rgba(0,0,0,.35);
-  color:#fff; border:none; border-radius:50%;
-  cursor:pointer; transition:background .25s;
-}
-.slider .slide-btn.prev{left:8px;}   /* ← 8 px du bord de la carte */
-.slider .slide-btn.next{right:8px;}  /* → 8 px du bord de la carte */
-
-@media (max-width:900px){            /* un léger retrait sur mobile */
-  .slider .slide-btn.prev{left:4px;}
-  .slider .slide-btn.next{right:4px;}
-}
-
-.slider .slide-btn:hover{background:rgba(0,0,0,.55);}
-
-/* 1 /  paramètre commun  */
-:root{
-  --arrow-size:44px;   /* diamètre du bouton              */
-  --card-pad:48px;     /* même valeur que --pad de .analysis-block */
-}
-
-/* 2 /  conteneur : on conserve overflow:visible pour ne rien couper */
-.slider{ position:relative; overflow:visible; }
-
-/* 3 /  style général des flèches (identique) */
-.slider .slide-btn{
-  position:absolute; z-index:50;
-  top:50%; transform:translateY(-50%);
-  width:var(--arrow-size); height:var(--arrow-size);
-  display:flex; align-items:center; justify-content:center;
-  font-size:32px; line-height:1;
-  background:rgba(0,0,0,.35); color:#fff;
-  border:none; border-radius:50%; cursor:pointer;
-  transition:background .25s;
-}
-
-/* 4 /  placement : on sort de la carte de
-         ½ flèche  +  padding carte            */
-.slider .slide-btn.prev{
-  left:calc(-0.5 * var(--arrow-size) - var(--card-pad));
-}
-.slider .slide-btn.next{
-  right:calc(-0.5 * var(--arrow-size) - var(--card-pad));
-}
-
-@media (max-width:900px){
+  /* -------------------------------------------------
+     Variables globales
+  -------------------------------------------------*/
   :root{
-    --arrow-size:38px;   /* flèche un peu plus petite           */
-    --card-pad:32px;     /* padding de la carte en mobile (voir ton CSS) */
+    --gap:80px;              /* espace vertical entre cartes            */
+    --pad:48px;              /* padding interne des cartes               */
+    --img-w:700px;           /* largeur image sur desktop                */
+    --accent:#005f99;        /* couleur de la charte PERSEE              */
+    --radius:18px;           /* rayon d’angle homogène                   */
+    --shadow:0 10px 28px rgba(0,0,0,.08);
+    --arrow-size:44px;       /* diamètre des flèches du slider           */
+  }
+
+  /* ------------- RESET & TYPO ------------- */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',Arial,Helvetica,sans-serif;font-size:17px;line-height:1.75;background:#f1f3f6;color:#222}
+  img,video{display:block;max-width:100%;height:auto}
+  a{text-decoration:none;color:inherit}
+  h1,h2,h3,h4,h5{font-weight:800;line-height:1.25;color:var(--accent)}
+  p{margin-top:1rem}
+
+  /* ========= NAVBAR PERSEE (uniforme sur tout le site) ========= */
+:root{
+  --nav-bg: #ffffff;
+  --nav-accent: #005f99;
+  --nav-link-hover: rgba(0,0,0,.08);
+}
+
+.persee-navbar{
+  height: 56px;
+  display:flex;
+  align-items:center;
+  padding: 0 1.25rem;
+  background: var(--nav-bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  position: sticky;           /* reste visible au défilement */
+  top:0; z-index: 2000;
+}
+
+/* logo */
+.persee-navbar .logo{
+  font: 800 1.35rem/1 'Inter',sans-serif;
+  color: var(--nav-accent);
+  text-decoration:none;
+  margin-right:auto;
+}
+
+/* liste */
+.persee-navbar .nav-links{
+  display:flex; gap:1.3rem;
+  list-style:none;
+  margin:0; padding:0;
+}
+
+/* liens */
+.persee-navbar .nav-links a{
+  display:block;
+  padding:.35rem .7rem;
+  font:600 1rem/1 'Inter',sans-serif;
+  text-decoration:none; color:#222;
+  border-radius:6px;
+  transition:background .25s;
+}
+.persee-navbar .nav-links a:hover{
+  background:var(--nav-link-hover);
+}
+
+/* lien actif — ajouté en JS */
+.persee-navbar .nav-links a.active{
+  background:rgba(0,95,153,.12);
+  color:var(--nav-accent);
+}
+
+/* ---------- burger (mobile) ---------- */
+.nav-toggle{
+  display:none;               /* masqué sur desktop */
+  flex-direction:column;
+  gap:4px;
+  background:none; border:none;
+  cursor:pointer;
+  margin-left:1rem;
+}
+.nav-toggle span{
+  width:22px; height:3px;
+  background:#333; border-radius:2px;
+}
+
+/* mobile : affiche le burger, cache les liens */
+@media(max-width:768px){
+  .nav-toggle{ display:flex; }
+  .persee-navbar .nav-links{
+    position:absolute;
+    right:0; top:56px;
+    flex-direction:column;
+    background:var(--nav-bg);
+    width:100%;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    box-shadow:0 4px 10px rgba(0,0,0,.06);
+  }
+  .persee-navbar .nav-links.open{
+    max-height:260px;          /* assez pour 4 liens */
+  }
+  .persee-navbar .nav-links li{
+    border-bottom:1px solid rgba(0,0,0,.05);
   }
 }
 
-.slider .slide-btn:hover{ background:rgba(0,0,0,.55); }
 
+  /* ------------- HERO plein écran ------------- */
+  .hero{position:relative;height:100vh;background:center/cover no-repeat;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
+  .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+  .hero-content{position:relative;z-index:1;padding:2rem 1rem}
+  .hero h1{font-size:3rem;margin-bottom:.8rem;color:#fff!important}
+  .hero p{font-size:1.4rem;font-weight:300}
+  @media(max-width:768px){.hero{height:75vh}.hero h1{font-size:2.3rem}.hero p{font-size:1.15rem}}
 
+  /* ------------- SECTIONS ------------- */
+  .section{padding:4rem 0}
+  .section-full .section-content{max-width:1240px;margin:0 auto;padding:0 1.5rem}
 
-/* ─── Priorité la plus haute : on laisse dépasser les flèches ─── */
-.analysis-section .slider{
-  overflow:visible;        /* flèches enfin visibles */
+  /* ------------- FORM SELECT ------------- */
+  .text label{font-weight:600;margin-right:.5rem}
+  select{font-size:1rem;padding:.5rem 1rem;border-radius:.5rem;border:1px solid #ccc;min-width:200px}
+
+  /* ------------- ANALYSIS BLOCKS ------------- */
+  .analysis-section{background:#f1f3f6;position:relative}
+  .analysis-block{display:flex;gap:var(--pad);align-items:center;background:#fff;border-radius:var(--radius);padding:var(--pad);box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+  .analysis-block:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.1)}
+  .analysis-block.reverse{flex-direction:row-reverse}
+
+  .analysis-image{flex:0 0 var(--img-w);max-width:var(--img-w);aspect-ratio:4/3;position:relative;border-radius:var(--radius);overflow:hidden}
+  .analysis-image img,.analysis-image>.carousel-wrapper{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+
+  /* -------- Carrousel interne -------- */
+  .carousel-wrapper{position:relative;width:100%;height:100%}
+  .carousel-wrapper>.behavior-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+  .carousel-wrapper>.active{opacity:1}
+  .carousel-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:10px;padding:6px 14px;background:rgba(255,255,255,.85);border-radius:1.5rem}
+  .carousel-dots .dot{width:14px;height:14px;border:2px solid #333;border-radius:50%;cursor:pointer;transition:background .25s}
+  .carousel-dots .dot.active{background:#333}
+
+  /* -------- Caption -------- */
+  .caption{position:absolute;left:0;right:0;bottom:0;padding:10px 14px;font-size:.95rem;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);color:#fff;border-bottom-left-radius:inherit;border-bottom-right-radius:inherit;opacity:0;transition:opacity .3s}
+  .analysis-image:hover .caption,.carousel-wrapper:hover .caption{opacity:1}
+
+  /* ------------- SLIDER PRINCIPAL (animation identique au script 2) ------------- */
+  .slider{position:relative;overflow:visible;margin-top:var(--gap)}
+  .slider .analysis-block{position:absolute;top:0;left:0;width:100%;margin-top:0!important;transition:transform .6s ease,opacity .6s ease;pointer-events:none;opacity:0}
+  .slider .analysis-block[data-status="active"]{opacity:1;transform:translateX(0);pointer-events:auto;z-index:3}
+  .slider .analysis-block[data-status="before"],
+  .slider .analysis-block[data-status="after"]{opacity:.35;transform:scale(.9);z-index:2}
+  @media(min-width:900px){
+    .slider .analysis-block[data-status="before"]{transform:translateX(-40%) scale(.9)}
+    .slider .analysis-block[data-status="after"]{transform:translateX(40%) scale(.9)}
+  }
+
+  /* ------------- Flèches du slider ------------- */
+  .slide-btn{position:absolute;top:50%;transform:translateY(-50%);width:var(--arrow-size);height:var(--arrow-size);display:flex;align-items:center;justify-content:center;font-size:32px;background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:50%;cursor:pointer;transition:background .25s;z-index:50}
+  .slide-btn:hover{background:rgba(0,0,0,.55)}
+  .slide-btn.prev{left:calc(-0.5*var(--arrow-size) - var(--pad))}
+  .slide-btn.next{right:calc(-0.5*var(--arrow-size) - var(--pad))}
+  @media(max-width:900px){:root{--arrow-size:38px;--pad:32px}}
+
+  /* ------------- LIGHTBOX ------------- */
+  #lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);z-index:1000}
+  #lightbox img{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.45)}
+  #lightbox-close{position:absolute;top:24px;right:34px;font-size:48px;font-weight:700;color:#fff;cursor:pointer}
+  .lb-arrow{display:none;position:absolute;top:50%;transform:translateY(-50%);font-size:52px;line-height:1;color:#fff;background:rgba(0,0,0,.35);padding:10px 18px;border-radius:50%;cursor:pointer;user-select:none;transition:background .25s}
+  .lb-arrow:hover{background:rgba(0,0,0,.55)}
+  #lb-prev{left:34px}
+  #lb-next{right:34px}
+
+  /* ------------- RESPONSIVE ajustements ------------- */
+  @media(max-width:1200px){:root{--img-w:540px;--pad:40px}}
+  @media(max-width:600px){:root{--gap:48px;--pad:24px}body{font-size:15px}.hero h1{font-size:2rem}.analysis-text h3{font-size:1.6rem}}
+
+ footer {
+  background-color: #005f99;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer p {
+  font-size: 0.9rem;
 }
   </style>
 </head>
 
 <body class="suivi">
 
-  <!-- ============================ HEADER ============================ -->
-  <header>
-  <nav class="navbar">
-    <a href="index.html" class="logo">PERSEE</a>
+  <!-- ▸ NAVBAR PERSEE ───────────────────────────────────────── -->
+<nav class="persee-navbar">
+  <a class="logo" href="index.html">PERSEE</a>
 
-    <ul>
-      <li><a href="index.html">Le projet</a></li>
-      <li><a href="Suivi_GPS.html">Suivi GPS</a></li>
-      <li><a href="Carte_d_identité_des_estives.html">Carte d'identité des estives</a></li>
-      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-      <li><a href="equipe.html">Équipe</a></li>
-    </ul>
-  </nav>
-</header>
+  <!-- burger -->
+  <button class="nav-toggle" aria-label="Ouvrir / fermer le menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- liens -->
+  <ul class="nav-links">
+    <li><a href="index.html">Le projet</a></li>
+    <li><a href="Suivi_GPS.html">Méthodes</a></li>
+    <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
+    <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+  </ul>
+</nav>
+<!-- ────────────────────────────────────────────────────────── -->
+
   <!-- ============================ HERO ============================ -->
-  <!-- bannière -->
-<section class="hero" style="background-image:url('images/hero.jpg')">
-  <div class="hero-content">
-    <h1>Méthode de suivi des déplacements en estive</h1>
-    <p>Du collier GPS aux indicateurs</p>
-  </div>
-</section>
+  <section class="hero" style="background-image:url('images/hero.jpg')">
+    <div class="hero-content">
+      <h1>Identité des estives</h1>
+      <p></p>
+    </div>
+  </section>
 
   <!-- ============================ SELECTEUR ALPAGE ============================ -->
   <section class="section section-full">
     <div class="section-content text" style="text-align:center">
-      <label for="alp_select">Choisissez un alpage&nbsp;:</label>
+      <label for="alp_select">Choisissez une estive&nbsp;:</label>
       <select id="alp_select">
-        <option value="demonstratrice" selected>Estive démonstratrice</option>
-        <option value="autre_alpage1">Autre Alpage 1</option>
-        <option value="autre_alpage2">Autre Alpage 2</option>
+        <option value="demonstratrice" selected>Estive X</option>
+        <option value="autre_alpage1">Estive Y</option>
+        <option value="autre_alpage2">Estive Z</option>
       </select>
     </div>
   </section>
 
   <!-- ============================ TITRE SECTION ============================ -->
   <section id="demonstratrice" class="section section-full alpage-section">
-    <div class="section-content"><h2>Carte d’identité – Estive démonstratrice</h2></div>
+    <div class="section-content"><h2>Carte d’identité </h2></div>
   </section>
 
   <!-- ============================ CARTES ============================ -->
-  <!-- =================== CARTES =================== -->
-<section class="section section-full analysis-section alpage-section">
-  <div class="section-content">
+  <section class="section section-full analysis-section alpage-section">
+    <div class="section-content">
 
-    <div class="slider"><!--  ⬅ position relative  -->
-      <!-- flèche précédente -->
-      <button class="slide-btn prev" aria-label="Précédent">&#10094;</button>
-      <!-- ===== Carte topographique ===== -->
-      <div class="analysis-block">
-        <div class="analysis-image">
-          <div class="carousel-wrapper" id="car-bloc1">
-            <img src="images/topo.png"  class="zoomable behavior-img active" alt="MNT LiDAR"          data-caption="Carte topographique (LiDAR)">
-            <img src="images/DAH.png"   class="zoomable behavior-img"         alt="DAH hydrique"       data-caption="Indice DAH (pente × exposition)">
-            <img src="images/pente.png" class="zoomable behavior-img"         alt="Carte des pentes"  data-caption="Carte des pentes (degrés)">
+      <div class="slider">
+        <button class="slide-btn prev" aria-label="Précédent">&#10094;</button>
+
+        <!-- ===== Carte topographique ===== -->
+        <div class="analysis-block">
+          <div class="analysis-image">
+            <div class="carousel-wrapper" id="car-bloc1">
+              <img src="images/topo.png" class="zoomable behavior-img active" alt="MNT LiDAR" data-caption="Carte topographique (LiDAR)">
+              <img src="images/DAH.png" class="zoomable behavior-img" alt="DAH hydrique" data-caption="Indice DAH (pente × exposition)">
+              <img src="images/pente.png" class="zoomable behavior-img" alt="Carte des pentes" data-caption="Carte des pentes (degrés)">
+            </div>
+          </div>
+          <div class="analysis-text">
+            <h3>Topographie et hauteur de végétation</h3>
+            <p>Nous traitons les données Lidar de l’IGN pour caractériser la topographie des estives et la hauteur de la végétation à très haute résolution spatiale (1 m).</p>
           </div>
         </div>
-        <div class="analysis-text">
-          <h3>Topographique et hauteur de végétation</h3>
-          <p>Nous traitons les données Lidar de l’IGN pour caractériser la topographie des estives et la hauteur de la végétation à très haute résolution spatiale (1 m). </p>
-        </div>
-      </div>
-      
-      
-      <!-- ===== Enneigement ===== -->
-      <div class="analysis-block reverse">
-        <div class="analysis-image">
-          <div class="carousel-wrapper" id="car-bloc4">
-            <img src="images/snow2021.png" class="zoomable behavior-img"        alt="SMOD 2021"   data-caption="Enneigement hiver 2021 (SMOD)">
-            <img src="images/snow2022.png" class="zoomable behavior-img"        alt="SMOD 2022"   data-caption="Enneigement hiver 2022 (SMOD)">
-            <img src="images/snow2023.png" class="zoomable behavior-img"        alt="SMOD 2023"   data-caption="Enneigement hiver 2023 (SMOD)">
-            <img src="images/Fsca.png"     class="zoomable behavior-img active" alt="FSCA"        data-caption="Enneigement median sur 15 ans (FSCA)">
+
+        <!-- ===== Enneigement ===== -->
+        <div class="analysis-block reverse">
+          <div class="analysis-image">
+            <div class="carousel-wrapper" id="car-bloc4">
+              <img src="images/snow2021.png" class="zoomable behavior-img" alt="SMOD 2021" data-caption="Enneigement hiver 2021 (SMOD)">
+              <img src="images/snow2022.png" class="zoomable behavior-img" alt="SMOD 2022" data-caption="Enneigement hiver 2022 (SMOD)">
+              <img src="images/snow2023.png" class="zoomable behavior-img" alt="SMOD 2023" data-caption="Enneigement hiver 2023 (SMOD)">
+              <img src="images/Fsca.png" class="zoomable behavior-img active" alt="FSCA" data-caption="Enneigement median sur 15 ans (FSCA)">
+            </div>
+          </div>
+          <div class="analysis-text">
+            <h3>Enneigement saisonnier</h3>
+            <p>En collaboration avec le CESBIO (CNRS, Université de Toulouse), nous déterminons pour chaque année les dates du déneigement printanier et du réenneigement automnal 
+            à 20m de résolution spatiale. Les conditions météorologiques au cours de la période sans neige sont également produites à fine résolution spatiale afin de modéliser la 
+            pousse saisonnière de l’herbe dans les différents quartiers de l’estive.</p>
           </div>
         </div>
-        <div class="analysis-text">
-          <h3>Enneigement saisonnier</h3>
-          <p>En collaboration avec le CESBIO (CNRS, Université de Toulouse), nous déterminons pour chaque année 
-          les dates du déneigement printanier et du réenneigement automnal à 20m de résolution spatiale. Les conditions 
-          météorologiques au cours de la période sans neige sont également produites à fine résolution spatiale afin de modéliser 
-          la pousse saisonnière de l’herbe dans les différents quartiers de l’estive..</p>
-        </div>
-      </div>
-      
-      
-      
 
-      <!-- ===== Carte d’habitat ===== -->
-      <div class="analysis-block reverse">
-        <div class="analysis-image">
-          <img src="images/Carte_habitat_bis.png" class="zoomable" alt="Cartographie d'habitat" data-caption="Cartographie des habitats pastoraux">
-        </div>
-        <div class="analysis-text">
-          <h3>Habitats</h3>
-          <p>Nous produisons des cartes de distribution des habitats selon leur vocation pastorale.
-          Ce travail est réalisé soit en s’appuyant sur des cartographies existantes, soit en développant de 
-          nouveaux produits combinant imagerie satellite et données acquises au sol.</p>
-        </div>
-      </div>
-
-      <!-- ===== Phénologie ===== -->
-      <div class="analysis-block">
-        <div class="analysis-image">
-          <div class="carousel-wrapper" id="car-bloc3">
-            <video class="behavior-img"
-       autoplay loop muted playsinline preload="auto"
-       data-caption="Vague verte (animation)">
-  <source src="images/Greenwave.mp4" type="video/mp4">
-</video>
-            <img src="images/Carte_MAX_V_2021.png" class="zoomable behavior-img" alt="Production 2021"  data-caption="Production 2021 (NDVI max)">
-            <img src="images/Carte_MAX_V_2022.png" class="zoomable behavior-img" alt="Production 2022"  data-caption="Production 2022 (NDVI max)">
-            <img src="images/Carte_MAX_V_2023.png" class="zoomable behavior-img" alt="Production 2023"  data-caption="Production 2023 (NDVI max)">
+        <!-- ===== Carte d’habitat ===== -->
+        <div class="analysis-block reverse">
+          <div class="analysis-image">
+            <img src="images/Carte_habitat_bis.png" class="zoomable" alt="Cartographie d'habitat" data-caption="Cartographie des habitats pastoraux">
+          </div>
+          <div class="analysis-text">
+            <h3>Habitats</h3>
+            <p>Nous réalisons des cartes de distribution des habitats selon leur vocation pastorale. Ce travail est réalisé soit en s’appuyant sur des cartographies existantes, 
+            soit en développant de nouveaux produits combinant imagerie satellite et données acquises au sol.</p>
           </div>
         </div>
-        <div class="analysis-text">
-          <h3>Carte de phénologie</h3>
-          <p>Nous traitons les images satellite Sentinel-2 (produit HR-VPP, résolution 20m) afin de caractériser les différentes phases de la pousse de l’herbe 
-          (croissance, plateau, senescence) au cours de la saison de chaque année de suivi. Ces cycles phénologiques renseignent indirectement sur la qualité de la ressource 
-          pastorale disponible.</p>
+
+        <!-- ===== Phénologie ===== -->
+        <div class="analysis-block">
+          <div class="analysis-image">
+            <div class="carousel-wrapper" id="car-bloc3">
+              <video class="behavior-img" autoplay loop muted playsinline preload="auto" data-caption="Vague verte (animation)"><source src="images/Greenwave.mp4" type="video/mp4"></video>
+              <img src="images/Carte_MAX_V_2021.png" class="zoomable behavior-img" alt="Production 2021" data-caption="Production 2021 (NDVI max)">
+              <img src="images/Carte_MAX_V_2022.png" class="zoomable behavior-img" alt="Production 2022" data-caption="Production 2022 (NDVI max)">
+              <img src="images/Carte_MAX_V_2023.png" class="zoomable behavior-img" alt="Production 2023" data-caption="Production 2023 (NDVI max)">
+            </div>
+          </div>
+          <div class="analysis-text">
+            <h3>Phénologie</h3>
+            <p>Nous traitons les images satellite Sentinel-2 (produit HR-VPP, résolution 20m) afin de caractériser les différentes phases de la pousse de l’herbe (croissance, 
+            maturité, senescence, dépérissement) au cours de la saison de chaque année de suivi. Ces cycles phénologiques renseignent indirectement sur la qualité de la ressource 
+            pastorale disponible (fin et grossier).</p>
+          </div>
         </div>
-      </div>
 
-      
+        <button class="slide-btn next" aria-label="Suivant">&#10095;</button>
+      </div><!-- /.slider -->
 
-    <button class="slide-btn next" aria-label="Suivant">&#10095;</button>
-    </div><!-- /.slider -->
+    </div><!-- /.section-content -->
+  </section>
 
-  </div><!-- /.section-content -->
-</section>
-
-  <!-- ============================ FOOTER ============================ -->
+  <!-- ======== FOOTER ======== -->
   <footer>
     <p>&copy; 2025 PERSEE — Tous droits réservés.</p>
   </footer>
 
   <!-- ============================ LIGHTBOX ============================ -->
-  <div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img" alt=""></div>
+  <div id="lightbox">
+    <span id="lightbox-close">&times;</span>
+    <span class="lb-arrow" id="lb-prev">&#10094;</span>
+    <img id="lightbox-img" alt="zoom" />
+    <span class="lb-arrow" id="lb-next">&#10095;</span>
+  </div>
 
-  <!-- ============================ SCRIPTS (inchangés) ============================ -->
+  <!-- ============================ SCRIPTS ============================ -->
   <script>
-    /* carrousels */
-    function initCarousel(id){
-      const wrap=document.getElementById(id);if(!wrap)return;
-      const imgs=[...wrap.querySelectorAll('.behavior-img')];if(imgs.length<=1)return;
-      let idx=0;
-      const cap=document.createElement('div');cap.className='caption';cap.textContent=imgs[0].dataset.caption||imgs[0].alt;wrap.appendChild(cap);
-      const dots=document.createElement('div');dots.className='carousel-dots';
-      imgs.forEach((im,i)=>{const d=document.createElement('span');d.className='dot'+(i?'':' active');d.onclick=()=>{idx=i;update();};dots.appendChild(d);});
-      wrap.appendChild(dots);
-      const update=()=>{imgs.forEach((im,i)=>im.classList.toggle('active',i===idx));dots.childNodes.forEach((d,i)=>d.classList.toggle('active',i===idx));cap.textContent=imgs[idx].dataset.caption||imgs[idx].alt;};
-      wrap.addEventListener('wheel',e=>{e.preventDefault();idx=(idx+(e.deltaY>0?1:-1)+imgs.length)%imgs.length;update();});
-      let sx=0;wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-      wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)<40)return;idx=(idx+(dx<0?1:-1)+imgs.length)%imgs.length;update();});
-      update();
-    }
-    ['car-bloc1','car-bloc3','car-bloc4'].forEach(initCarousel);
-
-    /* légendes images simples */
-    document.querySelectorAll('.analysis-image > img.zoomable:not(.behavior-img)').forEach(img=>{
-      const parent=img.parentElement;if(parent.querySelector('.caption'))return;
-      const c=document.createElement('div');c.className='caption';c.textContent=img.dataset.caption||img.alt;parent.appendChild(c);
+  /* ----------------------------- 1. Carrousels internes ----------------------------- */
+  function initCarousel(id){
+    const wrap = typeof id === 'string' ? document.getElementById(id) : id;
+    if(!wrap) return;
+    const imgs = [...wrap.querySelectorAll('.behavior-img')];
+    if(imgs.length <= 1) return;
+    let idx = 0;
+    const cap = document.createElement('div');
+    cap.className = 'caption';
+    cap.textContent = imgs[0].dataset.caption || imgs[0].alt;
+    wrap.appendChild(cap);
+    const dots = document.createElement('div');
+    dots.className = 'carousel-dots';
+    imgs.forEach((im,i)=>{
+      const d = document.createElement('span');
+      d.className = 'dot' + (i?'' : ' active');
+      d.onclick = () => { idx = i; update(); };
+      dots.appendChild(d);
     });
+    wrap.appendChild(dots);
+    const update = () => {
+      imgs.forEach((im,i) => im.classList.toggle('active', i===idx));
+      [...dots.childNodes].forEach((d,i) => d.classList.toggle('active', i===idx));
+      cap.textContent = imgs[idx].dataset.caption || imgs[idx].alt;
+    };
+    wrap.addEventListener('wheel',e=>{e.preventDefault();idx = (idx + (e.deltaY>0?1:-1) + imgs.length)%imgs.length;update();}, {passive:false});
+    let sx=0;
+    wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+    wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX - sx; if(Math.abs(dx)<40) return; idx = (idx + (dx<0?1:-1) + imgs.length)%imgs.length; update();});
+    update();
+  }
+  ['car-bloc1','car-bloc3','car-bloc4'].forEach(initCarousel);
 
-    /* lightbox */
-    const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lightbox-img');
-    let lbGroup=[],lbIdx=0;
-    function openLB(img){const wrap=img.closest('.carousel-wrapper');lbGroup=wrap?[...wrap.querySelectorAll('.behavior-img')]:[img];lbIdx=lbGroup.indexOf(img);lbImg.src=lbGroup[lbIdx].src;lb.style.display='flex';}
-    function closeLB(){lb.style.display='none';}
-    function navLB(d){if(lbGroup.length<=1)return;lbIdx=(lbIdx+d+lbGroup.length)%lbGroup.length;lbImg.src=lbGroup[lbIdx].src;}
-    document.querySelectorAll('.zoomable').forEach(im=>im.addEventListener('click',()=>openLB(im)));
-    document.getElementById('lightbox-close').onclick=closeLB;
-    lb.onclick=e=>{if(e.target.id==='lightbox')closeLB();};
-    lb.addEventListener('wheel',e=>{e.preventDefault();navLB(e.deltaY>0?1:-1);});
-    let lStart=0;lb.addEventListener('touchstart',e=>lStart=e.touches[0].clientX,{passive:true});
-    lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-lStart;if(Math.abs(dx)<40)return;navLB(dx<0?1:-1);});
-    window.addEventListener('keydown',e=>{if(lb.style.display!=='flex')return;if(e.key==='ArrowRight')navLB(1);else if(e.key==='ArrowLeft')navLB(-1);else if(e.key==='Escape')closeLB();});
+  /* ----------------------------- 2. Légendes images simples ----------------------------- */
+  document.querySelectorAll('.analysis-image > img.zoomable:not(.behavior-img)').forEach(img=>{
+    if(img.parentElement.querySelector('.caption')) return;
+    const c = document.createElement('div');
+    c.className = 'caption';
+    c.textContent = img.dataset.caption || img.alt;
+    img.parentElement.appendChild(c);
+  });
 
-    /* sélecteur d’alpage */
-    const sel=document.getElementById('alp_select');
-    sel.addEventListener('change',()=>{document.querySelectorAll('.alpage-section').forEach(s=>s.style.display='none');const t=document.getElementById(sel.value);if(t)t.style.display='block';});
-    window.addEventListener('DOMContentLoaded',()=>document.getElementById('demonstratrice').style.display='block');
+  /* ----------------------------- 3. Lightbox améliorée ----------------------------- */
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbPrev = document.getElementById('lb-prev');
+  const lbNext = document.getElementById('lb-next');
+  let lbGroup = [], lbIdx = 0;
+
+  function openLB(img){
+    const wrap = img.closest('.carousel-wrapper');
+    if(wrap){
+      lbGroup = [...wrap.querySelectorAll('.behavior-img')];
+      lbIdx = lbGroup.indexOf(img);
+      lbPrev.style.display = lbNext.style.display = 'block';
+    }else{
+      lbGroup = [img];
+      lbIdx = 0;
+      lbPrev.style.display = lbNext.style.display = 'none';
+    }
+    lbImg.src = lbGroup[lbIdx].src;
+    lb.style.display = 'flex';
+  }
+  function closeLB(){ lb.style.display = 'none'; }
+  function navLB(d){ if(lbGroup.length<=1) return; lbIdx = (lbIdx + d + lbGroup.length)%lbGroup.length; lbImg.src = lbGroup[lbIdx].src; }
+
+  document.querySelectorAll('.zoomable').forEach(im=>im.addEventListener('click',()=>openLB(im)));
+  document.getElementById('lightbox-close').onclick = closeLB;
+  lbPrev.onclick = ()=> navLB(-1);
+  lbNext.onclick = ()=> navLB(1);
+  lb.onclick = e => { if(e.target.id === 'lightbox') closeLB(); };
+  lb.addEventListener('wheel', e=>{ if(lbGroup.length<=1) return; e.preventDefault(); navLB(e.deltaY>0?1:-1); }, {passive:false});
+  let lStart=0;
+  lb.addEventListener('touchstart',e=>lStart=e.touches[0].clientX,{passive:true});
+  lb.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX - lStart; if(Math.abs(dx)<40) return; navLB(dx<0?1:-1); });
+  window.addEventListener('keydown',e=>{ if(lb.style.display!=='flex') return; if(e.key==='ArrowRight') navLB(1); else if(e.key==='ArrowLeft') navLB(-1); else if(e.key==='Escape') closeLB(); });
+
+  /* ----------------------------- 4. Slider principal (animations script2) ----------------------------- */
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.querySelectorAll('.slider').forEach(slider=>{
+      const cards = [...slider.querySelectorAll('.analysis-block')];
+      if(!cards.length) return;
+      let idx = 0;
+      /* hauteur fixe pour éviter le tremblement */
+      const maxH = Math.max(...cards.map(c => c.getBoundingClientRect().height));
+      slider.style.height = maxH + 'px';
+
+      const setStates = ()=>{
+        cards.forEach((card,i)=>{
+          const diff = (i - idx + cards.length) % cards.length;
+          if(diff === 0) card.dataset.status = 'active';
+          else if(diff === 1) card.dataset.status = 'after';
+          else if(diff === cards.length-1) card.dataset.status = 'before';
+          else card.dataset.status = '';
+        });
+      };
+      const move = d => { idx = (idx + d + cards.length) % cards.length; setStates(); };
+
+      slider.querySelector('.slide-btn.prev').addEventListener('click',()=>move(-1));
+      slider.querySelector('.slide-btn.next').addEventListener('click',()=>move(1));
+      window.addEventListener('keydown',e=>{
+        if(lb.style.display==='flex') return; /* pas de conflit avec la lightbox */
+        if(e.key==='ArrowLeft') move(-1);
+        if(e.key==='ArrowRight') move(1);
+      });
+      setStates();
+    });
+  });
+
+  /* ----------------------------- 5. Sélecteur d’alpage ----------------------------- */
+  const sel = document.getElementById('alp_select');
+  sel.addEventListener('change',()=>{
+    document.querySelectorAll('.alpage-section').forEach(s=>s.style.display='none');
+    const t = document.getElementById(sel.value);
+    if(t) t.style.display = 'block';
+  });
+  window.addEventListener('DOMContentLoaded',()=>document.getElementById('demonstratrice').style.display='block');
 
 
-document.addEventListener('DOMContentLoaded',()=>{
-  /* nom du fichier courant : '' → index.html  */
-  const here = decodeURIComponent(
-                 location.pathname.split('/').pop() || 'index.html'
-               ).toLowerCase();
+  
+  
+  
 
-  document.querySelectorAll('.navbar a').forEach(link=>{
+/* 1.  Burger -------------------------------------------------- */
+document
+  .querySelector('.nav-toggle')
+  .addEventListener('click', () =>
+    document.querySelector('.nav-links').classList.toggle('open')
+  );
+
+/* 2.  Lien actif automatique ---------------------------------- */
+(function () {
+  /* nom du fichier courant (décodé + en minuscules)            */
+  const current = decodeURIComponent(
+                    location.pathname.split('/').pop() || 'index.html'
+                  ).toLowerCase();
+
+  document.querySelectorAll('.persee-navbar .nav-links a').forEach(link => {
     const target = decodeURIComponent(
                      link.getAttribute('href').split('/').pop()
                    ).toLowerCase();
 
-    if (target === here) link.classList.add('active');
+    if (target === current) link.classList.add('active');
   });
-});
+})();
 </script>
-
-  
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-
-  const slider = document.querySelector('.slider');
-  if(!slider) return;
-
-  const cards = [...slider.querySelectorAll('.analysis-block')];
-  let idx = 0;                                        // slide courante
-
-  /* ► 0. sécurité : on évite une hauteur nulle */
-  slider.style.minHeight = '200px';
-
-  /* ► 1. fonctions utilitaires ------------------------------------------------ */
-  function setStates(){
-    cards.forEach((c,i) => {
-      if(i === idx)       c.dataset.status = 'active';
-      else if(i < idx)    c.dataset.status = 'before';
-      else                c.dataset.status = 'after';
-    });
-    updateHeight();
-  }
-
-  function updateHeight(){
-    /* hauteur réelle de la slide active */
-    const h = cards[idx].getBoundingClientRect().height;
-    if(h) slider.style.height = h + 'px';
-  }
-
-  function move(dir){
-    idx = (idx + dir + cards.length) % cards.length;
-    setStates();
-  }
-
-  /* ► 2. écoute du chargement de CHAQUE image --------------------------------- */
-  cards.forEach(card => {
-    card.querySelectorAll('img').forEach(img => {
-      if(!img.complete){
-        img.addEventListener('load', updateHeight, { once:true });
-        img.addEventListener('error', updateHeight, { once:true });
-      }
-    });
-  });
-
-  /* ► 3. interactivité -------------------------------------------------------- */
-  document.querySelector('.slide-btn.prev').addEventListener('click', () => move(-1));
-  document.querySelector('.slide-btn.next').addEventListener('click', () => move(+1));
-
-  window.addEventListener('keydown', e => {
-    if(e.key === 'ArrowLeft')  move(-1);
-    if(e.key === 'ArrowRight') move(+1);
-  });
-
-  window.addEventListener('resize', updateHeight);
-  window.addEventListener('load',   updateHeight);   // toutes ressources chargées
-
-  /* ► 4. premier affichage ----------------------------------------------------- */
-  setStates();
-});
-</script>
-
-
-
 
 
   
