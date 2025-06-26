@@ -294,7 +294,7 @@
 
 /* 2 ▸ slider plus proche du titre */
 .alpage-section .slider{
-  margin-top:12px;              /* 24 px → 12 px */
+  margin-top:10px;              /* 24 px → 12 px */
 }
 
 /* 3 ▸ ordre des blocs : image à gauche, texte à droite */
@@ -309,23 +309,23 @@
 <body class="suivi">
 
   <!-- ▸ NAVBAR PERSEE ───────────────────────────────────────── -->
-<nav class="persee-navbar">
-  <a class="logo" href="index.html">PERSEE</a>
+  <nav class="persee-navbar">
+    <a class="logo" href="index.html">PERSEE</a>
 
-  <!-- burger -->
-  <button class="nav-toggle" aria-label="Ouvrir / fermer le menu">
-    <span></span><span></span><span></span>
-  </button>
+    <!-- burger -->
+    <button class="nav-toggle" aria-label="Ouvrir / fermer le menu">
+      <span></span><span></span><span></span>
+    </button>
 
-  <!-- liens -->
-  <ul class="nav-links">
-    <li><a href="index.html">Le projet</a></li>
-    <li><a href="Suivi_GPS.html">Méthodes</a></li>
-    <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
-    <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
-  </ul>
-</nav>
-<!-- ────────────────────────────────────────────────────────── -->
+    <!-- liens -->
+    <ul class="nav-links">
+      <li><a href="index.html">PERSÉE</a></li>
+      <li><a href="Suivi_GPS.html">Méthodes</a></li>
+      <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
+      <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
+    </ul>
+  </nav>
+  <!-- ────────────────────────────────────────────────────────── -->
 
   <!-- ============================ HERO ============================ -->
   <section class="hero" style="background-image:url('images/hero.jpg')">
@@ -335,7 +335,7 @@
     </div>
   </section>
 
-  <!-- ============================ SELECTEUR ALPAGE ============================ -->
+  <!-- ============================ SÉLECTEUR D’ESTIVE ============================ -->
   <section class="section section-full">
     <div class="section-content text" style="text-align:center">
       <label for="alp_select">Choisissez une estive&nbsp;:</label>
@@ -347,13 +347,15 @@
     </div>
   </section>
 
-  <!-- ============================ TITRE SECTION ============================ -->
+  <!-- ============================ IDENTITÉ + CARROUSEL — ESTIVE X ============================ -->
   <section id="demonstratrice" class="section section-full alpage-section">
-    <div class="section-content"><h2>Carte d’identité </h2></div>
-  </section>
 
-  <!-- ============================ CARTES ============================ -->
-  <section class="section section-full analysis-section alpage-section">
+    <!-- ▸ Titre -->
+    <div class="section-content">
+      <h2>Carte d’identité</h2>
+    </div>
+
+    <!-- ▸ Blocs d’analyse + carrousel -->
     <div class="section-content">
 
       <div class="slider">
@@ -363,14 +365,14 @@
         <div class="analysis-block">
           <div class="analysis-image">
             <div class="carousel-wrapper" id="car-bloc1">
-              <img src="images/topo.png" class="zoomable behavior-img active" alt="MNT LiDAR" data-caption="Carte topographique (LiDAR)">
-              <img src="images/DAH.png" class="zoomable behavior-img" alt="DAH hydrique" data-caption="Indice DAH (pente × exposition)">
-              <img src="images/pente.png" class="zoomable behavior-img" alt="Carte des pentes" data-caption="Carte des pentes (degrés)">
+              <img src="images/topo.png"  class="zoomable behavior-img active" alt="MNT LiDAR"             data-caption="Carte topographique (LiDAR)">
+              <img src="images/DAH.png"   class="zoomable behavior-img"        alt="DAH hydrique"         data-caption="Indice DAH (pente × exposition)">
+              <img src="images/pente.png" class="zoomable behavior-img"        alt="Carte des pentes"     data-caption="Carte des pentes (degrés)">
             </div>
           </div>
           <div class="analysis-text">
             <h3>Topographie et hauteur de végétation</h3>
-            <p>Nous traitons les données Lidar de l’IGN pour caractériser la topographie des estives et la hauteur de la végétation à très haute résolution spatiale (1 m).</p>
+            <p>Nous traitons les données LiDAR de l’IGN pour caractériser la topographie des estives et la hauteur de la végétation à très haute résolution spatiale (1&nbsp;m).</p>
           </div>
         </div>
 
@@ -381,14 +383,12 @@
               <img src="images/snow2021.png" class="zoomable behavior-img" alt="SMOD 2021" data-caption="Enneigement hiver 2021 (SMOD)">
               <img src="images/snow2022.png" class="zoomable behavior-img" alt="SMOD 2022" data-caption="Enneigement hiver 2022 (SMOD)">
               <img src="images/snow2023.png" class="zoomable behavior-img" alt="SMOD 2023" data-caption="Enneigement hiver 2023 (SMOD)">
-              <img src="images/Fsca.png" class="zoomable behavior-img active" alt="FSCA" data-caption="Enneigement median sur 15 ans (FSCA)">
+              <img src="images/Fsca.png"    class="zoomable behavior-img active" alt="FSCA" data-caption="Enneigement médian sur 15 ans (FSCA)">
             </div>
           </div>
           <div class="analysis-text">
             <h3>Enneigement saisonnier</h3>
-            <p>En collaboration avec le CESBIO (CNRS, Université de Toulouse), nous déterminons pour chaque année les dates du déneigement printanier et du réenneigement automnal 
-            à 20m de résolution spatiale. Les conditions météorologiques au cours de la période sans neige sont également produites à fine résolution spatiale afin de modéliser la 
-            pousse saisonnière de l’herbe dans les différents quartiers de l’estive.</p>
+            <p>En collaboration avec le CESBIO (CNRS, Université de Toulouse), nous déterminons pour chaque année les dates de déneigement printanier et de réenneigement automnal (20 m de résolution). Les conditions météorologiques durant la période sans neige sont également produites afin de modéliser la pousse saisonnière de l’herbe.</p>
           </div>
         </div>
 
@@ -399,8 +399,7 @@
           </div>
           <div class="analysis-text">
             <h3>Habitats</h3>
-            <p>Nous réalisons des cartes de distribution des habitats selon leur vocation pastorale. Ce travail est réalisé soit en s’appuyant sur des cartographies existantes, 
-            soit en développant de nouveaux produits combinant imagerie satellite et données acquises au sol.</p>
+            <p>Nous réalisons des cartes de distribution des habitats selon leur vocation pastorale, à partir de cartographies existantes ou de nouveaux produits combinant imagerie satellite et données de terrain.</p>
           </div>
         </div>
 
@@ -408,7 +407,9 @@
         <div class="analysis-block">
           <div class="analysis-image">
             <div class="carousel-wrapper" id="car-bloc3">
-              <video class="behavior-img" autoplay loop muted playsinline preload="auto" data-caption="Vague verte (animation)"><source src="images/Greenwave.mp4" type="video/mp4"></video>
+              <video class="behavior-img" autoplay loop muted playsinline preload="auto" data-caption="Vague verte (animation)">
+                <source src="images/Greenwave.mp4" type="video/mp4">
+              </video>
               <img src="images/Carte_MAX_V_2021.png" class="zoomable behavior-img" alt="Production 2021" data-caption="Production 2021 (NDVI max)">
               <img src="images/Carte_MAX_V_2022.png" class="zoomable behavior-img" alt="Production 2022" data-caption="Production 2022 (NDVI max)">
               <img src="images/Carte_MAX_V_2023.png" class="zoomable behavior-img" alt="Production 2023" data-caption="Production 2023 (NDVI max)">
@@ -416,9 +417,7 @@
           </div>
           <div class="analysis-text">
             <h3>Phénologie</h3>
-            <p>Nous traitons les images satellite Sentinel-2 (produit HR-VPP, résolution 20m) afin de caractériser les différentes phases de la pousse de l’herbe (croissance, 
-            maturité, senescence, dépérissement) au cours de la saison de chaque année de suivi. Ces cycles phénologiques renseignent indirectement sur la qualité de la ressource 
-            pastorale disponible (fin et grossier).</p>
+            <p>À partir des images Sentinel-2 (HR-VPP, 20 m), nous caractérisons les phases de la pousse de l’herbe (croissance, maturité, sénescence) pour chaque saison, renseignant indirectement la qualité de la ressource pastorale.</p>
           </div>
         </div>
 
@@ -430,7 +429,7 @@
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <p>&copy;&nbsp;2025&nbsp;PERSEE&nbsp;—&nbsp;Tous droits réservés.</p>
+  <p>&copy;&nbsp;2025&nbsp;PERSÉE&nbsp;—&nbsp;Tous droits réservés.</p>
 </footer>
   <!-- ============================ LIGHTBOX ============================ -->
   <div id="lightbox">
