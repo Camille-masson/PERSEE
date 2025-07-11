@@ -323,10 +323,33 @@ h2.section-title {
   
   
   
-  /* --- Centrage du titre « Indicateurs » (et de tous .section-title) --- */
+/* --- Centrage du titre « Indicateurs » (et de tous .section-title) --- */
 .section-title{
-  text-align:center;   /* le tour est joué ! */
+  text-align:center;
 }
+
+/* Paragraphes descriptifs dans les blocs “Indicateurs” et “Croisement” */
+.analysis-text p,
+.cross-block p{           /* ← ajoute aussi les blocs du bas */
+  font-size:1.25rem;      /* ≈ 20 px, comme sur la page mère  */
+  line-height:1.55;
+  text-align:justify;
+}
+  
+  
+  /* === Centrage des descriptions dans la section « Croisement des données » === */
+.cross-block p{
+  text-align:center;   /* centre le texte uniquement ici */
+}
+  
+  
+
+
+.hero{
+  height:85vh !important;   /* force la prise en compte */
+  min-height:460px;
+}
+
   </style>
 </head>
 <body>
@@ -401,7 +424,7 @@ h2.section-title {
         </div>
         <div class="analysis-text">
           <h3>Trajectoires par comportements</h3>
-          <p></p>
+          <p>Permet de distinguer les phases de repos, de déplacement et de pâturage. Et d’analyser leurs effets respectifs sur l’estive.</p>
         </div>
       </div>
 
@@ -416,7 +439,7 @@ h2.section-title {
         </div>
         <div class="analysis-text">
           <h3>Distance et dénivelé parcourus</h3>
-          <p></p>
+          <p>Renseigne sur l’activité du troupeau pendant l'estive et constitue un indicateur de dépense énergétique. Les valeurs restent toutefois approximatives, l’enregistrement GPS n’étant effectué que toutes les deux minutes.</p>
         </div>
       </div>
 
@@ -427,7 +450,8 @@ h2.section-title {
         </div>
         <div class="analysis-text">
           <h3>Chargement total</h3>
-          <p></p>
+         <p>Vision spatialisée de l’utilisation de l’estive, exprimée en nombre de brebis par unité de surface. Permet de distinguer facilement les zones à fort chargement, dues au parc de nuit et aux zones de chaume.</p>
+
         </div>
       </div>
 
@@ -442,7 +466,7 @@ h2.section-title {
         </div>
         <div class="analysis-text">
           <h3>Chargement par comportements</h3>
-          <p></p>
+         <p>Spatialise les  différents effets du troupeau : repos (enrichissement en azote), déplacement (piétinement) et pâturage (prélèvement de la végétation).</p>
         </div>
       </div>
 
@@ -459,7 +483,7 @@ h2.section-title {
   </div>
   <div class="analysis-text">
     <h3>Chargement par quartier</h3>
-    <p>Découpage basé sur l'identification du parc de nuit utilisé chaque jour.</p>
+    <p>Identifie les différents quartiers et renseigne sur l’utilisation de l’alpage. Le découpage repose sur la position du parc de nuit utilisée chaque jour.</p>
   </div>
 </div>
 
@@ -472,7 +496,7 @@ h2.section-title {
         </div>
         <div class="analysis-text">
           <h3>Schéma de pâturage</h3>
-          <p>Nombre d'occurrences où le pixel a été utilisé en pâturage.</p>
+          <p>Analyse le mode de conduite et l’exploitation de la ressource sur l’ensemble de l’estive. Indique, pour chaque pixel, le nombre de jours où il a été pâturé par le troupeau.</p>
         </div>
       </div>
 
@@ -498,13 +522,13 @@ h2.section-title {
 
   <div class="cross-block">
   <h3>Chargement par habitat</h3>
-  <p>Taux de chargement associé à chacun des habitats pastoraux aux cours de la saison d’estive.</p>
+  <p>Taux de chargement associé à chaque habitat pastoral durant la saison d’estive. Sert de base pour comprendre l’impact de l’intensité d’exploitation du troupeau sur les habitats.</p>
   <img src="images/comparaison_habitats.png" alt="Chargement & végétation">
 </div>
 
 <div class="cross-block">
   <h3>Présence du troupeau par stade phénologique</h3>
-  <p>Description du rapprochement entre les positions GPS et les phases de pousse de l’herbe.</p>
+  <p>L'utilisation de l'espace au fils de la saison de végétation est caractérisé par 4 stade phénologique. Pour chaque pixel on regarde comment se répartie sont utilisation dans ces quatres stade. Cela permet de regardé a quelle stade la ressources est consommé et comment s'articule la conduite avec ces contrainte saisonnières.  </p>
   <img src="images/pheno.png" alt="Présence & phénologie">
 </div> 
 

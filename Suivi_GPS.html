@@ -274,6 +274,18 @@
 }
 
 
+/* ─── Hero raccourci : on laisse 15 % du viewport libre ─── */
+.hero{
+  height:85vh;         /* 85 % → 15 % de “suite” apparaît */
+  min-height:460px;    /* garde un impact visuel sur écrans moyens */
+}
+
+/* Sur mobile on conserve la hauteur compacte déjà prévue */
+@media (max-width:768px){
+  .hero{height:45vh;}  /* valeur existante - rien ne change en dessous */
+}
+
+
   </style>
 </head>
 <body>
@@ -325,9 +337,8 @@
         </div>
         <div class="analysis-text">
           <h3>1. Déplacement</h3>
-          <p>Le déplacement des brebis est suivi grâce à des colliers équipés de GPS programmés pour une acquisition toutes les 2 minutes. L’autonomie de la batterie permet de suivre le 
-          déplacement de l’animal pendant 3 à 4 mois. Il n’y a pas d’intervention à prévoir pendant la saison en estive. Il n’y a pas de transmission des données en temps réel. Avec 6 à 8 animaux équipés,
-          il est possible de bien représenter les déplacements d’un troupeau ovin conduit.  La méthode a été testée avec succès sur plusieurs alpages depuis trois ou quatre ans.</p>
+          <p>Le déplacement des brebis est suivi au moyen de colliers GPS qui enregistrent la position toutes les 2&nbsp;à&nbsp;30&nbsp;minutes, selon le jeu de données. Chaque collier intègre une sonde thermique et pour certains des accéléromètres. Leur autonomie couvre toute la saison d’estive, sans intervention nécessaire. Il n’y a pas de transmission des données en temps réel. Avec 6 à 8 animaux équipés, on décrit fidèlement les déplacements d’un troupeau ovin conduit. La méthode est éprouvée sur plusieurs alpages depuis plus de cinq ans.</p>
+
         </div>
       </div>
 
@@ -338,7 +349,7 @@
         </div>
         <div class="analysis-text">
           <h3>2. Comportement</h3>
-          <p>Un modèle de Markov caché distingue trois états : repos, déplacement, pâturage. Les localisations correspondantes sont analysées heure par heure sur toute la saison.</p>
+          <p>Grâce à un outil statistique appelé chaîne de Markov cachée et à l’analyse de la manière dont les positions GPS s’enchaînent dans le temps, il est possible de reconstituer ce que font les animaux tout au long de la journée : se déplacer, brouter ou se reposer.</p>
         </div>
       </div>
 

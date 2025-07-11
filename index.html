@@ -134,8 +134,7 @@
         background:#f5f5f5;padding:48px 8vw;margin:var(--gap-section) 0 0;border-radius:0;text-align:center;
       }
       .partners-wrapper h2{font:800 2rem/1 'Inter',sans-serif;color:var(--accent);margin-bottom:1rem}
-      .partners-logos{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;margin-top:30px}
-      .partners-logos img{width:160px;height:100px;object-fit:contain;filter:grayscale(15%)}
+      
 
       /* ─── Footer ────────────────────────────────────── */
       footer{background:var(--accent);color:#fff;text-align:center;padding:20px 0;font-size:.9rem;margin-top:0}
@@ -163,6 +162,79 @@
   padding: 1rem 2rem;      /* haut-bas 1 rem, gauche-droite 2 rem      */
   gap: 1.5rem;             /* écart entre image & texte (au lieu de 2) */
 }
+   
+   
+   
+   
+  /* — PARTENAIRES — */
+.partners-wrapper {
+  background:#f5f5f5;
+  padding:48px 8vw;
+  margin-top:var(--gap-section);
+  text-align:center;
+}
+
+.partners-wrapper h2{
+  font:800 2rem/1 'Inter',sans-serif;
+  color:var(--accent);
+  margin-bottom:1rem;
+}
+
+/* une ligne de logos */
+.partners-line{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:40px;
+  margin:25px 0;
+}
+
+/* “cadre” fixe de chaque logo */
+.logo-box{
+  width:160px;      /* largeur voulue du bloc */
+  height:100px;     /* hauteur voulue du bloc */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* image à l’intérieur du cadre */
+.logo-box img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;   /* jamais déformée */
+  filter:grayscale(15%);
+}
+   
+   /* bloque chaque logo dans un cadre fixe -------------------------------- */
+.logo-box{
+  width:160px;          /* largeur exacte du bloc           */
+  height:100px;         /* hauteur exacte du bloc           */
+  flex:0 0 160px;       /* NE RÉTRÉCIT PAS dans flex-wrap   */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* l’image occupe 100 % du cadre, mais sans déformation ----------------- */
+.logo-box img{
+  width:100%;
+  height:100%;
+  object-fit:contain;   /* garde le ratio mais “remplit” le cadre */
+  filter:grayscale(15%);
+}
+   
+   
+   /* ─── Hero raccourci : on laisse 15 % du viewport libre ─── */
+.hero{
+  height:85vh;         /* 85 % → 15 % de “suite” apparaît */
+  min-height:460px;    /* garde un impact visuel sur écrans moyens */
+}
+
+/* Sur mobile on conserve la hauteur compacte déjà prévue */
+@media (max-width:768px){
+  .hero{height:45vh;}  /* valeur existante - rien ne change en dessous */
+}
       
     </style>
   </head>
@@ -177,7 +249,7 @@
       <ul class="nav-links">
         <li><a href="index.html">PERSÉE</a></li>
         <li><a href="Suivi_GPS.html">Méthodes</a></li>
-        <li><a href="Carte_d'identité_des_estives.html">Identité des estives</a></li>
+        <li><a href="Carte_d_identité_des_estives.html">Identité des estives</a></li>
         <li><a href="Espace_démonstrateur.html">Espace démonstrateur</a></li>
       </ul>
     </nav>
@@ -208,10 +280,7 @@
         <div class="image"><img src="images/projet_1.jpg" alt="Objectifs PERSEE"></div>
         <div class="text">
           <h2>Que fait-on dans PERSÉE ?</h2>
-          <p>PERSÉE réalise un suivi des déplacements des troupeaux pendant la saison d’estive. Les données recueillies sont croisées avec de 
-          nombreuses autres informations telles que les contraintes liées à la conduite, l’enneigement, le microclimat, la distribution des habitats, 
-          la fréquentation humaine, les déplacements des ongulés sauvages etc. Le traitement de l’ensemble de ces données conduit à une vision systémique 
-          du fonctionnement et de la dynamique du socio-écosystème estive.</p>
+          <p>PERSÉE s'appuie principalement sur le suivi des déplacements des troupeaux pendant la saison d’estive. Ces données sont ensuite croisées avec d’autres informations telles que les contraintes liées à la conduite, l’enneigement, le microclimat, la distribution des habitats ou encore la fréquentation humaine. Elles sont également mises en relation avec des données collectées sur la biodiversité (déplacements des ongulés sauvages, relevés de végétation,...), afin d’analyser comment l’utilisation de l’estive par les troupeaux interagit avec les dynamiques écologiques. L’ensemble de ces éléments permet d’accéder à une vision systémique du fonctionnement et de la dynamique du socio-écosystème estival.</p>
         </div>
       </div>
     </section>
@@ -240,24 +309,38 @@
       </ul>
     </section>
 
-    <!-- ▸ Partenaires -->
-    <section class="partners-wrapper">
-      <h2>Partenaires</h2>
-      <div class="partners-logos">
-        <img src="images/ofb.png"    alt="Logo OFB" />
-      <img src="images/cnrs.png"  alt="Logo CNRS" />
-      <img src="images/RN Pyrénées Catalanes.png"   alt="Logo Réserves Catalanes" />
-      <img src="images/CREA.png" alt="Logo CREA" />
-      <img src="images/RN France.png"   alt="Logo ASTER" />
-      <img src="images/PNM.png"   alt="Logo PNM" />
-      <img src="images/PNE.png"   alt="Logo PNE" />
-      <img src="images/RN Sixt-Passy.png"   alt="Logo Réserves Contamine" />
-      <img src="images/RN Ristolat Viso.png"   alt="Logo Réserves Viso" />
-      <img src="images/RN France.png"   alt="Logo PNR Bauges" />
-      <img src="images/PNR Queyras.webp"   alt="Logo PNR Queyras" />
-      <img src="images/PNV.png"   alt="Logo PNV" />
-      </div>
-    </section>
+  <!-- ▸ Partenaires -->
+<section class="partners-wrapper">
+  <h2>Partenaires</h2>
+
+  <!-- Ligne 1 -->
+  <div class="partners-line">
+    <div class="logo-box"><img src="images/ofb.png"            alt="OFB"></div>
+    <div class="logo-box"><img src="images/cnrs.png"           alt="CNRS"></div>
+    <div class="logo-box"><img src="images/logo-leca.png"      alt="LECA"></div>
+    <div class="logo-box"><img src="images/CREA.png"           alt="CREA Mont-Blanc"></div>
+  </div>
+
+  <!-- Ligne 2 -->
+  <div class="partners-line">
+    <div class="logo-box"><img src="images/PNM.png"            alt="PN Mercantour"></div>
+    <div class="logo-box"><img src="images/PNE.png"            alt="PN Écrins"></div>
+    <div class="logo-box"><img src="images/PNV.png"            alt="PN Vanoise"></div>
+    <div class="logo-box"><img src="images/PNRQ.png"   alt="PNR Queyras"></div>
+    <div class="logo-box"><img src="images/PNR Pyrénées catalanes.png"   alt="PNR Réserves catalanes"></div>
+    <div class="logo-box"><img src="images/PNR Bauges.png"     alt="PNR Bauges"></div>
+  </div>
+
+  <!-- Ligne 3 -->
+  <div class="partners-line">
+    <div class="logo-box"><img src="images/RN France.png" alt="RN Pyrénées catalanes"></div>
+    <div class="logo-box"><img src="images/RN Ristolat Viso.png"      alt="RN Ristolas-Mont Viso"></div>
+    <div class="logo-box"><img src="images/RN Pyrénées Catalanes.png" alt="RN Pyrénées catalanes"></div>
+    <div class="logo-box"><img src="images/RN Sixt-Passy.png"         alt="RN Sixt-Passy"></div>
+    <div class="logo-box"><img src="images/RNN.png"      alt="RN Ristolas-Mont Viso"></div>
+    <div class="logo-box"><img src="images/RNM.png"      alt="RN Ristolas-Mont Viso"></div>
+  </div>
+</section>
 
     <!-- ▸ FOOTER -->
     <footer>&copy;&nbsp;2025&nbsp;PERSÉE — Tous droits réservés.</footer>
