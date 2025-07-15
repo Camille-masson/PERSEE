@@ -119,7 +119,7 @@
       }
       #map{width:100%;max-width:1100px;height:68vh;border-radius:var(--radius-lg);box-shadow:0 2px 8px rgba(0,0,0,.08)}
 
-      /* ─── Bandeau Équipe ─────────────────────────────── */
+      /* ─── Coordination ─────────────────────────────── */
       .team-banner{
         background:var(--clr-bg-light);border:1px solid var(--clr-bubble-border);border-radius:var(--radius-lg);
         box-shadow:0 2px 8px rgba(0,0,0,.06);max-width:1200px;margin:var(--gap-section) auto 0 auto;
@@ -128,13 +128,16 @@
       .team-banner h2{font:800 1.9rem/1 'Inter',sans-serif;color:var(--accent);margin-bottom:1rem}
       .team-banner ul{list-style:none;font-size:1.2rem;line-height:1.55;color:#333}
       .team-banner li+li{margin-top:.6rem}
+      .coord-logos{
+        display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:2rem;
+      }
+      .coord-logos .logo-box{width:120px;height:80px}
 
       /* ─── Partenaires ───────────────────────────────── */
       .partners-wrapper{
         background:#f5f5f5;padding:48px 8vw;margin:var(--gap-section) 0 0;border-radius:0;text-align:center;
       }
       .partners-wrapper h2{font:800 2rem/1 'Inter',sans-serif;color:var(--accent);margin-bottom:1rem}
-      
 
       /* ─── Footer ────────────────────────────────────── */
       footer{background:var(--accent);color:#fff;text-align:center;padding:20px 0;font-size:.9rem;margin-top:0}
@@ -147,40 +150,21 @@
 
       /* ─── Mobile : sections plus compactes ──────────── */
       @media(max-width:768px){.section{padding:40px 1rem}}
-      
+
       /* ══ Compacte les blocs “Présentation” & “Objectifs” ═══════════════════ */
 
-/* 1 ▸ moins d’espace au-dessus / au-dessous du bloc entier */
 .project-intro.section,
 .project-objectives.section{
-  padding: 30px 1rem;      /* au lieu de 60 px définis dans .section   */
+  padding: 30px 1rem;
 }
 
-/* 2 ▸ marge interne + espace colonne/colonne plus petits                */
 .project-intro .content-grid,
 .project-objectives .content-grid{
-  padding: 1rem 2rem;      /* haut-bas 1 rem, gauche-droite 2 rem      */
-  gap: 1.5rem;             /* écart entre image & texte (au lieu de 2) */
+  padding: 1rem 2rem;
+  gap: 1.5rem;
 }
-   
-   
-   
-   
+
   /* — PARTENAIRES — */
-.partners-wrapper {
-  background:#f5f5f5;
-  padding:48px 8vw;
-  margin-top:var(--gap-section);
-  text-align:center;
-}
-
-.partners-wrapper h2{
-  font:800 2rem/1 'Inter',sans-serif;
-  color:var(--accent);
-  margin-bottom:1rem;
-}
-
-/* une ligne de logos */
 .partners-line{
   display:flex;
   justify-content:center;
@@ -189,53 +173,44 @@
   margin:25px 0;
 }
 
-/* “cadre” fixe de chaque logo */
 .logo-box{
-  width:160px;      /* largeur voulue du bloc */
-  height:100px;     /* hauteur voulue du bloc */
+  width:160px;
+  height:100px;
+  flex:0 0 160px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-/* image à l’intérieur du cadre */
-.logo-box img{
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;   /* jamais déformée */
-  filter:grayscale(15%);
-}
-   
-   /* bloque chaque logo dans un cadre fixe -------------------------------- */
-.logo-box{
-  width:160px;          /* largeur exacte du bloc           */
-  height:100px;         /* hauteur exacte du bloc           */
-  flex:0 0 160px;       /* NE RÉTRÉCIT PAS dans flex-wrap   */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* l’image occupe 100 % du cadre, mais sans déformation ----------------- */
 .logo-box img{
   width:100%;
   height:100%;
-  object-fit:contain;   /* garde le ratio mais “remplit” le cadre */
+  object-fit:contain;
   filter:grayscale(15%);
 }
-   
-   
-   /* ─── Hero raccourci : on laisse 15 % du viewport libre ─── */
-.hero{
-  height:85vh;         /* 85 % → 15 % de “suite” apparaît */
-  min-height:460px;    /* garde un impact visuel sur écrans moyens */
+
+/* ─── Hero raccourci ─── */
+.hero{height:85vh;min-height:460px}
+@media (max-width:768px){.hero{height:45vh}}
+
+
+
+/* cache l’image dans l’encart Intro */
+.project-intro .content-grid .image { display: none; }
+
+
+/* Intro : on ne veut plus de grille à deux colonnes */
+.project-intro .content-grid{
+  display: block;          /* au lieu de grid */
+  padding: 2.5rem 3rem;    /* marge interne plus généreuse */
+  text-align: ;      /* centre tout le contenu */
 }
 
-/* Sur mobile on conserve la hauteur compacte déjà prévue */
-@media (max-width:768px){
-  .hero{height:45vh;}  /* valeur existante - rien ne change en dessous */
+/* centre aussi les paragraphes */
+.project-intro .text p{
+  text-align: ;
 }
-      
+
     </style>
   </head>
 
@@ -271,7 +246,9 @@
           L’estive est un espace partagé ; à la fois espace agricole, espace récréatif et lieu de préservation d’une vie « sauvage ». 
           PERSÉE contribue à comprendre comment ces différentes vocations de l’estive peuvent être conciliées dans un contexte marqué par le
           changement climatique, les transformations dans l’usage de l’espace montagne et les mutations socio-économiques.</p>
-        
+        </div>
+        <div class="image"></div>
+      </div>
     </section>
 
     <!-- ▸ Objectifs -->
@@ -299,14 +276,19 @@
       </div>
     </section>
 
-    <!-- ▸ Équipe -->
+    <!-- ▸ Coordination du projet -->
     <section class="team-banner">
-      <h2>L’équipe PERSÉE</h2>
+      <h2>Coordination du projet</h2>
       <ul>
         <li><strong>Coordination :</strong> Philippe Choler (CNRS) &amp; Mathieu Garel (OFB)</li>
         <li><strong>Chargée de mission :</strong> Marion Janel</li>
         <li><strong>Ingénieur écologue :</strong> Camille Masson</li>
       </ul>
+      <div class="coord-logos">
+        <div class="logo-box"><img src="images/ofb1.png" alt="OFB"></div>
+        <div class="logo-box"><img src="images/cnrs1.png" alt="CNRS"></div>
+        <div class="logo-box"><img src="images/logo-leca1.png" alt="LECA"></div>
+      </div>
     </section>
 
   <!-- ▸ Partenaires -->
@@ -315,10 +297,7 @@
 
   <!-- Ligne 1 -->
   <div class="partners-line">
-    <div class="logo-box"><img src="images/ofb1.png"            alt="OFB"></div>
-    <div class="logo-box"><img src="images/cnrs1.png"           alt="CNRS"></div>
-    <div class="logo-box"><img src="images/logo-leca1.png"      alt="LECA"></div>
-    <div class="logo-box"><img src="images/CREA1.png"           alt="CREA Mont-Blanc"></div>
+    <div class="logo-box"><img src="images/CREA1.png" alt="CREA Mont-Blanc"></div>
   </div>
 
   <!-- Ligne 2 -->
@@ -359,17 +338,10 @@
           if(tgt===cur)a.classList.add('active');
         });
       })();
-
-     
     </script>
-    
-    
-    
-    
-    
+
     <script>
 document.addEventListener('DOMContentLoaded', () => {
-
   /* ─── Carte & fonds ─────────────────────────────────────── */
   const map = L.map('map', { center:[45.2, 6.4], zoom:8, zoomControl:false });
   L.control.fullscreen({ position:'topleft' }).addTo(map);
@@ -513,21 +485,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
   </body>
 </html>
-
-
